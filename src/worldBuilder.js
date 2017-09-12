@@ -22,3 +22,13 @@ WorldBuilder.prototype.setRow = function () {
   }
   return row
 };
+
+WorldBuilder.prototype.setGridElement = function (x, y) {
+  this.grid[y][x] = 1;
+};
+
+WorldBuilder.prototype.setFirstPlatform = function () {
+  this.lastX = 1;
+  this.lastY = this.canvas.height / this.BLOCK_HEIGHT - 1;
+  this.setGridElement(this.lastX, this.lastY);
+};

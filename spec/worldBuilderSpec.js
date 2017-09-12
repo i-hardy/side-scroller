@@ -31,4 +31,32 @@ describe('WorldBuilder', function () {
       expect(jimmy.setRow().length).toEqual(512/16);
     });
   });
+
+  describe('#setGridElement', function () {
+    it('can set a grid element to 1', function () {
+      jimmy.setGrid();
+      jimmy.setGridElement(0, 0)
+      expect(jimmy.getGrid()[0][0]).toEqual(1);
+    });
+  });
+
+  describe('#setFirstPlatform', function () {
+    it('sets the first platform', function () {
+      jimmy.setGrid();
+      jimmy.setFirstPlatform()
+      expect(jimmy.getGrid()[jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 1][1]).toEqual(1);
+    });
+
+    it('records the x index of the platform', function () {
+      jimmy.setGrid();
+      jimmy.setFirstPlatform()
+      expect(jimmy.lastX).toEqual(1);
+    });
+
+    it('records the y index of the platform', function () {
+      jimmy.setGrid();
+      jimmy.setFirstPlatform()
+      expect(jimmy.lastY).toEqual(jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 1);
+    });
+  });
 });
