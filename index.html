@@ -1,0 +1,25 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Side-Scroller</title>
+</head>
+<body>
+  <canvas id="canvas" width="512" height="256"></canvas>
+  <script src="src/worldBuilder.js"></script>
+  <script src="src/gameRenderer.js"></script>
+  <script type="text/javascript">
+    var canvas;
+    var context;
+    window.onload = function () {
+      canvas = document.getElementById('canvas');
+      context = canvas.getContext('2d');
+      renderer = new GameRenderer(canvas, context)
+      renderer.createWorld();
+      renderer.drawWorld();
+      renderer.drawPlatforms();
+    }
+  </script>
+</body>
+</html>
