@@ -2,6 +2,8 @@ function WorldBuilder(canvas) {
   this.canvas = canvas
   this.BLOCK_WIDTH = 16
   this.BLOCK_HEIGHT = 8
+  this.MIN_GAP = 1
+  this.MAX_GAP = 3
 }
 
 WorldBuilder.prototype.getGrid = function () {
@@ -31,4 +33,14 @@ WorldBuilder.prototype.setFirstPlatform = function () {
   this.lastX = 1;
   this.lastY = this.canvas.height / this.BLOCK_HEIGHT - 1;
   this.setGridElement(this.lastX, this.lastY);
+};
+
+WorldBuilder.prototype.setPlatform = function () {
+  this.lastX += this.randomNumber(this.MAX_GAP,this.MIN_GAP);
+  this.lastY = this.randomNumber(this.canvas.height / this.BLOCK_HEIGHT,0);
+  this.setGridElement(this.lastX, this.lastY);
+};
+
+WorldBuilder.prototype.randomNumber = function(max,min) {
+  return Math.floor(Math.random()*(max-min) + min);
 };
