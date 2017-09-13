@@ -7,7 +7,9 @@ function GameRenderer(canvas, context) {
 GameRenderer.prototype.createWorld = function () {
   this.world.setGrid();
   this.world.setFirstPlatform();
-  this.world.setPlatform();
+  for (var i = 0; i < 30; i++) {
+    this.world.setPlatform();
+  }
 };
 
 GameRenderer.prototype.drawWorld = function () {
