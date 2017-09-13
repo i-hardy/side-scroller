@@ -41,18 +41,11 @@ describe('GameRenderer', function () {
   });
 
   describe('drawPlatforms', function () {
-    it('iterates through the world grid and calls fillRect if it finds a 1', function () {
+    it('iterates through the world grid and calls fillRect if it finds a 1, 2, 3 or 4', function () {
       spyOn(fernando.context, 'fillRect');
       fernando.createWorld();
       fernando.drawPlatforms();
       expect(fernando.context.fillRect).toHaveBeenCalled();
-    });
-
-    it('does not draw anything when there are no 1s', function () {
-      spyOn(fernando.context, 'fillRect');
-      fernando.world.setGrid();
-      fernando.drawPlatforms();
-      expect(fernando.context.fillRect).not.toHaveBeenCalled();
     });
   });
 });
