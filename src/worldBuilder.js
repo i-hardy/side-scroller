@@ -14,9 +14,10 @@ WorldBuilder.prototype.getGrid = function () {
 
 WorldBuilder.prototype.setGrid = function () {
   this.grid = []
-  for (var i = 0; i < this.canvas.height / this.BLOCK_HEIGHT; i++) {
+  for (var i = 0; i < this.canvas.height / this.BLOCK_HEIGHT -1; i++) {
     this.grid.push(this.setRow())
   }
+    this.grid.push(this.setGround())
 };
 
 WorldBuilder.prototype.setRow = function () {
@@ -25,6 +26,14 @@ WorldBuilder.prototype.setRow = function () {
     row.push(0)
   }
   return row
+};
+
+WorldBuilder.prototype.setGround = function () {
+  var row = [];
+  for (var i = 0; i < this.canvas.width / this.BLOCK_WIDTH; i++) {
+    row.push(this.randomNumber(1, 5));
+  }
+  return row;
 };
 
 WorldBuilder.prototype.setGridElement = function (x, y) {

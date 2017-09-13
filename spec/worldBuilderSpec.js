@@ -90,4 +90,11 @@ describe('WorldBuilder', function () {
       expect(jimmy.randomNumber(3,7)).toBeLessThan(7)
     });
   });
+
+  describe('#setGround', function () {
+    it('sets final row in the grid to 2, 3 or 4', function () {
+      expect(jimmy.getGrid()[31][10]).toBeGreaterThan((1);
+      expect(jimmy.getGrid()[31][10]).toBeLessThan((5);
+    });
+  });
 });
