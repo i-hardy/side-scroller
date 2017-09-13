@@ -63,6 +63,3 @@ WorldBuilder.prototype.setPlatform = function () {
 WorldBuilder.prototype.randomNumber = function(max,min) {
   return Math.floor(Math.random()*(max-min) + min);
 };
-
-
-console.log(this.grid());
