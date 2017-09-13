@@ -40,17 +40,17 @@ describe('WorldBuilder', function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.getGrid()[jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 1][1]).toEqual(1);
+      expect(jimmy.getGrid()[jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 8][0]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.lastX).toEqual(1);
+      expect(jimmy.lastX).toEqual(0);
     });
 
     it('records the y index of the platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.lastY).toEqual(jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 1);
+      expect(jimmy.lastY).toEqual(jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 8);
     });
   });
 
@@ -64,15 +64,21 @@ describe('WorldBuilder', function () {
     it('sets an x index greater than the last x index', function() {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
-      expect(jimmy.lastX).toBeGreaterThan(1);
+      expect(jimmy.lastX).toBeGreaterThan(0);
       expect(jimmy.lastX).toBeLessThan(4);
     });
 
-    it('sets subsequent y indices randomly', function() {
+    it('sets subsequent y indices randomly, and does not set platforms which have indices off the grid', function() {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
       expect(jimmy.lastY).toBeGreaterThan(0);
       expect(jimmy.lastY).toBeLessThan(jimmy.canvas.height / jimmy.BLOCK_HEIGHT);
+    });
+
+    it('does not create new platforms for x indices that are off the grid', function() {
+      jimmy.setFirstPlatform();
+      jimmy.setPlatform();
+      expect(jimmy.lastX).toBeLessThan(jimmy.canvas.width / jimmy.BLOCK_WIDTH);
     });
   });
 

@@ -20,7 +20,7 @@ describe('GameRenderer', function () {
     });
 
     it('calls the world builder setFirstPlatform function', function () {
-      spyOn(fernando.world, 'setFirstPlatform');
+      spyOn(fernando.world, 'setFirstPlatform').and.callThrough();
       fernando.createWorld();
       expect(fernando.world.setFirstPlatform).toHaveBeenCalled();
     });
