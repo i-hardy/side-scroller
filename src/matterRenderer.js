@@ -5,24 +5,34 @@ var Engine = Matter.Engine,
     Body = Matter.Body,
     Events = Matter.Events;
 
-const KEY_W = 87;
-const KEY_A = 65;
-const KEY_S = 83;
-const KEY_D = 68;
-const KEY_SPACE = 32;
-const KEY_SHIFT = 16;
+// for reference...
 
-var keys = [];
-console.log(keys)
+// const KEY_W = 87;
+// const KEY_A = 65;
+// const KEY_S = 83;
+// const KEY_D = 68;
+// const KEY_SPACE = 32;
+// const KEY_SHIFT = 16;
 
-document.body.addEventListener("keyup", function(e) {
-  console.log('keyup fired')
+// movement
+
+document.body.addEventListener('keydown', function(e) {
   console.log(e.keyCode)
-  keys[e.keyCode] = false;
-});
-document.body.addEventListener("keydown", function(e) {
-  console.log('keydown fired')
-  keys[e.keyCode] = true;
+
+  if((e.keyCode === 87)) {
+      let force = (-0.05 * player.mass);
+      Body.applyForce(player,player.position,{x:0,y:force});
+  };
+
+  if(e.keyCode === 68) {
+      let force = (0.01 * player.mass);
+      Body.applyForce(player,player.position,{x:force,y:0});
+  };
+
+  if(e.keyCode === 65) {
+      let force = (-0.01 * player.mass);
+      Body.applyForce(player,player.position,{x:force,y:0});
+  };
 });
 
 // create an engine
@@ -49,7 +59,7 @@ worldBuilder.setGrid();
 worldBuilder.setFirstPlatform();
 for (var i = 0; i < 10; i++) {
   worldBuilder.setPlatform();
-}
+};
 
 var platformOptions = { isStatic: true,
                         render:{
@@ -86,22 +96,8 @@ var player = Body.create({
   parts: [playerBody],
   friction: 0
 });
+
 createdBodies.push(player)
-
-// movement?
-if(keys[KEY_D]){
-    let force = (0.0004 * player.mass) ;
-    console.log(force)
-    Body.applyForce(player,player.position,{x:force,y:0});
-    console.log(player.position);
-};
-
-if(keys[KEY_A]){
-    let force = (-0.0004 * player.mass) ;
-    console.log(force)
-    Body.applyForce(player,player.position,{x:force,y:0});
-    console.log(player.position);
-};
 // created starting platform for player
 var startingPlatform = Bodies.rectangle(30,worldBuilder.canvas.height-10,50,10, { isStatic: true, render: { fillStyle: 'black' } })
 createdBodies.push(startingPlatform)
