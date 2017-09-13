@@ -46,9 +46,9 @@ WorldBuilder.prototype.setPlatform = function () {
       this.lastY += y_change;
     } else {
       this.lastY -= y_change;
-    };
+    }
     this.setGridElement(this.lastX, this.lastY);
-  };
+  }
 };
 
 WorldBuilder.prototype.randomNumber = function(max,min) {
