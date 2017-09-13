@@ -28,3 +28,4 @@ exclude_paths:
 - node_modules/
 - spec/
 - lib/
+- matter.js

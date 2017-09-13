@@ -6,20 +6,21 @@
   <title>Side-Scroller</title>
 </head>
 <body>
-  <canvas id="canvas" width="512" height="256"></canvas>
+  <canvas id="canvas" width="1024" height="512"></canvas>
+  <script src="src/matter.js"></script>
   <script src="src/worldBuilder.js"></script>
-  <script src="src/gameRenderer.js"></script>
-  <script type="text/javascript">
-    var canvas;
-    var context;
+  <script src="src/matterRenderer.js"></script>
+  <!-- <script type="text/javascript">
+    // var canvas;
+    // var context;
     window.onload = function () {
-      canvas = document.getElementById('canvas');
-      context = canvas.getContext('2d');
-      renderer = new GameRenderer(canvas, context)
-      renderer.createWorld();
-      renderer.drawWorld();
-      renderer.drawPlatforms();
+      // canvas = document.getElementById('canvas');
+      // context = canvas.getContext('2d');
+      // renderer = new GameRenderer(canvas, context)
+      // renderer.createWorld();
+      // renderer.drawWorld();
+      // renderer.drawPlatforms();
     }
-  </script>
+  </script> -->
 </body>
 </html>
