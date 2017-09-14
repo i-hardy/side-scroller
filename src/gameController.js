@@ -16,7 +16,7 @@ GameController.prototype.addCollisionEvent = function (player, eventName, action
      var pairs = event.pairs;
      var playerSensor = player.getBodyParts()[1];
 
-     for (var i = 0, j = pairs.length; i != j; ++i) {
+     for (var i = 0, j = pairs.length; i !== j; ++i) {
          var pair = pairs[i];
 
          if (pair.bodyA === playerSensor) {
