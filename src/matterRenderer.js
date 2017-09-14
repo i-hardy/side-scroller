@@ -1,8 +1,11 @@
 var Engine = Matter.Engine,
     Render = Matter.Render,
+    Runner = Matter.Runner,
     World = Matter.World,
     Bodies = Matter.Bodies,
+    Bounds = Matter.Bounds,
     Body = Matter.Body,
+    Vector = Matter.Vector,
     Events = Matter.Events;
 
 // for reference...
@@ -130,7 +133,7 @@ createdBodies.push(startingPlatform)
 // create two boxes and a ground
 createdBodies.push(Bodies.rectangle(350, 0, 40, 40, objectOptions));
 createdBodies.push(Bodies.rectangle(550, 0, 40, 40, objectOptions));
-createdBodies.push(Bodies.rectangle(512, 512, 1024, 20, { isStatic: true }));
+createdBodies.push(Bodies.rectangle(512, 512, 4000, 20, { isStatic: true }));
 
 // add all of the bodies to the world
 World.add(engine.world, createdBodies);
@@ -141,8 +144,18 @@ engine.world.bounds.min.y = 0;
 engine.world.bounds.max.x = 3072;
 engine.world.bounds.max.y = render.options.height;
 
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+// get the centre of the viewport
+var viewportCentre = {
+    x: canvas.width * 0.5,
+    y: canvas.height * 0.5
+};
+
 // run the engine
 Engine.run(engine);
+var increment = 0;
 
 // run the renderer
 (function render() {
@@ -162,71 +175,28 @@ Engine.run(engine);
       Body.applyForce(player,player.position,{x:force,y:0});
   }
 
-  window.requestAnimationFrame(render);
-
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext('2d');
-
-  // get the centre of the viewport
-  var viewportCentre = {
-      x: canvas.width * 0.5,
-      y: canvas.height * 0.5
-  };
-
-  // use the engine tick event to control our view
-  Events.on(engine, 'beforeTick', function() {
-      var world = engine.world,
-          mouse = mouseConstraint.mouse,
-          translate;
-
-      // get vector from mouse relative to centre of viewport
-      var deltaCentre = Vector.sub(mouse.absolute, viewportCentre);
-           // Use centreDist > 50 to enable two-way scroll
-          // centreDist = Vector.magnitude(deltaCentre);
-
-      // translate the view if mouse has moved over 50px from the centre of viewport
-      if (deltaCentre.x > 50) {
-          // create a vector to translate the view, allowing the user to control view speed
-          var direction = Vector.normalise(deltaCentre),
-              speed = 2;
-
-          translate = Vector.mult(direction, speed);
-
-          // prevent the view moving outside the world bounds
-          if (render.bounds.min.x + translate.x < world.bounds.min.x)
-              translate.x = world.bounds.min.x - render.bounds.min.x;
-
-          if (render.bounds.max.x + translate.x > world.bounds.max.x)
-              translate.x = world.bounds.max.x - render.bounds.max.x;
-
-          if (render.bounds.min.y + translate.y < world.bounds.min.y)
-              translate.y = world.bounds.min.y - render.bounds.min.y;
-
-          if (render.bounds.max.y + translate.y > world.bounds.max.y)
-              translate.y = world.bounds.max.y - render.bounds.max.y;
-
-          // move the view
-          Bounds.translate(render.bounds, translate);
-
-          // we must update the mouse too
-          Mouse.setOffset(mouse, render.bounds.min);
-      }
-  });
-
+  var bodies = engine.world.bodies;
+  if (player.position.x > viewportCentre.x) {
+    increment += 1
+    viewportCentre.x += 1
+  }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(-increment, 0);
 
   ctx.beginPath();
-  for (var i = 0; i < createdBodies.length; i += 1) {
-      var vertices = createdBodies[i].vertices;
-      ctx.moveTo(vertices[0].x, vertices[0].y);
-      for (var j = 1; j < vertices.length; j += 1) {
-          ctx.lineTo(vertices[j].x, vertices[j].y);
-      }
-      ctx.lineTo(vertices[0].x, vertices[0].y);
+  for (var i = 0; i < bodies.length; i += 1) {
+    var vertices = bodies[i].vertices;
+    ctx.moveTo(vertices[0].x, vertices[0].y);
+    for (var j = 1; j < vertices.length; j += 1) {
+        ctx.lineTo(vertices[j].x, vertices[j].y);
+    }
+    ctx.lineTo(vertices[0].x, vertices[0].y);
   };
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#000';
   ctx.stroke();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+  window.requestAnimationFrame(render);
 })();
