@@ -10,18 +10,27 @@
   <script src="lib/jasmine-2.8.0/jasmine.js"></script>
   <script src="lib/jasmine-2.8.0/jasmine-html.js"></script>
   <script src="lib/jasmine-2.8.0/boot.js"></script>
+  <script>
+    var Matter = {Body: {
+      create: function () {
+
+      }
+    }}
+  </script>
 
   <!-- include source files here... -->
+  <script src="src/player.js"></script>
   <script src="src/worldBuilder.js"></script>
-  <script src="src/gameRenderer.js"></script>
   <script src="src/score.js"></script>
   <script src="src/preciousObject.js"></script>
 
+
   <!-- include spec files here... -->
+  <script src="spec/playerSpec.js"></script>
   <script src="spec/worldBuilderSpec.js"></script>
-  <script src="spec/gameRendererSpec.js"></script>
   <script src="spec/scoreSpec.js"></script>
   <script src="spec/preciousObjectSpec.js"></script>
+
 
 </head>
 
