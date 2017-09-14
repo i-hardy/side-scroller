@@ -36,7 +36,7 @@ describe('PreciousObject', function() {
 
   describe('hitting the ground', function() {
     it('returns true when it hits the ground', function() {
-      preciousObject.y = (canvas.height - jimmy.BLOCK_HEIGHT*2);
+      preciousObject.y = 240;
       expect(preciousObject.isOnGround()).toBe(true);
     });
   });
