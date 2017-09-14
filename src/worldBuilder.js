@@ -1,7 +1,7 @@
 function WorldBuilder(canvas) {
   this.canvas = canvas
-  this.BLOCK_WIDTH = 16
-  this.BLOCK_HEIGHT = 8
+  this.BLOCK_WIDTH = 64
+  this.BLOCK_HEIGHT = 32
   this.MIN_X_GAP = 1
   this.MAX_X_GAP = 3
   this.MIN_Y_GAP = -3
@@ -41,8 +41,8 @@ WorldBuilder.prototype.setGridElement = function (x, y) {
 };
 
 WorldBuilder.prototype.setFirstPlatform = function () {
-  this.lastX = 0;
-  this.lastY = this.canvas.height / this.BLOCK_HEIGHT - 8;
+  this.lastX = 2;
+  this.lastY = this.canvas.height / this.BLOCK_HEIGHT - 3;
   this.setGridElement(this.lastX, this.lastY);
 };
 
