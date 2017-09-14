@@ -11,27 +11,27 @@ Player.prototype.addParts = function(bodyPart) {
 
 Player.prototype.create = function(frictionValue) {
   this.object = Matter.Body.create({ parts: this.bodyParts,
-                              friction: frictionValue
-                            });
+                                    friction: frictionValue,
+                                    });
 };
 
 Player.prototype.jump = function() {
   if(keys[KEY_W] && this.isOnFloor){
-      var force = (-0.03 * this.object.mass);
+      var force = (-worldOptions.verticalForce * this.object.mass);
       Matter.Body.applyForce(this.object,this.object.position,{x:0,y:force});
   }
 };
 
-Player.prototype.moveLeft = function() {
+Player.prototype.moveRight = function() {
   if(keys[KEY_D]){
-      var force = (0.003 * this.object.mass);
-      Matter.Body.applyForce(this.object,this.object.position,{x:force,y:0});
+    var force = (worldOptions.horizontalForce * this.object.mass);
+    Matter.Body.applyForce(this.object,this.object.position,{x:force,y:0});
   }
 };
 
-Player.prototype.moveRight = function() {
+Player.prototype.moveLeft = function() {
   if(keys[KEY_A]){
-      var force = (-0.003 * this.object.mass);
+      var force = (-worldOptions.horizontalForce  * this.object.mass);
       Matter.Body.applyForce(this.object,this.object.position,{x:force,y:0});
   }
 };

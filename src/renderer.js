@@ -3,9 +3,9 @@ function Renderer(player, world) {
   this.world = world;
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
-  this.viewportCentre = {
-      x: this.canvas.width * 0.5,
-      y: this.canvas.height * 0.5
+  this.viewport = {
+      centreX: worldOptions.viewWidth * 0.5,
+      rightEdge: worldOptions.viewWidth
   };
   this.increment = 0;
 }
@@ -18,9 +18,12 @@ Renderer.prototype.playerMovement = function () {
 };
 
 Renderer.prototype.scroll = function () {
-  if (this.player.getBodyObject().position.x > this.viewportCentre.x) {
-    this.increment += 1;
-    this.viewportCentre.x += 1;
+  var playerX = this.player.getBodyObject().position.x;
+  var worldEdge = this.world.bounds.max.x;
+  if (playerX > this.viewport.centreX && worldEdge > this.viewport.rightEdge) {
+    this.increment += worldOptions.scrollIncrement;
+    this.viewport.centreX += worldOptions.scrollIncrement;
+    this.viewport.rightEdge += worldOptions.scrollIncrement;
   }
 };
 
@@ -29,7 +32,7 @@ Renderer.prototype.updateScreen = function () {
   this.scroll();
   var bodies = this.world.bodies;
 
-  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.translate(-this.increment, 0);
 
   this.ctx.beginPath();
