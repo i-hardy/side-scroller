@@ -68,11 +68,17 @@ describe('WorldBuilder', function () {
       expect(jimmy.lastX).toBeLessThan(6);
     });
 
-    it('sets subsequent y indices randomly', function() {
+    it('sets subsequent y indices randomly, and does not set platforms which have indices off the grid', function() {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
       expect(jimmy.lastY).toBeGreaterThan(0);
       expect(jimmy.lastY).toBeLessThan(jimmy.canvas.height / jimmy.BLOCK_HEIGHT);
+    });
+
+    it('does not create new platforms for x indices that are off the grid', function() {
+      jimmy.setFirstPlatform();
+      jimmy.setPlatform();
+      expect(jimmy.lastX).toBeLessThan(jimmy.canvas.width / jimmy.BLOCK_WIDTH);
     });
   });
 
@@ -82,6 +88,13 @@ describe('WorldBuilder', function () {
     });
     it('returns a random number smaller than the max value', function() {
       expect(jimmy.randomNumber(3,7)).toBeLessThan(7)
+    });
+  });
+
+  describe('#setGround', function () {
+    it('sets final row in the grid to 2, 3 or 4', function () {
+      expect(jimmy.getGrid()[31][10]).toBeGreaterThan((1);
+      expect(jimmy.getGrid()[31][10]).toBeLessThan((5);
     });
   });
 });
