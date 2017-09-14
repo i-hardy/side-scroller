@@ -7,10 +7,12 @@ describe('PreciousObject', function() {
     width: 512,
     height: 256
   };
+  var score;
 
   beforeEach(function() {
     preciousObject = new PreciousObject(100, 150);
-    jimmy = new WorldBuilder(canvas)
+    jimmy = new WorldBuilder(canvas);
+    score = new Score()
   });
 
   describe('#instantiation', function() {
@@ -33,7 +35,7 @@ describe('PreciousObject', function() {
   });
 
   describe('hitting the ground', function() {
-    it('returns true when it hits the ground', function (){
+    it('returns true when it hits the ground', function() {
       preciousObject.y = (canvas.height - jimmy.BLOCK_HEIGHT*2);
       expect(preciousObject.isOnGround()).toBe(true);
     });

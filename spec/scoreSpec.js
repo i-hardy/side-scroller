@@ -24,4 +24,12 @@ describe('#points', function () {
       expect(hermione.points).toEqual(hermione.END_BONUS);
     });
   });
+
+  describe('precious object hitting ground', function() {
+    it('score increase is triggered if object hits ground', function() {
+      hermione.preciousObject.y = 250;
+      hermione.hitGroundScore();
+      expect(hermione.points).toEqual(hermione.preciousObject.preciousness);
+    });
+  });
 });
