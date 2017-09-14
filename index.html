@@ -10,18 +10,16 @@
   <script src="src/matter.js"></script>
   <script src="src/worldBuilder.js"></script>
   <script src="src/player.js"></script>
-  <script src="src/matterRenderer.js"></script>
-  <!-- <script type="text/javascript">
-    // var canvas;
-    // var context;
+  <script src="src/renderer.js"></script>
+  <script src="src/gameController.js"></script>
+  <script type="text/javascript">
     window.onload = function () {
-      // canvas = document.getElementById('canvas');
-      // context = canvas.getContext('2d');
-      // renderer = new GameRenderer(canvas, context)
-      // renderer.createWorld();
-      // renderer.drawWorld();
-      // renderer.drawPlatforms();
+      controller = new GameController();
+      controller.collisionEvents();
+      controller.buildWorld();
+      controller.populateWorld();
+      controller.render();
     }
-  </script> -->
+  </script>
 </body>
 </html>
