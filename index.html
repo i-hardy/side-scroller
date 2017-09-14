@@ -6,19 +6,36 @@
   <title>Side-Scroller</title>
 </head>
 <body>
-  <canvas id="canvas" width="512" height="256"></canvas>
+  <canvas id="canvas" width="1024" height="512"></canvas>
+  <script src="src/matter.js"></script>
   <script src="src/worldBuilder.js"></script>
-  <script src="src/gameRenderer.js"></script>
+  <script src="src/player.js"></script>
+  <script src="src/renderer.js"></script>
+  <script src="src/gameController.js"></script>
   <script type="text/javascript">
-    var canvas;
-    var context;
+  const KEY_W = 87;
+  const KEY_A = 65;
+  const KEY_S = 83;
+  const KEY_D = 68;
+
+  // movement
+
+  const keys = [];
+
     window.onload = function () {
-      canvas = document.getElementById('canvas');
-      context = canvas.getContext('2d');
-      renderer = new GameRenderer(canvas, context)
-      renderer.createWorld();
-      renderer.drawWorld();
-      renderer.drawPlatforms();
+      document.body.addEventListener('keyup', function(e) {
+        keys[e.keyCode] = false;
+      });
+
+      document.body.addEventListener('keydown', function(e) {
+        keys[e.keyCode] = true;
+      });
+
+      controller = new GameController();
+      controller.collisionEvents();
+      controller.buildWorld();
+      controller.populateWorld();
+      controller.render();
     }
   </script>
 </body>
