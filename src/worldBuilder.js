@@ -14,6 +14,7 @@ WorldBuilder.prototype.setGrid = function () {
   for (var i = 0; i < worldOptions.gridRows; i++) {
     this.grid.push(this.setRow());
   }
+  console.log(this.grid);
 };
 
 WorldBuilder.prototype.setRow = function () {
@@ -39,7 +40,7 @@ WorldBuilder.prototype.setPlatform = function () {
   var y_change = this.randomNumber(this.MIN_Y_GAP,this.MAX_Y_GAP);
   if (this.lastX + x_change < worldOptions.gridColumns) {
     this.lastX += x_change;
-    if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
+    if (this.lastY + y_change < (worldOptions.gridRows-2) && this.lastY + y_change > 1) {
       this.lastY += y_change;
     } else {
       this.lastY -= y_change;
