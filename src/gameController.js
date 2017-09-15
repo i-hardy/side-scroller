@@ -1,14 +1,14 @@
 function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
-  this.player = new Player(Matter.Bodies.rectangle(30,0,50,50));
-  this.player.addParts(Matter.Bodies.rectangle(30,0,50,50, {isSensor: true}));
+  this.player = new Player(Matter.Bodies.rectangle(30,0,50,50, { density:0.002, friction: 0.5 }));
+  this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true}));
 }
 
 GameController.prototype.addCollisionEvent = function (player, eventName, action) {
   Matter.Events.on(this.engine, eventName, function(event) {
      var pairs = event.pairs;
-     var playerSensor = player.getBodyParts()[1];
+     var playerSensor = player.getBodyParts()[2];
 
      for (var i = 0, j = pairs.length; i !== j; ++i) {
          var pair = pairs[i];
@@ -48,7 +48,7 @@ GameController.prototype.createPlatforms = function () {
   this.createdBodies = [];
   var bWidth = worldOptions.platformWidth;
   var bHeight = worldOptions.platformHeight;
-  for (var i = 0; i < worldOptions.gridRows + 1; i++) {
+  for (var i = 0; i < worldOptions.gridRows; i++) {
     for (var j = 0; j < worldOptions.gridColumns; j++) {
       if (this.worldBuilder.getGrid()[i][j] !== 0) {
         this.createdBodies.push(Matter.Bodies.rectangle(j * bWidth, i * bHeight, bWidth, bHeight, { isStatic: true }));
@@ -63,9 +63,8 @@ GameController.prototype.createGround = function () {
 
 GameController.prototype.populateWorld = function () {
   this.createPlatforms();
-  // this.createGround();
+  this.createGround();
   this.player.create(worldOptions.playerFriction);
-
   this.createdBodies.push(this.player.getBodyObject());
   // create two boxes
   this.createdBodies.push(Matter.Bodies.rectangle(350, 0, 40, 40));
