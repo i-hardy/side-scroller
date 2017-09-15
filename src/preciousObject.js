@@ -2,7 +2,8 @@
 function PreciousObject(x, y) {
   this.x = x;
   this.y = y;
-  this.preciousness = this.randomNumber(1, 5);
+  this.rng = new RandomNumberGenerator();
+  this.preciousness = this.rng.randomNumber(1, 5);
 }
 
 PreciousObject.prototype.xCoordinate = function () {
@@ -18,8 +19,4 @@ PreciousObject.prototype.isOnGround = function () {
     if (this.y >= 240) {
       return true;
     }
-};
-
-PreciousObject.prototype.randomNumber = function(max,min) {
-  return Math.floor(Math.random()*(max-min) + min);
 };
