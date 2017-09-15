@@ -1,5 +1,8 @@
-function RandomNumberGenerator() {}
+(function(exports) {
 
-RandomNumberGenerator.prototype.randomNumber = function(max,min) {
-  return Math.floor(Math.random()*(max-min) + min);
-};
+  function randomNumberGenerator(min, max) {
+    return Math.floor(Math.random()*(max-min) + min);;
+  };
+
+  exports.randomNumberGenerator = randomNumberGenerator;
+})(this);
