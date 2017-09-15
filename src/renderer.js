@@ -28,7 +28,7 @@ Renderer.prototype.scroll = function () {
 };
 
 Renderer.prototype.updateScreen = function () {
-  Matter.Body.setAngle(this.player.getBodyObject(), 0)
+  Matter.Body.setAngle(this.player.getBodyObject(), 0);
   this.playerMovement();
   this.scroll();
   var bodies = this.world.bodies;

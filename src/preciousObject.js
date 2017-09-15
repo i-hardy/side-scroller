@@ -4,15 +4,23 @@ function PreciousObject(x, y) {
   this.y = y;
   this.rng = new RandomNumberGenerator();
   this.preciousness = this.rng.randomNumber(1, 5);
+  this.createBody();
 }
 
 PreciousObject.prototype.xCoordinate = function () {
   return this.x;
-
 };
 
 PreciousObject.prototype.yCoordinate = function () {
   return this.y;
+};
+
+PreciousObject.prototype.getBody = function () {
+  return this.body;
+};
+
+PreciousObject.prototype.createBody = function () {
+  this.body = Matter.Bodies.rectangle(this.x, this.y, 40, 40);
 };
 
 PreciousObject.prototype.isOnGround = function () {
