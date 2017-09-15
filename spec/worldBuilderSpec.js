@@ -12,7 +12,7 @@ describe('WorldBuilder', function () {
 
   describe('#setGrid', function () {
     it('creates an array based on the canvas height', function () {
-      expect(jimmy.getGrid().length).toEqual(worldOptions.gridRows + 1);
+      expect(jimmy.getGrid().length).toEqual(worldOptions.gridRows);
     });
 
     it('contains rows full of zeros', function () {
@@ -40,17 +40,17 @@ describe('WorldBuilder', function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.getGrid()[worldOptions.gridRows - 3][2]).toEqual(1);
+      expect(jimmy.getGrid()[worldOptions.gridRows - 2][0]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.lastX).toEqual(2);
+      expect(jimmy.lastX).toEqual(0);
     });
 
     it('records the y index of the platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.lastY).toEqual(worldOptions.gridRows - 3);
+      expect(jimmy.lastY).toEqual(worldOptions.gridRows - 2);
     });
   });
 
@@ -64,8 +64,8 @@ describe('WorldBuilder', function () {
     it('sets an x index greater than the last x index', function() {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
-      expect(jimmy.lastX).toBeGreaterThan(2);
-      expect(jimmy.lastX).toBeLessThan(6);
+      expect(jimmy.lastX).toBeGreaterThan(0);
+      expect(jimmy.lastX).toBeLessThan(3);
     });
 
     it('sets subsequent y indices randomly, and does not set platforms which have indices off the grid', function() {
@@ -88,13 +88,6 @@ describe('WorldBuilder', function () {
     });
     it('returns a random number smaller than the max value', function() {
       expect(jimmy.randomNumber(3,7)).toBeLessThan(7)
-    });
-  });
-
-  describe('#setGround', function () {
-    it('sets final row in the grid to 1, 2, 3 or 4', function () {
-      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
-      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
     });
   });
 });

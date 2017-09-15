@@ -48,7 +48,7 @@ GameController.prototype.createPlatforms = function () {
   this.createdBodies = [];
   var bWidth = worldOptions.platformWidth;
   var bHeight = worldOptions.platformHeight;
-  for (var i = 0; i < worldOptions.gridRows + 1; i++) {
+  for (var i = 0; i < worldOptions.gridRows; i++) {
     for (var j = 0; j < worldOptions.gridColumns; j++) {
       if (this.worldBuilder.getGrid()[i][j] !== 0) {
         this.createdBodies.push(Matter.Bodies.rectangle(j * bWidth, i * bHeight, bWidth, bHeight, { isStatic: true }));
@@ -63,7 +63,7 @@ GameController.prototype.createGround = function () {
 
 GameController.prototype.populateWorld = function () {
   this.createPlatforms();
-  // this.createGround();
+  this.createGround();
   this.player.create(worldOptions.playerFriction);
   this.createdBodies.push(this.player.getBodyObject());
   // create two boxes
