@@ -19,7 +19,7 @@ PreciousObject.prototype.getBody = function () {
 };
 
 PreciousObject.prototype.createBody = function () {
-  this.body = Matter.Bodies.rectangle(this.x, this.y, 40, 40);
+  this.body = Matter.Bodies.rectangle(this.x, this.y, worldOptions.objectSize, worldOptions.objectSize);
 };
 
 PreciousObject.prototype.isOnGround = function () {

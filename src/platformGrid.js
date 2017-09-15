@@ -3,6 +3,8 @@ function PlatformGrid() {
   this.MAX_X_GAP = 3;
   this.MIN_Y_GAP = -3;
   this.MAX_Y_GAP = 3;
+  this.FIRST_PLATFORM_X = 2;
+  this.FIRST_PLATFORM_Y = worldOptions.gridRows - 1;
 }
 
 PlatformGrid.prototype.buildPlatforms = function (platformNumber) {
@@ -37,8 +39,8 @@ PlatformGrid.prototype.setGridElement = function (x, y) {
 };
 
 PlatformGrid.prototype.setFirstPlatform = function () {
-  this.lastX = 2;
-  this.lastY = worldOptions.gridRows - 3;
+  this.lastX = this.FIRST_PLATFORM_X;
+  this.lastY = this.FIRST_PLATFORM_Y;
   this.setGridElement(this.lastX, this.lastY);
 };
 

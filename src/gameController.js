@@ -2,7 +2,7 @@ function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
   this.worldBuilder = new WorldBuilder();
-  this.player = new Player(Matter.Bodies.rectangle(30,0,50,50, { density:0.002, friction: 0.5 }));
+  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true}));
 }
 
@@ -42,7 +42,7 @@ GameController.prototype.setWorldBounds = function () {
 };
 
 GameController.prototype.addGround = function () {
-  var ground = Matter.Bodies.rectangle(512, 512, worldOptions.width, 20, { isStatic: true });
+  var ground = Matter.Bodies.rectangle(worldOptions.width/2, worldOptions.height, worldOptions.width + 10, 20, { isStatic: true });
   Matter.World.add(this.world, [ground]);
 };
 

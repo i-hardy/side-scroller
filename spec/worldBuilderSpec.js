@@ -77,14 +77,14 @@ describe('WorldBuilder', function () {
     it('creates Matter rectangles', function () {
       spyOn(Matter.Bodies, 'rectangle');
       jimmy.buildPlatforms();
-      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
+      jimmy.platformBodies(worldOptions.gridRows - 1, 2);
       expect(Matter.Bodies.rectangle).toHaveBeenCalled();
     });
 
     it('generates precious objects', function () {
       spyOn(jimmy, 'createPreciousObjects').and.callThrough();
       jimmy.buildPlatforms();
-      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
+      jimmy.platformBodies(worldOptions.gridRows - 1, 2);
       expect(jimmy.createPreciousObjects).toHaveBeenCalled();
     });
   });
