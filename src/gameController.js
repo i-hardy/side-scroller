@@ -4,6 +4,7 @@ function GameController () {
   this.worldBuilder = new WorldBuilder();
   this.player = new Player(Matter.Bodies.rectangle(30,0,50,50, { density:0.002, friction: 0.5 }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true}));
+  this.soundEngine = new SoundEngine(this.player);
 }
 
 GameController.prototype.addCollisionEvent = function (player, eventName, action) {
@@ -60,6 +61,6 @@ GameController.prototype.ready = function () {
 
 GameController.prototype.render = function () {
   Matter.Engine.run(this.engine);
-  this.renderer = new Renderer(this.player, this.world);
+  this.renderer = new Renderer(this.player, this.world, this.soundEngine);
   this.renderer.updateScreen();
 };

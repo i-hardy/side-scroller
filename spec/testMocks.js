@@ -30,3 +30,5 @@ var worldBounds = { min: {
                       y: 0
                     }
                   };
+
+function Audio() {};
