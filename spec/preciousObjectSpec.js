@@ -2,26 +2,36 @@
 
 describe('PreciousObject', function() {
   var preciousObject;
-  var jimmy;
-  var canvas = {
-    width: 512,
-    height: 256
-  };
-  var score;
 
   beforeEach(function() {
+    spyOn(PreciousObject.prototype, 'createBody').and.callThrough();
     preciousObject = new PreciousObject(100, 150);
-    jimmy = new WorldBuilder(canvas);
-    score = new Score()
   });
 
   describe('#instantiation', function() {
-    it('can be created as an instance', function() {
-      expect(preciousObject).toBeDefined();
-    });
     it('has a preciousness', function() {
       expect(preciousObject.preciousness).toBeDefined();
-    })
+    });
+
+    it('creates a Matter Body', function () {
+      expect(PreciousObject.prototype.createBody).toHaveBeenCalled();
+    });
+  });
+
+  describe('#getBody', function () {
+    it('returns the Matter Body relating to the precious object', function () {
+      spyOn(Matter.Bodies, 'rectangle').and.returnValue({name: 'Body'});
+      preciousObject.createBody();
+      expect(preciousObject.getBody()).toEqual({name: 'Body'});
+    });
+  });
+
+  describe('#createBody', function () {
+    it('generates a Matter Body at its x and y coordinates', function () {
+      spyOn(Matter.Bodies, 'rectangle').and.callThrough();
+      preciousObject.createBody();
+      expect(Matter.Bodies.rectangle).toHaveBeenCalled();
+    });
   });
 
   describe('#coordinates', function() {
