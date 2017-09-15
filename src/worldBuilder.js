@@ -4,8 +4,14 @@ function WorldBuilder() {
   this.platformGrid = new PlatformGrid();
 }
 
+WorldBuilder.prototype.buildCompleteWorld = function () {
+  this.buildPlatforms();
+  this.createWorldBodies();
+  this.preciousObjectBodies();
+};
+
 WorldBuilder.prototype.buildPlatforms = function () {
-  this.platformGrid.buildPlatforms();
+  this.platformGrid.buildPlatforms(worldOptions.gridColumns);
 };
 
 WorldBuilder.prototype.getPlatformGrid = function () {

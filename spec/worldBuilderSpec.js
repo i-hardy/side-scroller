@@ -5,6 +5,26 @@ describe('WorldBuilder', function () {
     jimmy = new WorldBuilder();
   });
 
+  describe('#buildCompleteWorld', function () {
+    it('builds the grid', function () {
+      spyOn(jimmy, 'buildPlatforms').and.callThrough();
+      jimmy.buildCompleteWorld();
+      expect(jimmy.buildPlatforms).toHaveBeenCalled();
+    });
+
+    it('creates all platform bodies', function () {
+      spyOn(jimmy, 'createWorldBodies');
+      jimmy.buildCompleteWorld();
+      expect(jimmy.createWorldBodies).toHaveBeenCalled();
+    });
+
+    it('fetches all precious object bodies', function () {
+      spyOn(jimmy, 'preciousObjectBodies');
+      jimmy.preciousObjectBodies();
+      expect(jimmy.preciousObjectBodies).toHaveBeenCalled();
+    });
+  });
+
   describe('#buildPlatforms', function () {
     it('builds the platform grid', function () {
       spyOn(PlatformGrid.prototype, 'buildPlatforms');
