@@ -36,7 +36,7 @@ describe("PlatformGrid", function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.getGrid()[worldOptions.gridRows - 3][2]).toEqual(1);
+      expect(tooticky.getGrid()[worldOptions.gridRows - 1][2]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
@@ -46,7 +46,7 @@ describe("PlatformGrid", function () {
 
     it('records the y index of the platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.lastY).toEqual(worldOptions.gridRows - 3);
+      expect(tooticky.lastY).toEqual(worldOptions.gridRows - 1);
     });
   });
 
