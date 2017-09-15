@@ -14,7 +14,7 @@
     platformHeight: pHeight,
     gridRows: height / pHeight,
     gridColumns: width / pWidth,
-    scrollIncrement: 1,
+    scrollIncrement: 3,
     playerFriction: 0.001,
     verticalForce: 0.005,
     horizontalForce: 0.001
