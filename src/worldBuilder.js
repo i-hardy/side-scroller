@@ -14,7 +14,6 @@ WorldBuilder.prototype.setGrid = function () {
   for (var i = 0; i < worldOptions.gridRows; i++) {
     this.grid.push(this.setRow());
   }
-  console.log(this.grid);
 };
 
 WorldBuilder.prototype.setRow = function () {
