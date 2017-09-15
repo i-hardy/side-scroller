@@ -1,5 +1,6 @@
 describe('WorldBuilder', function () {
   var jimmy;
+  var meg;
   var canvas = {
     width: 512,
     height: 256
@@ -7,6 +8,7 @@ describe('WorldBuilder', function () {
 
   beforeEach(function () {
     jimmy = new WorldBuilder(canvas);
+    meg = new RandomNumberGenerator();
     jimmy.setGrid();
   });
 
@@ -79,15 +81,6 @@ describe('WorldBuilder', function () {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
       expect(jimmy.lastX).toBeLessThan(worldOptions.gridColumns);
-    });
-  });
-
-  describe('#randomNumber', function() {
-    it('returns a random number larger than the min value', function() {
-      expect(jimmy.randomNumber(3,7)).toBeGreaterThan(2)
-    });
-    it('returns a random number smaller than the max value', function() {
-      expect(jimmy.randomNumber(3,7)).toBeLessThan(7)
     });
   });
 });

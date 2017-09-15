@@ -3,6 +3,7 @@ function WorldBuilder() {
   this.MAX_X_GAP = 3;
   this.MIN_Y_GAP = -2;
   this.MAX_Y_GAP = 3;
+  this.rng = new RandomNumberGenerator();
 }
 
 WorldBuilder.prototype.getGrid = function () {
@@ -35,8 +36,8 @@ WorldBuilder.prototype.setFirstPlatform = function () {
 };
 
 WorldBuilder.prototype.setPlatform = function () {
-  var x_change = this.randomNumber(this.MIN_X_GAP,this.MAX_X_GAP);
-  var y_change = this.randomNumber(this.MIN_Y_GAP,this.MAX_Y_GAP);
+  var x_change = this.rng.randomNumber(this.MIN_X_GAP,this.MAX_X_GAP);
+  var y_change = this.rng.randomNumber(this.MIN_Y_GAP,this.MAX_Y_GAP);
   if (this.lastX + x_change < worldOptions.gridColumns) {
     this.lastX += x_change;
     if (this.lastY + y_change < (worldOptions.gridRows-2) && this.lastY + y_change > 1) {
@@ -46,8 +47,4 @@ WorldBuilder.prototype.setPlatform = function () {
     }
     this.setGridElement(this.lastX, this.lastY);
   }
-};
-
-WorldBuilder.prototype.randomNumber = function(max,min) {
-  return Math.floor(Math.random()*(max-min) + min);
 };
