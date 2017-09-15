@@ -1,6 +1,7 @@
 function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
+  this.worldBuilder = new WorldBuilder();
   this.player = new Player(Matter.Bodies.rectangle(30,0,50,50, { density:0.002, friction: 0.5 }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true}));
   this.soundEngine = new SoundEngine(this.player);
@@ -29,13 +30,9 @@ GameController.prototype.collisionEvents = function () {
 };
 
 GameController.prototype.buildWorld = function () {
-  this.worldBuilder = new WorldBuilder(canvas);
-  this.worldBuilder.setGrid();
-  this.worldBuilder.setFirstPlatform();
-  for (var i = 0; i < 50; i++) {
-    this.worldBuilder.setPlatform();
-  }
+  this.worldBuilder.buildCompleteWorld();
   this.setWorldBounds();
+  Matter.World.add(this.world, this.worldBuilder.getWorldBodies());
 };
 
 GameController.prototype.setWorldBounds = function () {
@@ -45,33 +42,21 @@ GameController.prototype.setWorldBounds = function () {
   this.world.bounds.max.y = worldOptions.height;
 };
 
-GameController.prototype.createPlatforms = function () {
-  this.createdBodies = [];
-  var bWidth = worldOptions.platformWidth;
-  var bHeight = worldOptions.platformHeight;
-  for (var i = 0; i < worldOptions.gridRows + 1; i++) {
-    for (var j = 0; j < worldOptions.gridColumns; j++) {
-      if (this.worldBuilder.getGrid()[i][j] !== 0) {
-        this.createdBodies.push(Matter.Bodies.rectangle(j * bWidth, i * bHeight, bWidth, bHeight, { isStatic: true }));
-      }
-    }
-  }
+GameController.prototype.addGround = function () {
+  var ground = Matter.Bodies.rectangle(512, 512, worldOptions.width, 20, { isStatic: true });
+  Matter.World.add(this.world, [ground]);
 };
 
-GameController.prototype.createGround = function () {
-  this.createdBodies.push(Matter.Bodies.rectangle(512, 512, worldOptions.width, 20, { isStatic: true }));
-};
-
-GameController.prototype.populateWorld = function () {
-  this.createPlatforms();
-  // this.createGround();
+GameController.prototype.addPlayer = function () {
   this.player.create(worldOptions.playerFriction);
-  this.createdBodies.push(this.player.getBodyObject());
-  // create two boxes
-  this.createdBodies.push(Matter.Bodies.rectangle(350, 0, 40, 40));
-  this.createdBodies.push(Matter.Bodies.rectangle(550, 0, 40, 40));
+  Matter.World.add(this.world, [this.player.getBodyObject()]);
+};
 
-  Matter.World.add(this.world, this.createdBodies);
+GameController.prototype.ready = function () {
+  this.collisionEvents();
+  this.buildWorld();
+  this.addGround();
+  this.addPlayer();
 };
 
 GameController.prototype.render = function () {

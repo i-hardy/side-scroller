@@ -1,62 +1,55 @@
 function WorldBuilder() {
-  this.MIN_X_GAP = 1;
-  this.MAX_X_GAP = 3;
-  this.MIN_Y_GAP = -3;
-  this.MAX_Y_GAP = 3;
+  this.worldBodies = [];
+  this.preciousObjects = [];
+  this.platformGrid = new PlatformGrid();
 }
 
-WorldBuilder.prototype.getGrid = function () {
-  return this.grid;
+WorldBuilder.prototype.buildCompleteWorld = function () {
+  this.buildPlatforms();
+  this.createWorldBodies();
+  this.preciousObjectBodies();
 };
 
-WorldBuilder.prototype.setGrid = function () {
-  this.grid = [];
+WorldBuilder.prototype.buildPlatforms = function () {
+  this.platformGrid.buildPlatforms(worldOptions.gridColumns);
+};
+
+WorldBuilder.prototype.getPlatformGrid = function () {
+  return this.platformGrid.getGrid();
+};
+
+WorldBuilder.prototype.getPreciousObjects = function () {
+  return this.preciousObjects;
+};
+
+WorldBuilder.prototype.createPreciousObjects = function (xCoordinate) {
+  this.preciousObjects.push(new PreciousObject(xCoordinate, 0));
+};
+
+WorldBuilder.prototype.getWorldBodies = function () {
+  return this.worldBodies;
+};
+
+WorldBuilder.prototype.createWorldBodies = function () {
   for (var i = 0; i < worldOptions.gridRows; i++) {
-    this.grid.push(this.setRow());
-  }
-    this.grid.push(this.setGround());
-};
-
-WorldBuilder.prototype.setRow = function () {
-  var row = [];
-  for (var i = 0; i < worldOptions.gridColumns; i++) {
-    row.push(0);
-  }
-  return row;
-};
-
-WorldBuilder.prototype.setGround = function () {
-  var row = [];
-  for (var i = 0; i < worldOptions.gridColumns; i++) {
-    row.push(this.randomNumber(1, 5));
-  }
-  return row;
-};
-
-WorldBuilder.prototype.setGridElement = function (x, y) {
-  this.grid[y][x] = 1;
-};
-
-WorldBuilder.prototype.setFirstPlatform = function () {
-  this.lastX = 2;
-  this.lastY = worldOptions.gridRows - 3;
-  this.setGridElement(this.lastX, this.lastY);
-};
-
-WorldBuilder.prototype.setPlatform = function () {
-  var x_change = this.randomNumber(this.MAX_X_GAP,this.MIN_X_GAP);
-  var y_change = this.randomNumber(this.MAX_Y_GAP,this.MIN_Y_GAP);
-  if (this.lastX + x_change < worldOptions.gridColumns) {
-    this.lastX += x_change;
-    if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
-      this.lastY += y_change;
-    } else {
-      this.lastY -= y_change;
+    for (var j = 0; j < worldOptions.gridColumns; j++) {
+      this.platformBodies(i, j);
     }
-    this.setGridElement(this.lastX, this.lastY);
   }
 };
 
-WorldBuilder.prototype.randomNumber = function(max,min) {
-  return Math.floor(Math.random()*(max-min) + min);
+WorldBuilder.prototype.platformBodies = function (i, j) {
+  var bWidth = worldOptions.platformWidth;
+  var bHeight = worldOptions.platformHeight;
+  if (this.getPlatformGrid()[i][j] === 1) {
+    this.createPreciousObjects(j * bWidth);
+    this.worldBodies.push(Matter.Bodies.rectangle(j * bWidth, i * bHeight, bWidth, bHeight, { isStatic: true }));
+  }
+};
+
+WorldBuilder.prototype.preciousObjectBodies = function () {
+  var builder = this;
+  builder.preciousObjects.forEach(function (object) {
+    builder.worldBodies.push(object.getBody());
+  });
 };
