@@ -15,9 +15,9 @@
     gridRows: height / pHeight,
     gridColumns: width / pWidth,
     scrollIncrement: 1,
-    playerFriction: 0.5,
-    verticalForce: 0.03,
-    horizontalForce: 0.0015
+    playerFriction: 0.001,
+    verticalForce: 0.005,
+    horizontalForce: 0.001
   };
 
   exports.worldOptions = worldOptions;
