@@ -1,100 +1,98 @@
 describe('WorldBuilder', function () {
   var jimmy;
-  var canvas = {
-    width: 512,
-    height: 256
-  };
 
   beforeEach(function () {
-    jimmy = new WorldBuilder(canvas);
-    jimmy.setGrid();
+    jimmy = new WorldBuilder();
   });
 
-  describe('#setGrid', function () {
-    it('creates an array based on the canvas height', function () {
-      expect(jimmy.getGrid().length).toEqual(worldOptions.gridRows + 1);
-    });
-
-    it('contains rows full of zeros', function () {
-      expect(jimmy.getGrid()[0][0]).toEqual(0);
-    });
-
-    it('contains rows of a length based on the canvas width', function () {
-      expect(jimmy.getGrid()[0].length).toEqual(worldOptions.gridColumns);
+  describe('#buildPlatforms', function () {
+    it('builds the platform grid', function () {
+      spyOn(PlatformGrid.prototype, 'buildPlatforms');
+      jimmy.buildPlatforms();
+      expect(PlatformGrid.prototype.buildPlatforms).toHaveBeenCalled();
     });
   });
 
-  describe('#setRow', function () {
-    it('creates an array based on the canvas width', function () {
-      expect(jimmy.setRow().length).toEqual(worldOptions.gridColumns);
+  describe('#getPlatformGrid', function () {
+    it('returns the platform grid array', function () {
+      jimmy.buildPlatforms();
+      expect(jimmy.getPlatformGrid()).toEqual(jasmine.any(Array));
+    });
+
+    it('returns an array of the correct length', function () {
+      jimmy.buildPlatforms();
+      expect(jimmy.getPlatformGrid().length).toEqual(worldOptions.gridRows);
     });
   });
 
-  describe('#setGridElement', function () {
-    it('can set a grid element to 1', function () {
-      jimmy.setGridElement(0, 0)
-      expect(jimmy.getGrid()[0][0]).toEqual(1);
+  describe('#getPreciousObjects', function () {
+    it('returns the precious objects array', function () {
+      expect(jimmy.getPreciousObjects()).toEqual(jasmine.any(Array));
     });
   });
 
-  describe('#setFirstPlatform', function () {
-    it('sets the first platform', function () {
-      jimmy.setFirstPlatform();
-      expect(jimmy.getGrid()[worldOptions.gridRows - 3][2]).toEqual(1);
-    });
-
-    it('records the x index of the platform', function () {
-      jimmy.setFirstPlatform();
-      expect(jimmy.lastX).toEqual(2);
-    });
-
-    it('records the y index of the platform', function () {
-      jimmy.setFirstPlatform();
-      expect(jimmy.lastY).toEqual(worldOptions.gridRows - 3);
+  describe('#createPreciousObjects', function () {
+    it('populates the precious objects array with instances of the PreciousObject class', function () {
+      jimmy.createPreciousObjects(1);
+      expect(jimmy.getPreciousObjects()[0]).toEqual(jasmine.any(PreciousObject));
     });
   });
 
-  describe('#setPlatform', function() {
-    it('sets subsequent platforms randomly', function() {
-      jimmy.setFirstPlatform();
-      jimmy.setPlatform();
-      expect(jimmy.getGrid()[jimmy.lastY][jimmy.lastX]).toEqual(1);
-    });
-
-    it('sets an x index greater than the last x index', function() {
-      jimmy.setFirstPlatform();
-      jimmy.setPlatform();
-      expect(jimmy.lastX).toBeGreaterThan(2);
-      expect(jimmy.lastX).toBeLessThan(6);
-    });
-
-    it('sets subsequent y indices randomly, and does not set platforms which have indices off the grid', function() {
-      jimmy.setFirstPlatform();
-      jimmy.setPlatform();
-      expect(jimmy.lastY).toBeGreaterThan(0);
-      expect(jimmy.lastY).toBeLessThan(worldOptions.gridRows);
-    });
-
-    it('does not create new platforms for x indices that are off the grid', function() {
-      jimmy.setFirstPlatform();
-      jimmy.setPlatform();
-      expect(jimmy.lastX).toBeLessThan(worldOptions.gridColumns);
+  describe('#getWorldBodies', function () {
+    it('returns the worldBodies array', function () {
+      expect(jimmy.getWorldBodies()).toEqual(jasmine.any(Array));
     });
   });
 
-  describe('#randomNumber', function() {
-    it('returns a random number larger than the min value', function() {
-      expect(jimmy.randomNumber(3,7)).toBeGreaterThan(2)
+  describe('#createWorldBodies', function () {
+    it('populates the worldBodies array', function () {
+      jimmy.buildPlatforms();
+      jimmy.createWorldBodies();
+      expect(jimmy.getWorldBodies().length).toBeGreaterThan(0);
     });
-    it('returns a random number smaller than the max value', function() {
-      expect(jimmy.randomNumber(3,7)).toBeLessThan(7)
+
+  });
+
+  describe('#platformBodies', function () {
+    it('creates Matter rectangles', function () {
+      spyOn(Matter.Bodies, 'rectangle');
+      jimmy.buildPlatforms();
+      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
+      expect(Matter.Bodies.rectangle).toHaveBeenCalled();
+    });
+
+    it('generates precious objects', function () {
+      spyOn(jimmy, 'createPreciousObjects').and.callThrough();
+      jimmy.buildPlatforms();
+      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
+      expect(jimmy.createPreciousObjects).toHaveBeenCalled();
     });
   });
 
-  describe('#setGround', function () {
-    it('sets final row in the grid to 1, 2, 3 or 4', function () {
-      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
-      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
+  describe('#preciousObjectBodies', function () {
+    beforeEach(function () {
+      jimmy.buildPlatforms();
+      jimmy.createWorldBodies();
+    });
+
+    it('gets the body associated with each precious object', function () {
+      spyOn(PreciousObject.prototype, 'getBody');
+      jimmy.preciousObjectBodies();
+      expect(PreciousObject.prototype.getBody).toHaveBeenCalled();
+    });
+
+    it('adds more bodies to the worldBodies array', function () {
+      var priorLength = jimmy.getWorldBodies().length;
+      jimmy.preciousObjectBodies();
+      expect(jimmy.getWorldBodies().length).toBeGreaterThan(priorLength);
     });
   });
+
+
+  // describe('#setGround', function () {
+  //   it('sets final row in the grid to 1, 2, 3 or 4', function () {
+  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
+  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
+  //   });
+  // });
 });
