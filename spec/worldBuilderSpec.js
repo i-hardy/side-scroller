@@ -1,9 +1,16 @@
 describe('WorldBuilder', function () {
   var jimmy;
+  var meg;
+  var canvas = {
+    width: 512,
+    height: 256
+  };
 
   beforeEach(function () {
-    jimmy = new WorldBuilder();
-  });
+    jimmy = new WorldBuilder(canvas);
+    meg = new RandomNumberGenerator();
+    jimmy.setGrid();
+  }
 
   describe('#buildCompleteWorld', function () {
     it('builds the grid', function () {
@@ -107,12 +114,4 @@ describe('WorldBuilder', function () {
       expect(jimmy.getWorldBodies().length).toBeGreaterThan(priorLength);
     });
   });
-
-
-  // describe('#setGround', function () {
-  //   it('sets final row in the grid to 1, 2, 3 or 4', function () {
-  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
-  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
-  //   });
-  // });
 });
