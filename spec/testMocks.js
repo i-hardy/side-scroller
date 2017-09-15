@@ -40,3 +40,5 @@ function Audio() {};
 
 Audio.prototype.pause = function () {};
 Audio.prototype.play = function () {};
+
+Audio = new Audio
