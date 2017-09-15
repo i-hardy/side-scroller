@@ -4,7 +4,8 @@ function PlatformGrid() {
   this.MIN_Y_GAP = -3;
   this.MAX_Y_GAP = 3;
   this.FIRST_PLATFORM_X = 2;
-  this.FIRST_PLATFORM_Y = worldOptions.gridRows - 1;
+  this.FIRST_PLATFORM_Y = 1;
+  this.rng = new RandomNumberGenerator();
 }
 
 PlatformGrid.prototype.buildPlatforms = function (platformNumber) {
@@ -45,8 +46,8 @@ PlatformGrid.prototype.setFirstPlatform = function () {
 };
 
 PlatformGrid.prototype.setPlatform = function () {
-  var x_change = this.randomNumber(this.MAX_X_GAP,this.MIN_X_GAP);
-  var y_change = this.randomNumber(this.MAX_Y_GAP,this.MIN_Y_GAP);
+  var x_change = this.rng.randomNumber(this.MAX_X_GAP,this.MIN_X_GAP);
+  var y_change = this.rng.randomNumber(this.MAX_Y_GAP,this.MIN_Y_GAP);
   if (this.lastX + x_change < worldOptions.gridColumns) {
     this.lastX += x_change;
     if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
@@ -56,8 +57,4 @@ PlatformGrid.prototype.setPlatform = function () {
     }
     this.setGridElement(this.lastX, this.lastY);
   }
-};
-
-PlatformGrid.prototype.randomNumber = function(max,min) {
-  return Math.floor(Math.random()*(max-min) + min);
 };

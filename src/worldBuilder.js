@@ -31,6 +31,7 @@ WorldBuilder.prototype.getWorldBodies = function () {
 };
 
 WorldBuilder.prototype.createWorldBodies = function () {
+  console.log(this.getPlatformGrid());
   for (var i = 0; i < worldOptions.gridRows; i++) {
     for (var j = 0; j < worldOptions.gridColumns; j++) {
       this.platformBodies(i, j);
@@ -42,8 +43,9 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
   var bWidth = worldOptions.platformWidth;
   var bHeight = worldOptions.platformHeight;
   if (this.getPlatformGrid()[i][j] === 1) {
-    this.createPreciousObjects(j * bWidth);
-    this.worldBodies.push(Matter.Bodies.rectangle(j * bWidth, i * bHeight, bWidth, bHeight, { isStatic: true }));
+    var y = 452 - (i * bHeight);
+    this.placeObjects(j * bWidth);
+    this.worldBodies.push(Matter.Bodies.rectangle(j * bWidth, y, bWidth, bHeight, { isStatic: true }));
   }
 };
 
@@ -52,4 +54,11 @@ WorldBuilder.prototype.preciousObjectBodies = function () {
   builder.preciousObjects.forEach(function (object) {
     builder.worldBodies.push(object.getBody());
   });
+};
+
+WorldBuilder.prototype.placeObjects = function (xCoordinate) {
+  var rngesus = new RandomNumberGenerator();
+  if (rngesus.oneInTwoChance()) {
+    this.createPreciousObjects(xCoordinate);
+  }
 };
