@@ -9,6 +9,7 @@
   <canvas id="canvas" width="1024" height="512"></canvas>
   <script src="src/matter.js"></script>
   <script src="src/worldOptions.js"></script>
+  <script src="src/platformGrid.js"></script>
   <script src="src/worldBuilder.js"></script>
   <script src="src/preciousObject.js"></script>
   <script src="src/player.js"></script>
@@ -36,9 +37,7 @@
       });
 
       controller = new GameController();
-      controller.collisionEvents();
-      controller.buildWorld();
-      controller.populateWorld();
+      controller.ready();
       controller.render();
     }
   </script>
