@@ -12,7 +12,7 @@ describe('WorldBuilder', function () {
 
   describe('#setGrid', function () {
     it('creates an array based on the canvas height', function () {
-      expect(jimmy.getGrid().length).toEqual(jimmy.canvas.height/jimmy.BLOCK_HEIGHT);
+      expect(jimmy.getGrid().length).toEqual(worldOptions.gridRows + 1);
     });
 
     it('contains rows full of zeros', function () {
@@ -20,13 +20,13 @@ describe('WorldBuilder', function () {
     });
 
     it('contains rows of a length based on the canvas width', function () {
-      expect(jimmy.getGrid()[0].length).toEqual(jimmy.canvas.width/jimmy.BLOCK_WIDTH);
+      expect(jimmy.getGrid()[0].length).toEqual(worldOptions.gridColumns);
     });
   });
 
   describe('#setRow', function () {
     it('creates an array based on the canvas width', function () {
-      expect(jimmy.setRow().length).toEqual(jimmy.canvas.width/jimmy.BLOCK_WIDTH);
+      expect(jimmy.setRow().length).toEqual(worldOptions.gridColumns);
     });
   });
 
@@ -40,7 +40,7 @@ describe('WorldBuilder', function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.getGrid()[jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 3][2]).toEqual(1);
+      expect(jimmy.getGrid()[worldOptions.gridRows - 3][2]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
@@ -50,7 +50,7 @@ describe('WorldBuilder', function () {
 
     it('records the y index of the platform', function () {
       jimmy.setFirstPlatform();
-      expect(jimmy.lastY).toEqual(jimmy.canvas.height / jimmy.BLOCK_HEIGHT - 3);
+      expect(jimmy.lastY).toEqual(worldOptions.gridRows - 3);
     });
   });
 
@@ -72,13 +72,13 @@ describe('WorldBuilder', function () {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
       expect(jimmy.lastY).toBeGreaterThan(0);
-      expect(jimmy.lastY).toBeLessThan(jimmy.canvas.height / jimmy.BLOCK_HEIGHT);
+      expect(jimmy.lastY).toBeLessThan(worldOptions.gridRows);
     });
 
     it('does not create new platforms for x indices that are off the grid', function() {
       jimmy.setFirstPlatform();
       jimmy.setPlatform();
-      expect(jimmy.lastX).toBeLessThan(jimmy.canvas.width / jimmy.BLOCK_WIDTH);
+      expect(jimmy.lastX).toBeLessThan(worldOptions.gridColumns);
     });
   });
 
@@ -93,8 +93,8 @@ describe('WorldBuilder', function () {
 
   describe('#setGround', function () {
     it('sets final row in the grid to 1, 2, 3 or 4', function () {
-      expect(jimmy.getGrid()[7][3]).toBeGreaterThan(0);
-      expect(jimmy.getGrid()[7][3]).toBeLessThan(5);
+      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
+      expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
     });
   });
 });
