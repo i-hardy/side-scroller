@@ -65,7 +65,6 @@ GameController.prototype.populateWorld = function () {
   this.createPlatforms();
   // this.createGround();
   this.player.create(worldOptions.playerFriction);
-  console.log(this.player)
   this.createdBodies.push(this.player.getBodyObject());
   // create two boxes
   this.createdBodies.push(Matter.Bodies.rectangle(350, 0, 40, 40));
