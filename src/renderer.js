@@ -1,6 +1,7 @@
-function Renderer(player, world) {
+function Renderer(player, world, soundEngine) {
   this.player = player;
   this.world = world;
+  this.soundEngine = soundEngine;
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
   this.viewport = {
@@ -9,6 +10,10 @@ function Renderer(player, world) {
       leftEdge: 0
   };
 }
+
+Renderer.prototype.sounds = function() {
+  this.soundEngine.playerSounds();
+};
 
 Renderer.prototype.playerMovement = function () {
   Matter.Body.setAngle(this.player.getBodyObject(), 0);
@@ -56,6 +61,7 @@ Renderer.prototype.updateScreen = function () {
   Matter.Body.setAngle(this.player.getBodyObject(), 0);
   this.playerMovement();
   this.checkBorder();
+  this.sounds();
   this.scroll();
   var bodies = this.world.bodies;
 
