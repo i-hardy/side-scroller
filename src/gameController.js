@@ -58,7 +58,7 @@ GameController.prototype.createPlatforms = function () {
 };
 
 GameController.prototype.createGround = function () {
-  this.createdBodies.push(Matter.Bodies.rectangle(512, 512, worldOptions.width, 20, { isStatic: true }));
+  this.createdBodies.push(Matter.Bodies.rectangle(worldOptions.width/2, 512, worldOptions.width+10, 20, { isStatic: true }));
 };
 
 GameController.prototype.populateWorld = function () {
