@@ -12,7 +12,7 @@ function Renderer(player, world, soundEngine) {
 }
 
 Renderer.prototype.sounds = function() {
-  this.soundEngine.playerSounds();
+  this.soundEngine.runSounds();
 };
 
 Renderer.prototype.playerMovement = function () {

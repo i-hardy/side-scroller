@@ -31,4 +31,12 @@ var worldBounds = { min: {
                     }
                   };
 
+const keys = [];
+const KEY_W = 87;
+const KEY_A = 65;
+const KEY_S = 83;
+
 function Audio() {};
+
+Audio.prototype.pause = function () {};
+Audio.prototype.play = function () {};
