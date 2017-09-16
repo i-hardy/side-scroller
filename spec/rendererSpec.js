@@ -47,44 +47,6 @@ describe('Renderer', function () {
     });
   });
 
-  describe('#checkLeftBorder', function () {
-    beforeEach(function () {
-      spyOn(player, 'getBodyObject').and.returnValue(playerBody);
-      spyOn(moomin, 'reverseVelocity');
-    });
-
-    it('applies a reverse force if the player tries to exit the world to the left', function () {
-      playerBody.bounds.min.x = -1
-      moomin.checkLeftBorder();
-      expect(moomin.reverseVelocity).toHaveBeenCalled();
-    });
-
-    it('otherwise does nothing', function () {
-      playerBody.bounds.min.x = 10
-      moomin.checkLeftBorder();
-      expect(moomin.reverseVelocity).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('#checkRightBorder', function () {
-    beforeEach(function () {
-      spyOn(player, 'getBodyObject').and.returnValue(playerBody);
-      spyOn(moomin, 'reverseVelocity');
-    });
-
-    it('applies a reverse force if the player tries to exit the world to the right', function () {
-      playerBody.bounds.max.x = worldOptions.viewWidth + 1;
-      moomin.checkRightBorder();
-      expect(moomin.reverseVelocity).toHaveBeenCalled();
-    });
-
-    it('otherwise does nothing', function () {
-      playerBody.bounds.max.x = 10
-      moomin.checkRightBorder();
-      expect(moomin.reverseVelocity).not.toHaveBeenCalled();
-    });
-  });
-
   describe('#reverseVelocity', function () {
     beforeEach(function () {
       spyOn(player, 'getBodyObject').and.returnValue(playerBody);
@@ -98,12 +60,28 @@ describe('Renderer', function () {
   });
 
   describe('#checkBorder', function () {
-    it('checks both the right and left borders', function () {
-      spyOn(moomin, 'checkLeftBorder');
-      spyOn(moomin, 'checkRightBorder');
+    beforeEach(function () {
+      spyOn(player, 'getBodyObject').and.returnValue(playerBody);
+      spyOn(moomin, 'reverseVelocity');
+    });
+
+    it('applies a reverse force if the player tries to exit the world to the left', function () {
+      playerBody.bounds.min.x = -1;
       moomin.checkBorder();
-      expect(moomin.checkLeftBorder).toHaveBeenCalled();
-      expect(moomin.checkRightBorder).toHaveBeenCalled();
+      expect(moomin.reverseVelocity).toHaveBeenCalled();
+    });
+
+    it('applies a reverse force if the player tries to exit the world to the right', function () {
+      playerBody.bounds.max.x = worldOptions.viewWidth + 1;
+      moomin.checkBorder();
+      expect(moomin.reverseVelocity).toHaveBeenCalled();
+    });
+
+    it('otherwise does nothing', function () {
+      playerBody.bounds.min.x = 10;
+      playerBody.bounds.max.x = 10;
+      moomin.checkBorder();
+      expect(moomin.reverseVelocity).not.toHaveBeenCalled();
     });
   });
 

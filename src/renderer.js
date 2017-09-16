@@ -25,16 +25,9 @@ Renderer.prototype.playerMovement = function () {
   this.player.moveRight();
 };
 
-Renderer.prototype.checkLeftBorder = function () {
-  var playerX = this.player.getBodyObject().bounds.min.x;
-  if (playerX < this.viewport.leftEdge) {
-    this.reverseVelocity();
-  }
-};
-
-Renderer.prototype.checkRightBorder = function () {
-  var playerX = this.player.getBodyObject().bounds.max.x;
-  if (playerX > this.viewport.rightEdge) {
+Renderer.prototype.checkBorder = function () {
+  var playerBounds = this.player.getBodyObject().bounds;
+  if (playerBounds.min.x < this.viewport.leftEdge || playerBounds.max.x > this.viewport.rightEdge) {
     this.reverseVelocity();
   }
 };
@@ -44,11 +37,6 @@ Renderer.prototype.reverseVelocity = function () {
   Matter.Body.applyForce(this.player.getBodyObject(),
                           this.player.getBodyObject().position,
                           {x:(-horizonalVelocity/50), y:0});
-};
-
-Renderer.prototype.checkBorder = function () {
-  this.checkLeftBorder();
-  this.checkRightBorder();
 };
 
 Renderer.prototype.scroll = function () {
