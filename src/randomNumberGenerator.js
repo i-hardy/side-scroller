@@ -3,4 +3,4 @@
     return Math.floor(Math.random()*(max-min) + min);
   }
   exports.randomNumberGenerator = randomNumberGenerator;
-})(this);
+}(this));
