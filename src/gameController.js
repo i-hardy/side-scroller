@@ -23,10 +23,11 @@ GameController.prototype.addCollisionEvent = function (object, label, eventName,
 GameController.prototype.collisionEvents = function () {
   this.addCollisionEvent(this.player, 'playerSensor', 'collisionEnd', 'notOnFloor');
   this.addCollisionEvent(this.player, 'playerSensor', 'collisionActive', 'onFloor');
+  var controller = this;
   Matter.Events.on(this.engine, 'collisionStart', function(event) {
     event.pairs.forEach(function (pair) {
       if (pair.bodyA.label === 'object' && pair.bodyB.label === 'floor') {
-        this.worldBuilder.objectOnFloor(pair.bodyA);
+        controller.worldBuilder.objectOnFloor(pair.bodyA);
       }
     });
   });
@@ -46,8 +47,11 @@ GameController.prototype.setWorldBounds = function () {
 };
 
 GameController.prototype.addGround = function () {
-  var ground = Matter.Bodies.rectangle(worldOptions.width/2, worldOptions.height, worldOptions.width + 10, 20, { isStatic: true,
-                                                                                                                 label: 'floor'});
+  var ground = Matter.Bodies.rectangle(worldOptions.width/2,
+                                       worldOptions.height,
+                                       worldOptions.width + 10, 20,
+                                       { isStatic: true,
+                                         label: 'floor'});
   Matter.World.add(this.world, [ground]);
 };
 
@@ -57,12 +61,10 @@ GameController.prototype.addPlayer = function () {
 };
 
 GameController.prototype.calculateScore = function () {
-  var controller = this;
-  this.worldBuilder.getPreciousObjects().forEach(function (object) {
-    if (object.isOnFloor()) {
-      controller.score.increase(object.preciousness);
-    }
-  });
+  this.score.increase(this.worldBuilder.fallenObjectPreciousness().reduce(function (sum, value) {
+    return sum + value;
+  }, 0));
+  this.renderer.receiveScore(this.score.showPoints());
 };
 
 GameController.prototype.ready = function () {
@@ -74,6 +76,10 @@ GameController.prototype.ready = function () {
 
 GameController.prototype.render = function () {
   Matter.Engine.run(this.engine);
-  this.renderer = new Renderer(this.player, this.world, this.soundEngine, this.score);
+  this.renderer = new Renderer(this.player, this.world, this.soundEngine);
   this.renderer.updateScreen();
+  var controller = this;
+  window.setInterval(function () {
+    controller.calculateScore();
+  }, 1000/60);
 };

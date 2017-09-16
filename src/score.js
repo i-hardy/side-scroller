@@ -3,16 +3,14 @@ function Score() {
   this.END_BONUS = 100;
 }
 
+Score.prototype.showPoints = function () {
+  return this.points;
+};
+
 Score.prototype.increase = function (points) {
-  this.points += points;
+  this.points = points;
 };
 
 Score.prototype.endBonus = function () {
-  this.increase(this.END_BONUS);
-};
-
-Score.prototype.hitGroundScore = function () {
-  if (this.preciousObject.isOnGround) {
-    this.increase(this.preciousObject.preciousness);
-  }
+  this.points += this.END_BONUS;
 };

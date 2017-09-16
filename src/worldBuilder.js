@@ -22,6 +22,18 @@ WorldBuilder.prototype.getPreciousObjects = function () {
   return this.preciousObjects;
 };
 
+WorldBuilder.prototype.getFallenObjects = function () {
+  return this.preciousObjects.filter(function (object) {
+    return object.isOnFloor();
+  });
+};
+
+WorldBuilder.prototype.fallenObjectPreciousness = function () {
+  return this.getFallenObjects().map(function (object) {
+    return object.preciousness;
+  });
+};
+
 WorldBuilder.prototype.createPreciousObjects = function (xCoordinate) {
   this.preciousObjects.push(new PreciousObject(xCoordinate, 0));
 };
@@ -32,6 +44,10 @@ WorldBuilder.prototype.objectOnFloor = function (body) {
       object.fallen();
     }
   });
+};
+
+WorldBuilder.prototype.objectsStillOnPlatforms = function () {
+  return this.preciousObjects > this.getFallenObjects();
 };
 
 WorldBuilder.prototype.getWorldBodies = function () {
@@ -66,8 +82,7 @@ WorldBuilder.prototype.preciousObjectBodies = function () {
 };
 
 WorldBuilder.prototype.placeObjects = function (xCoordinate) {
-  var rngesus = new RandomNumberGenerator();
-  if (rngesus.oneInTwoChance()) {
+  if (randomNumberGenerator(0, 2) === 1) {
     this.createPreciousObjects(xCoordinate);
   }
 };

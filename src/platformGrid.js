@@ -5,7 +5,6 @@ function PlatformGrid() {
   this.MAX_Y_GAP = 3;
   this.FIRST_PLATFORM_X = 2;
   this.FIRST_PLATFORM_Y = 1;
-  this.rng = new RandomNumberGenerator();
 }
 
 PlatformGrid.prototype.buildPlatforms = function (platformNumber) {
