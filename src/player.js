@@ -16,8 +16,12 @@ Player.prototype.create = function(frictionValue) {
                                     });
 };
 
+Player.prototype.isOnASurface = function () {
+  return this.isOnFloor;
+};
+
 Player.prototype.jump = function() {
-  if((keys[KEY_W] && this.isOnFloor)){
+  if((keys[KEY_W] && this.isOnASurface())){
       var force = (-worldOptions.verticalForce * this.object.mass);
       Matter.Body.applyForce(this.object,this.object.position,{x:0,y:force});
   }

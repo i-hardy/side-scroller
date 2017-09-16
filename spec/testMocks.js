@@ -1,6 +1,7 @@
 var Matter = {Body: {
               create: function () {},
-              setAngle: function () {}
+              setAngle: function () {},
+              applyForce: function () {}
               },
             Bodies: {
               rectangle: function () {},
