@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Player', function() {
-
+  var player;
   var body = {};
   var bodyPartTwo = {};
   var bodyPartThree = {};
