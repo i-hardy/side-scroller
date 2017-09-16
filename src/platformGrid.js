@@ -1,3 +1,5 @@
+'use strict';
+
 function PlatformGrid() {
   this.MIN_X_GAP = 1;
   this.MAX_X_GAP = 3;

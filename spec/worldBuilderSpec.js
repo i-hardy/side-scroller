@@ -1,3 +1,5 @@
+'use strict';
+
 describe('WorldBuilder', function () {
   var jimmy;
 

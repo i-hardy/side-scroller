@@ -1,3 +1,5 @@
+'use strict';
+
 function Renderer(player, world, soundEngine) {
   this.player = player;
   this.world = world;
@@ -26,21 +28,22 @@ Renderer.prototype.playerMovement = function () {
 Renderer.prototype.checkLeftBorder = function () {
   var playerX = this.player.getBodyObject().bounds.min.x;
   if (playerX < this.viewport.leftEdge) {
-    var horizonalVelocity = this.player.getBodyObject().velocity.x;
-    Matter.Body.applyForce(this.player.getBodyObject(),
-                            this.player.getBodyObject().position,
-                            {x:(-horizonalVelocity/50), y:0});
-                            }
+    this.reverseVelocity();
+  }
 };
 
 Renderer.prototype.checkRightBorder = function () {
   var playerX = this.player.getBodyObject().bounds.max.x;
   if (playerX > this.viewport.rightEdge) {
-    var horizonalVelocity = this.player.getBodyObject().velocity.x;
-    Matter.Body.applyForce(this.player.getBodyObject(),
-                            this.player.getBodyObject().position,
-                            {x:(-horizonalVelocity/50), y:0});
-                            }
+    this.reverseVelocity();
+  }
+};
+
+Renderer.prototype.reverseVelocity = function () {
+  var horizonalVelocity = this.player.getBodyObject().velocity.x;
+  Matter.Body.applyForce(this.player.getBodyObject(),
+                          this.player.getBodyObject().position,
+                          {x:(-horizonalVelocity/50), y:0});
 };
 
 Renderer.prototype.checkBorder = function () {
@@ -67,7 +70,6 @@ Renderer.prototype.scoreText = function () {
 };
 
 Renderer.prototype.updateScreen = function () {
-  Matter.Body.setAngle(this.player.getBodyObject(), 0);
   this.playerMovement();
   this.checkBorder();
   this.sounds();

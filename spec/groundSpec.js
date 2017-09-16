@@ -1,3 +1,5 @@
+'use strict';
+
 describe ('Ground', function() {
   var ginny;
 

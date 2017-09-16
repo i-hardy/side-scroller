@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 describe('EventManager', function () {
   var carolyn;
@@ -69,6 +69,7 @@ describe('EventManager', function () {
     });
 
     it('does nothing if only one condition is met', function () {
+      event.pairs[0].bodyA.label = 'platform';
       event.pairs[0].bodyB.label = 'floor';
       carolyn.playerCollisionEvent(event, worldBuilder);
       expect(worldBuilder.objectOnFloor).not.toHaveBeenCalled();

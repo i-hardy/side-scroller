@@ -1,3 +1,5 @@
+'use strict';
+
 function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;

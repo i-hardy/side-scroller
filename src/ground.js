@@ -1,3 +1,5 @@
+'use strict';
+
 function Ground () {
   this.ground = [];
 }

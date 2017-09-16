@@ -1,3 +1,5 @@
+'use strict';
+
 function PreciousObject(x, y) {
   this.x = x;
   this.y = y;

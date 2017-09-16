@@ -1,3 +1,5 @@
+'use strict';
+
 function Player(body) {
   this.bodyParts = [body];
   this.body = this.bodyParts[1];

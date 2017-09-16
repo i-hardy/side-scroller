@@ -1,3 +1,5 @@
+'use strict';
+
 function WorldBuilder() {
   this.worldBodies = [];
   this.preciousObjects = [];

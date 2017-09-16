@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Score', function () {
 
   var hermione;

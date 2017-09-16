@@ -1,3 +1,5 @@
+'use strict';
+
 function EventManager(engine) {
   this.engine = engine;
 }
