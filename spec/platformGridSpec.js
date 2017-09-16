@@ -98,13 +98,4 @@ describe("PlatformGrid", function () {
       expect(tooticky.setPlatform).toHaveBeenCalled();
     });
   });
-
-  describe('#randomNumber', function() {
-    it('returns a random number larger than the min value', function() {
-      expect(tooticky.randomNumber(3,7)).toBeGreaterThan(2);
-    });
-    it('returns a random number smaller than the max value', function() {
-      expect(tooticky.randomNumber(3,7)).toBeLessThan(7);
-    });
-  });
 });
