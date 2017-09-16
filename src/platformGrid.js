@@ -46,8 +46,8 @@ PlatformGrid.prototype.setFirstPlatform = function () {
 };
 
 PlatformGrid.prototype.setPlatform = function () {
-  var x_change = this.rng.randomNumber(this.MAX_X_GAP,this.MIN_X_GAP);
-  var y_change = this.rng.randomNumber(this.MAX_Y_GAP,this.MIN_Y_GAP);
+  var x_change = randomNumberGenerator(this.MAX_X_GAP,this.MIN_X_GAP);
+  var y_change = randomNumberGenerator(this.MAX_Y_GAP,this.MIN_Y_GAP);
   if (this.lastX + x_change < worldOptions.gridColumns) {
     this.lastX += x_change;
     if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {

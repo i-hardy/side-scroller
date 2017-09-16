@@ -2,9 +2,7 @@
 function PreciousObject(x, y) {
   this.x = x;
   this.y = y;
-  this.onFloor = false;
-  this.rng = new RandomNumberGenerator();
-  this.preciousness = this.rng.randomNumber(1, 5);
+  this.preciousness = randomNumberGenerator(1, 5);
   this.createBody();
 }
 
