@@ -1,7 +1,8 @@
-function Renderer(player, world, soundEngine) {
+function Renderer(player, world, soundEngine, score) {
   this.player = player;
   this.world = world;
   this.soundEngine = soundEngine;
+  this.score = score;
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
   this.viewport = {
@@ -63,6 +64,7 @@ Renderer.prototype.updateScreen = function () {
   this.checkBorder();
   this.sounds();
   this.scroll();
+  // console.log(this.score);
   var bodies = this.world.bodies;
 
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);

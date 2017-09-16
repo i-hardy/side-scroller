@@ -2,6 +2,7 @@
 function PreciousObject(x, y) {
   this.x = x;
   this.y = y;
+  this.onFloor = false;
   this.rng = new RandomNumberGenerator();
   this.preciousness = this.rng.randomNumber(1, 5);
   this.createBody();
@@ -20,11 +21,13 @@ PreciousObject.prototype.getBody = function () {
 };
 
 PreciousObject.prototype.createBody = function () {
-  this.body = Matter.Bodies.rectangle(this.x, this.y, worldOptions.objectSize, worldOptions.objectSize);
+  this.body = Matter.Bodies.rectangle(this.x, this.y, worldOptions.objectSize, worldOptions.objectSize, {label: 'object'});
 };
 
-PreciousObject.prototype.isOnGround = function () {
-    if (this.y >= 240) {
-      return true;
-    }
+PreciousObject.prototype.fallen = function () {
+  this.onFloor = true;
+};
+
+PreciousObject.prototype.isOnFloor = function () {
+  return this.onFloor;
 };

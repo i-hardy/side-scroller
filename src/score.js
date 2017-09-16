@@ -1,7 +1,6 @@
 function Score() {
-  this.points = 0
+  this.points = 0;
   this.END_BONUS = 100;
-  this.preciousObject = new PreciousObject(150, 150)
 }
 
 Score.prototype.increase = function (points) {

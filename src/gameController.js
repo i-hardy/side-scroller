@@ -2,31 +2,34 @@ function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
   this.worldBuilder = new WorldBuilder();
+  this.score = new Score();
   this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
-  this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true}));
+  this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
   this.soundEngine = new SoundEngine(this.player);
 }
 
-GameController.prototype.addCollisionEvent = function (player, eventName, action) {
+GameController.prototype.addCollisionEvent = function (object, label, eventName, action) {
   Matter.Events.on(this.engine, eventName, function(event) {
-     var pairs = event.pairs;
-     var playerSensor = player.getBodyParts()[2];
-
-     for (var i = 0, j = pairs.length; i !== j; ++i) {
-         var pair = pairs[i];
-
-         if (pair.bodyA === playerSensor) {
-             player[action]();
-         } else if (pair.bodyB === playerSensor) {
-             player[action]();
-         }
-     }
+    event.pairs.forEach(function (pair) {
+      if (pair.bodyA.label === label) {
+          object[action]();
+      } else if (pair.bodyB.label === label) {
+          object[action]();
+      }
+    });
  });
 };
 
 GameController.prototype.collisionEvents = function () {
-  this.addCollisionEvent(this.player, 'collisionEnd', 'notOnFloor');
-  this.addCollisionEvent(this.player, 'collisionActive', 'onFloor');
+  this.addCollisionEvent(this.player, 'playerSensor', 'collisionEnd', 'notOnFloor');
+  this.addCollisionEvent(this.player, 'playerSensor', 'collisionActive', 'onFloor');
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    event.pairs.forEach(function (pair) {
+      if (pair.bodyA.label === 'object' && pair.bodyB.label === 'floor') {
+        this.worldBuilder.objectOnFloor(pair.bodyA);
+      }
+    });
+  });
 };
 
 GameController.prototype.buildWorld = function () {
@@ -43,13 +46,23 @@ GameController.prototype.setWorldBounds = function () {
 };
 
 GameController.prototype.addGround = function () {
-  var ground = Matter.Bodies.rectangle(worldOptions.width/2, worldOptions.height, worldOptions.width + 10, 20, { isStatic: true });
+  var ground = Matter.Bodies.rectangle(worldOptions.width/2, worldOptions.height, worldOptions.width + 10, 20, { isStatic: true,
+                                                                                                                 label: 'floor'});
   Matter.World.add(this.world, [ground]);
 };
 
 GameController.prototype.addPlayer = function () {
   this.player.create(worldOptions.playerFriction);
   Matter.World.add(this.world, [this.player.getBodyObject()]);
+};
+
+GameController.prototype.calculateScore = function () {
+  var controller = this;
+  this.worldBuilder.getPreciousObjects().forEach(function (object) {
+    if (object.isOnFloor()) {
+      controller.score.increase(object.preciousness);
+    }
+  });
 };
 
 GameController.prototype.ready = function () {
@@ -61,6 +74,6 @@ GameController.prototype.ready = function () {
 
 GameController.prototype.render = function () {
   Matter.Engine.run(this.engine);
-  this.renderer = new Renderer(this.player, this.world, this.soundEngine);
+  this.renderer = new Renderer(this.player, this.world, this.soundEngine, this.score);
   this.renderer.updateScreen();
 };

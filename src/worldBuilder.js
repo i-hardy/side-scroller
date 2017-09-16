@@ -26,12 +26,19 @@ WorldBuilder.prototype.createPreciousObjects = function (xCoordinate) {
   this.preciousObjects.push(new PreciousObject(xCoordinate, 0));
 };
 
+WorldBuilder.prototype.objectOnFloor = function (body) {
+  this.preciousObjects.forEach(function (object) {
+    if (object.getBody() === body) {
+      object.fallen();
+    }
+  });
+};
+
 WorldBuilder.prototype.getWorldBodies = function () {
   return this.worldBodies;
 };
 
 WorldBuilder.prototype.createWorldBodies = function () {
-  console.log(this.getPlatformGrid());
   for (var i = 0; i < worldOptions.gridRows; i++) {
     for (var j = 0; j < worldOptions.gridColumns; j++) {
       this.platformBodies(i, j);
@@ -44,8 +51,10 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
   var bHeight = worldOptions.platformHeight;
   if (this.getPlatformGrid()[i][j] === 1) {
     var y = 452 - (i * bHeight);
-    this.placeObjects(j * bWidth);
-    this.worldBodies.push(Matter.Bodies.rectangle(j * bWidth, y, bWidth, bHeight, { isStatic: true }));
+    var x = j * bWidth - (bWidth/2);
+    this.placeObjects(x);
+    this.worldBodies.push(Matter.Bodies.rectangle(x, y, bWidth, bHeight, { isStatic: true,
+                                                                           label: 'platform'}));
   }
 };
 
