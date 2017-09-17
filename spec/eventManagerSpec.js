@@ -68,15 +68,23 @@ describe('EventManager', function () {
       expect(worldBuilder.objectOnFloor).toHaveBeenCalled();
     });
 
-    it('does nothing if only one condition is met', function () {
-      event.pairs[0].bodyA.label = 'platform';
+    it('does nothing if bodyA is not an object', function () {
+      event.pairs[0].bodyA.label = 'player';
       event.pairs[0].bodyB.label = 'floor';
       carolyn.playerCollisionEvent(event, worldBuilder);
       expect(worldBuilder.objectOnFloor).not.toHaveBeenCalled();
     });
 
+    it('does nothing if bodyB is not the floor', function () {
+      event.pairs[0].bodyA.label = 'object';
+      event.pairs[0].bodyB.label = 'platform';
+      carolyn.playerCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.objectOnFloor).not.toHaveBeenCalled();
+    });
 
-    it('otherwise does nothing', function () {
+    it('does nothing if neither body matches the conditions', function () {
+      event.pairs[0].bodyA.label = 'player';
+      event.pairs[0].bodyB.label = 'platform';
       carolyn.playerCollisionEvent(event, worldBuilder);
       expect(worldBuilder.objectOnFloor).not.toHaveBeenCalled();
     });
