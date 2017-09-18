@@ -171,4 +171,13 @@ describe('WorldBuilder', function () {
       expect(jimmy.createPreciousObjects).toHaveBeenCalled();
     });
   });
+
+  describe('#fallenPreciousObjectsRatio', function () {
+    it('shows the ratio of fallen objects compared to all precious objects', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.createPreciousObjects(2);
+      jimmy.getPreciousObjects()[0].fallen();
+      expect(jimmy.fallenPreciousObjectsRatio()).toEqual(0.5)
+    });
+  });
 });

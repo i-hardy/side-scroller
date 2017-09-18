@@ -51,6 +51,10 @@ GameController.prototype.calculateScore = function () {
   this.renderer.receiveScore(this.score.showPoints());
 };
 
+GameController.prototype.addEndBonus = function () {
+  this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
+};
+
 GameController.prototype.ready = function () {
   this.collisionEvents();
   this.buildWorld();

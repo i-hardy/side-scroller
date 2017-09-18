@@ -13,6 +13,6 @@ Score.prototype.increase = function (points) {
   this.points = points;
 };
 
-Score.prototype.endBonus = function () {
-  this.points += this.END_BONUS;
+Score.prototype.endBonus = function (ratio) {
+  this.points += this.END_BONUS*ratio;
 };

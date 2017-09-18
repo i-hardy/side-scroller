@@ -132,4 +132,21 @@ describe('GameController', function () {
       expect(atticus.calculateScore).toHaveBeenCalled();
     });
   });
+
+  describe('#addEndBonus', function () {
+    beforeEach(function () {
+      spyOn(Score.prototype, 'endBonus');
+    });
+
+    it('adds end bonus when called - when game ends', function () {
+      atticus.addEndBonus();
+      expect(Score.prototype.endBonus).toHaveBeenCalled();
+    });
+
+    it('passes the correct ratio argument for end bonus calculation', function () {
+      spyOn(WorldBuilder.prototype, 'fallenPreciousObjectsRatio');
+      atticus.addEndBonus();
+      expect(WorldBuilder.prototype.fallenPreciousObjectsRatio).toHaveBeenCalled();
+    });
+  });
 });
