@@ -1,3 +1,5 @@
+'use strict';
+
 function SoundEngine(player, playerSounds) {
   this.playerSounds = playerSounds || new PlayerSounds(player)
 };

@@ -1,20 +1,23 @@
+'use strict';
+
 describe('Score', function () {
 
-var hermione;
+  var hermione;
 
-beforeEach(function () {
-  hermione = new Score();
-});
+  beforeEach(function () {
+    hermione = new Score();
+  });
 
-describe('#points', function () {
-
-    it('it starts with zero', function () {
-      expect(hermione.points).toEqual(0);
+  describe('#showPoints', function () {
+    it('it returns the current points', function () {
+      expect(hermione.showPoints()).toEqual(0);
     });
+  });
 
+  describe('#increase', function () {
     it('increases points when called', function () {
       hermione.increase(100);
-      expect(hermione.points).toEqual(100);
+      expect(hermione.showPoints()).toEqual(100);
     });
   });
 
@@ -22,14 +25,6 @@ describe('#points', function () {
     it('it awards end of level bonus if end is reached', function () {
       hermione.endBonus();
       expect(hermione.points).toEqual(hermione.END_BONUS);
-    });
-  });
-
-  describe('precious object hitting ground', function() {
-    it('score increase is triggered if object hits ground', function() {
-      hermione.preciousObject.y = 250;
-      hermione.hitGroundScore();
-      expect(hermione.points).toEqual(hermione.preciousObject.preciousness);
     });
   });
 });

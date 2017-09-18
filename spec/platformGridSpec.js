@@ -1,3 +1,5 @@
+'use strict';
+
 describe("PlatformGrid", function () {
   var tooticky;
 
@@ -12,7 +14,11 @@ describe("PlatformGrid", function () {
     });
 
     it('contains rows full of zeros', function () {
-      expect(tooticky.getGrid()[0][0]).toEqual(0);
+      tooticky.getGrid().forEach(function (row) {
+        row.forEach(function (item) {
+          expect(item).toEqual(0);
+        });
+      });
     });
 
     it('contains rows of a length based on the canvas width', function () {
@@ -36,7 +42,7 @@ describe("PlatformGrid", function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.getGrid()[worldOptions.gridRows - 3][2]).toEqual(1);
+      expect(tooticky.getGrid()[1][2]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
@@ -46,7 +52,7 @@ describe("PlatformGrid", function () {
 
     it('records the y index of the platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.lastY).toEqual(worldOptions.gridRows - 3);
+      expect(tooticky.lastY).toEqual(1);
     });
   });
 
@@ -96,15 +102,6 @@ describe("PlatformGrid", function () {
 
     it('sets subsequent platforms', function () {
       expect(tooticky.setPlatform).toHaveBeenCalled();
-    });
-  });
-
-  describe('#randomNumber', function() {
-    it('returns a random number larger than the min value', function() {
-      expect(tooticky.randomNumber(3,7)).toBeGreaterThan(2);
-    });
-    it('returns a random number smaller than the max value', function() {
-      expect(tooticky.randomNumber(3,7)).toBeLessThan(7);
     });
   });
 });

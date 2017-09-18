@@ -1,3 +1,5 @@
+'use strict';
+
 describe('WorldBuilder', function () {
   var jimmy;
 
@@ -51,10 +53,63 @@ describe('WorldBuilder', function () {
     });
   });
 
+  describe('#getFallenObjects', function () {
+    it('returns all precious objects that are on the floor', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.getPreciousObjects()[0].fallen();
+      expect(jimmy.getFallenObjects()).toContain(jimmy.getPreciousObjects()[0]);
+    });
+  });
+
+  describe('#fallenObjectPreciousness', function () {
+    it('returns an array of fallen objects preciousness values', function () {
+      spyOn(window, 'randomNumberGenerator').and.returnValue(2);
+      jimmy.createPreciousObjects(1);
+      jimmy.getPreciousObjects()[0].fallen();
+      expect(jimmy.fallenObjectPreciousness()).toContain(2);
+    });
+  });
+
+  describe('#objectsStillOnPlatforms', function () {
+    it('returns true if some precious objects are not on the floor', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.createPreciousObjects(2);
+      jimmy.getPreciousObjects()[0].fallen();
+      expect(jimmy.objectsStillOnPlatforms()).toBe(true);
+    });
+
+    it('returns false when all precious objects are on the floor', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.getPreciousObjects()[0].fallen();
+      expect(jimmy.objectsStillOnPlatforms()).toBe(false);
+    });
+  });
+
   describe('#createPreciousObjects', function () {
     it('populates the precious objects array with instances of the PreciousObject class', function () {
       jimmy.createPreciousObjects(1);
       expect(jimmy.getPreciousObjects()[0]).toEqual(jasmine.any(PreciousObject));
+    });
+  });
+
+  describe('#objectOnFloor', function () {
+    var body = {};
+
+    beforeEach(function () {
+      spyOn(PreciousObject.prototype, 'fallen');
+    });
+
+    it('receives an object body, and sets the corresponding PreciousObject to being on the floor', function () {
+      spyOn(PreciousObject.prototype, 'getBody').and.returnValue(body);
+      jimmy.createPreciousObjects(1);
+      jimmy.objectOnFloor(body);
+      expect(PreciousObject.prototype.fallen).toHaveBeenCalled();
+    });
+
+    it('does nothing if there are no PreciousObjects matching the body', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.objectOnFloor(body);
+      expect(PreciousObject.prototype.fallen).not.toHaveBeenCalled();
     });
   });
 
@@ -77,15 +132,15 @@ describe('WorldBuilder', function () {
     it('creates Matter rectangles', function () {
       spyOn(Matter.Bodies, 'rectangle');
       jimmy.buildPlatforms();
-      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
+      jimmy.platformBodies(1, 2);
       expect(Matter.Bodies.rectangle).toHaveBeenCalled();
     });
 
-    it('generates precious objects', function () {
-      spyOn(jimmy, 'createPreciousObjects').and.callThrough();
+    it('delegates the creation of precious objects', function () {
+      spyOn(jimmy, 'placeObjects').and.callThrough();
       jimmy.buildPlatforms();
-      jimmy.platformBodies(worldOptions.gridRows - 3, 2);
-      expect(jimmy.createPreciousObjects).toHaveBeenCalled();
+      jimmy.platformBodies(1, 2);
+      expect(jimmy.placeObjects).toHaveBeenCalled();
     });
   });
 
@@ -108,11 +163,12 @@ describe('WorldBuilder', function () {
     });
   });
 
-
-  // describe('#setGround', function () {
-  //   it('sets final row in the grid to 1, 2, 3 or 4', function () {
-  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeGreaterThan(0);
-  //     expect(jimmy.getGrid()[worldOptions.gridRows][3]).toBeLessThan(5);
-  //   });
-  // });
+  describe('#placeObjects', function () {
+    it('generates objects based on the outcome of a random number call', function () {
+      spyOn(window, 'randomNumberGenerator').and.returnValue(1);
+      spyOn(jimmy, 'createPreciousObjects');
+      jimmy.placeObjects();
+      expect(jimmy.createPreciousObjects).toHaveBeenCalled();
+    });
+  });
 });

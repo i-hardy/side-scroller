@@ -1,3 +1,5 @@
+'use strict';
+
 describe('SoundEngine', function() {
 
   var player = {};
