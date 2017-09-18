@@ -88,3 +88,7 @@ WorldBuilder.prototype.placeObjects = function (xCoordinate) {
     this.createPreciousObjects(xCoordinate);
   }
 };
+
+WorldBuilder.prototype.fallenPreciousObjectsRatio = function () {
+  return (this.getFallenObjects().length / this.getPreciousObjects().length)
+};
