@@ -14,7 +14,6 @@ PlayerSounds.prototype.loadPlayerSounds = function () {
 
 PlayerSounds.prototype._playerRunning = function() {
   this.soundBank.scamper.loop = true;
-  this.soundBank.scamper.volume = 1;
   this.player.isOnFloor && (keys[KEY_D] || keys[KEY_A]) ? this.soundBank.scamper.play() : this.soundBank.scamper.pause()
 };
 

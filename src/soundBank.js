@@ -9,9 +9,14 @@ function SoundBank() {
 
 SoundBank.prototype.setPlayerVols = function () {
   this._setMeowVol();
+  this._setScamperVol();
 };
 
 SoundBank.prototype._setMeowVol = function() {
   var jumpMeows = [this.meow1, this.meow2, this.meow3];
-  for (var i = 0; i < jumpMeows.length; i++) { jumpMeows[i].volume = 0.2 };
+  for (var i = 0; i < jumpMeows.length; i++) { jumpMeows[i].volume = 0.3 };
+};
+
+SoundBank.prototype._setScamperVol = function() {
+  this.scamper.volume = 0.2;
 };
