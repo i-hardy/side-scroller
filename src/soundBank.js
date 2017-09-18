@@ -5,9 +5,9 @@ function SoundBank() {
   this.meow3 = new Audio('./assets/sounds/meow3.wav')
 };
 
-SoundBank.prototype.setVols = function () {
+SoundBank.prototype.setPlayerVols = function () {
   this._setMeowVol();
-}
+};
 
 SoundBank.prototype._setMeowVol = function() {
   var jumpMeows = [this.meow1, this.meow2, this.meow3];

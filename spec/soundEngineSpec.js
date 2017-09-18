@@ -1,28 +1,22 @@
 describe('SoundEngine', function() {
 
   var player = {};
-  var soundBank = new SoundBank();
+  var playerSounds = { loadPlayerSounds: function() = {} }
   var soundEngine;
 
   beforeEach(function() {
-    soundEngine = new SoundEngine(player, soundBank);
+    soundEngine = new SoundEngine(player, playerSounds);
   });
 
   it('exists', function() {
     expect(soundEngine).toBeDefined();
   });
 
-  describe('#playerSounds', function() {
-    it('calls _playerRunning', function() {
-      spyOn(soundEngine, '_playerRunning')
+  describe('#runSounds', function() {
+    it('calls loadPlayerSounds', function() {
+      spyOn(playerSounds, 'loadPlayerSounds')
       soundEngine.runSounds();
-      expect(soundEngine._playerRunning).toHaveBeenCalled();
-    });
-
-    it('calls _playerJumping', function() {
-      spyOn(soundEngine, '_playerJumping')
-      soundEngine.runSounds();
-      expect(soundEngine._playerJumping).toHaveBeenCalled();
+      expect(playerSounds.loadPlayerSounds()).toHaveBeenCalled();
     });
   });
 });
