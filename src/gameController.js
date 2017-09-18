@@ -6,7 +6,7 @@ function GameController () {
   this.eventManager = new EventManager(this.engine);
   this.worldBuilder = new WorldBuilder();
   this.score = new Score();
-  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
+  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5, label: 'player' }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
   this.soundEngine = new SoundEngine(this.player);
 }
