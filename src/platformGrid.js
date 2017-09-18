@@ -70,7 +70,7 @@ PlatformGrid.prototype.setPlatform = function () {
 PlatformGrid.prototype.detectInaccessiblePlatform = function (x, y) {
   if (y===this.secondlastY){
     return ((this.lastX-this.secondlastX)===1&&(x-this.lastX)===1)
-  };
+  }
     return false;
 };
 
