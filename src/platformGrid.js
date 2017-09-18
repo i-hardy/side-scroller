@@ -53,15 +53,16 @@ PlatformGrid.prototype.setPlatform = function () {
   var new_y;
   if (this.lastX + x_change < worldOptions.gridColumns) {
     new_x = this.lastX + x_change;
-    if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
-      new_y = this.lastY + y_change;
-    } else {
-      new_y = this.lastY - y_change;
-    }
+    new_y = this.setYCoordinates(y_change);
+    // if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
+    //   new_y = this.lastY + y_change;
+    // } else {
+    //   new_y = this.lastY - y_change;
+    // }
     if (this.detectInaccessiblePlatform(new_x, new_y)){
       this.setPlatform();
     } else {
-    this.placePlatforms(new_x, new_y);
+      this.placePlatforms(new_x, new_y);
     }
   }
 };
@@ -79,4 +80,12 @@ PlatformGrid.prototype.placePlatforms = function (x, y) {
   this.lastX = x;
   this.lastY = y;
   this.setGridElement(this.lastX, this.lastY);
+};
+
+PlatformGrid.prototype.setYCoordinates = function (y_change) {
+  if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
+    return this.lastY + y_change;
+  } else {
+    return this.lastY - y_change;
+  }
 };

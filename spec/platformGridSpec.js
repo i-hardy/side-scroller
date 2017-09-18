@@ -70,13 +70,6 @@ describe("PlatformGrid", function () {
       expect(tooticky.lastX).toBeLessThan(6);
     });
 
-    it('sets subsequent y indices randomly, and does not set platforms which have indices off the grid', function() {
-      tooticky.setFirstPlatform();
-      tooticky.setPlatform();
-      expect(tooticky.lastY).toBeGreaterThan(0);
-      expect(tooticky.lastY).toBeLessThan(worldOptions.gridRows);
-    });
-
     it('does not create new platforms for x indices that are off the grid', function() {
       tooticky.setFirstPlatform();
       tooticky.setPlatform();
@@ -98,7 +91,14 @@ describe("PlatformGrid", function () {
       tooticky.setFirstPlatform();
       tooticky.setPlatform();
       expect(tooticky.placePlatforms).toHaveBeenCalled();
-    })
+    });
+
+    it('calls setYCoordinates when building the grid', function () {
+      spyOn(tooticky, 'setYCoordinates').and.callThrough();
+      tooticky.setFirstPlatform();
+      tooticky.setPlatform();
+      expect(tooticky.setYCoordinates).toHaveBeenCalled();
+    });
   });
 
   describe('#buildPlatforms', function () {
@@ -152,6 +152,19 @@ describe("PlatformGrid", function () {
   });
 
   describe('#setYCoordinates', function () {
-    
-  })
+    it('returns a higher number if y would stay in the grid', function () {
+      tooticky.lastY = 2;
+      expect(tooticky.setYCoordinates(1)).toEqual(3);
+    });
+
+    it('returns a lower number if y would be bigger value than grid', function () {
+      tooticky.lastY = worldOptions.gridRows;
+      expect(tooticky.setYCoordinates(1)).toEqual(worldOptions.gridRows-1)
+    });
+
+    it('returns a lower number if y + lastY is negative', function () {
+      tooticky.lastY = 0;
+      expect(tooticky.setYCoordinates(-1)).toEqual(1);
+    });
+  });
 });
