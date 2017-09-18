@@ -135,10 +135,14 @@ describe('GameController', function () {
 
   describe('#addEndBonus', function () {
     beforeEach(function () {
-      spyOn(Score.prototype, 'endBonus');
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
     });
 
     it('adds end bonus when called - when game ends', function () {
+      spyOn(Score.prototype, 'endBonus');
       atticus.addEndBonus();
       expect(Score.prototype.endBonus).toHaveBeenCalled();
     });
@@ -147,6 +151,18 @@ describe('GameController', function () {
       spyOn(WorldBuilder.prototype, 'fallenPreciousObjectsRatio');
       atticus.addEndBonus();
       expect(WorldBuilder.prototype.fallenPreciousObjectsRatio).toHaveBeenCalled();
+    });
+
+    it('passes the score points into the renderer', function () {
+      spyOn(Renderer.prototype, 'receiveScore');
+      atticus.addEndBonus();
+      expect(Renderer.prototype.receiveScore).toHaveBeenCalled();
+    });
+
+    it('passes the destruction percentage into the renderer', function () {
+      spyOn(Renderer.prototype, 'receiveDestructionPercentage');
+      atticus.addEndBonus();
+      expect(Renderer.prototype.receiveDestructionPercentage).toHaveBeenCalled();
     });
   });
 });

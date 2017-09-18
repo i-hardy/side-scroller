@@ -53,8 +53,16 @@ Renderer.prototype.receiveScore = function (number) {
   this.score = number;
 };
 
+Renderer.prototype.receiveDestructionPercentage = function (percentage) {
+  this.destructionPercentage = percentage;
+};
+
 Renderer.prototype.scoreText = function () {
   return 'Score: ' + this.score;
+};
+
+Renderer.prototype.showDestructionPercentage = function () {
+  return this.destructionPercentage;
 };
 
 Renderer.prototype.updateScreen = function () {
@@ -88,4 +96,10 @@ Renderer.prototype.updateScreen = function () {
   window.requestAnimationFrame(function () {
     renderer.updateScreen();
   });
+};
+
+Renderer.prototype.endGameScreen = function () {
+  this.ctx.font = '24px sans-serif';
+  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
 };

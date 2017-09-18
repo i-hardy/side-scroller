@@ -1,6 +1,6 @@
 # This Is How I Scroll
 
-[![Build Status](https://travis-ci.org/i-hardy/side-scroller.svg?branch=master)](https://travis-ci.org/i-hardy/side-scroller) [![Code Climate](https://codeclimate.com/github/i-hardy/side-scroller/badges/gpa.svg)](https://codeclimate.com/github/i-hardy/side-scroller)
+[![Build Status](https://travis-ci.org/i-hardy/side-scroller.svg?branch=master)](https://travis-ci.org/i-hardy/side-scroller) [![Code Climate](https://codeclimate.com/github/i-hardy/side-scroller/badges/gpa.svg)](https://codeclimate.com/github/i-hardy/side-scroller) [![Test Coverage](https://codeclimate.com/github/i-hardy/side-scroller/badges/coverage.svg)](https://codeclimate.com/github/i-hardy/side-scroller/coverage)
 
 A procedurally-generated, side-scrolling platformer. Using a custom-written level design AI, the game creates a different player experience with every play-through.
 

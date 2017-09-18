@@ -111,6 +111,20 @@ describe('Renderer', function () {
     });
   });
 
+  describe('#showDestructionPercentage', function () {
+    it('returns the destruction percentage', function () {
+      moomin.receiveDestructionPercentage("50%");
+      expect(moomin.showDestructionPercentage()).toEqual("50%");
+    });
+  });
+
+  describe('#receiveDestructionPercentage', function () {
+    it('sets a destruction percentage amount', function () {
+      moomin.receiveDestructionPercentage("50%");
+      expect(moomin.destructionPercentage).toEqual("50%");
+    });
+  });
+
   describe('#receiveScore', function () {
     it('sets the score to be the received number', function () {
       moomin.receiveScore(1);
@@ -149,6 +163,26 @@ describe('Renderer', function () {
       spyOn(moomin, 'updateScreen');
       window.requestAnimationFrame.calls.allArgs()[0][0]();
       expect(moomin.updateScreen).toHaveBeenCalled();
+    });
+  });
+
+  describe('#endGameScreen', function () {
+    it('calls fillText to display text on the canvas', function () {
+      spyOn(context, 'fillText');
+      moomin.endGameScreen();
+      expect(context.fillText).toHaveBeenCalled();
+    });
+
+    it('shows the final score, including the bonus', function () {
+      spyOn(moomin, 'scoreText');
+      moomin.endGameScreen();
+      expect(moomin.scoreText).toHaveBeenCalled();
+    });
+
+    it('shows the destruction percentage', function () {
+      spyOn(moomin, 'showDestructionPercentage');
+      moomin.endGameScreen();
+      expect(moomin.showDestructionPercentage).toHaveBeenCalled();
     });
   });
 });

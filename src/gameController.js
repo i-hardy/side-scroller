@@ -53,6 +53,8 @@ GameController.prototype.calculateScore = function () {
 
 GameController.prototype.addEndBonus = function () {
   this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
+  this.renderer.receiveScore(this.score.showPoints());
+  this.renderer.receiveDestructionPercentage(this.score.calculateDestructionPercentage());
 };
 
 GameController.prototype.ready = function () {

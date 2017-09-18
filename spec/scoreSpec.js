@@ -27,4 +27,11 @@ describe('Score', function () {
       expect(hermione.points).toEqual(hermione.END_BONUS*0.5);
     });
   });
+
+  describe('#calculateDestructionPercentage', function () {
+    it('returns the percentage of objects knocked to the floor', function () {
+      hermione.endBonus(0.5);
+      expect(hermione.calculateDestructionPercentage()).toEqual("50%");
+    });
+  });
 });
