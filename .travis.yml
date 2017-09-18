@@ -1,6 +1,14 @@
+env:
+  global:
+    - CODECLIMATE_REPO_TOKEN=bdeb7cbe4f16fc4b1da222fcf99a1f3ead940ab66d0da53711c5a51988015c50
 language: node_js
 node_js:
   - "0.10"
 before_install:
   - npm install
+  - npm install -g codeclimate-test-reporter
   - npm install -g grunt-cli
+script:
+  - grunt test:coverage
+after_script:
+  - codeclimate-test-reporter < bin/coverage/lcov/lcov.info

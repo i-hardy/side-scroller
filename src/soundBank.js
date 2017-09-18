@@ -1,3 +1,5 @@
+'use strict';
+
 function SoundBank() {
   this.scamper = new Audio('./assets/sounds/scurrying.wav')
   this.meow1 = new Audio('./assets/sounds/meow1.wav')

@@ -7,8 +7,9 @@
 </head>
 <body>
   <canvas id="canvas" width="1024" height="512"></canvas>
-  <script src="src/matter.js"></script>
+  <script src="src/matter.min.js"></script>
   <script src="src/worldOptions.js"></script>
+  <script src="src/randomNumberGenerator.js"></script>
   <script src="src/platformGrid.js"></script>
   <script src="src/worldBuilder.js"></script>
   <script src="src/preciousObject.js"></script>
@@ -17,30 +18,32 @@
   <script src="src/playerSounds.js"></script>
   <script src="src/soundEngine.js"></script>
   <script src="src/renderer.js"></script>
+  <script src="src/score.js"></script>
+  <script src="src/eventManager.js"></script>
   <script src="src/gameController.js"></script>
   <script type="text/javascript">
-  const KEY_W = 87;
-  const KEY_A = 65;
-  const KEY_S = 83;
-  const KEY_D = 68;
+    const KEY_W = 87;
+    const KEY_A = 65;
+    const KEY_S = 83;
+    const KEY_D = 68;
 
-  // movement
+    // movement
 
-  const keys = [];
+    const keys = [];
 
-    window.onload = function () {
-      document.body.addEventListener('keyup', function(e) {
-        keys[e.keyCode] = false;
-      });
+      window.onload = function () {
+        document.body.addEventListener('keyup', function(e) {
+          keys[e.keyCode] = false;
+        });
 
-      document.body.addEventListener('keydown', function(e) {
-        keys[e.keyCode] = true;
-      });
+        document.body.addEventListener('keydown', function(e) {
+          keys[e.keyCode] = true;
+        });
 
-      controller = new GameController();
-      controller.ready();
-      controller.render();
-    }
+        controller = new GameController();
+        controller.ready();
+        controller.render();
+      }
   </script>
 </body>
 </html>

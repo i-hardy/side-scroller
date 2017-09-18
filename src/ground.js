@@ -1,10 +1,15 @@
+'use strict';
+
 function Ground () {
+  this.ground = [];
 }
 
 Ground.prototype.setGround = function () {
-  var row = [];
   for (var i = 0; i < worldOptions.gridColumns; i++) {
-    row.push(this.randomNumber(1, 5));
+    this.ground.push(randomNumberGenerator(1, 5));
   }
-  return row;
+};
+
+Ground.prototype.getGround = function () {
+  return this.ground;
 };
