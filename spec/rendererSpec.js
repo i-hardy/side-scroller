@@ -15,9 +15,9 @@ describe('Renderer', function () {
 
   describe('#sounds', function () {
     it('plays the player sounds', function () {
-      spyOn(soundEngine, 'playerSounds');
+      spyOn(soundEngine, 'runSounds');
       moomin.sounds();
-      expect(soundEngine.playerSounds).toHaveBeenCalled();
+      expect(soundEngine.runSounds).toHaveBeenCalled();
     })
   });
 
