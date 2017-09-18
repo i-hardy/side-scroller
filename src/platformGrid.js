@@ -49,14 +49,20 @@ PlatformGrid.prototype.setFirstPlatform = function () {
 PlatformGrid.prototype.setPlatform = function () {
   var x_change = randomNumberGenerator(this.MAX_X_GAP,this.MIN_X_GAP);
   var y_change = randomNumberGenerator(this.MAX_Y_GAP,this.MIN_Y_GAP);
+  var new_x;
+  var new_y;
   if (this.lastX + x_change < worldOptions.gridColumns) {
-    this.lastX += x_change;
+    new_x = this.lastX + x_change;
     if (this.lastY + y_change < worldOptions.gridRows && this.lastY + y_change > 0) {
-      this.lastY += y_change;
+      new_y = this.lastY + y_change;
     } else {
-      this.lastY -= y_change;
+      new_y = this.lastY - y_change;
     }
-    this.setGridElement(this.lastX, this.lastY);
+    if (this.detectInaccessiblePlatform(new_x, new_y)){
+      this.setPlatform();
+    } else {
+    this.placePlatforms(new_x, new_y);
+    }
   }
 };
 
@@ -65,4 +71,12 @@ PlatformGrid.prototype.detectInaccessiblePlatform = function (x, y) {
     return ((this.lastX-this.secondlastX)===1&&(x-this.lastX)===1)
   };
     return false;
+};
+
+PlatformGrid.prototype.placePlatforms = function (x, y) {
+  this.secondlastX = this.lastX;
+  this.secondlastY = this.lastY;
+  this.lastX = x;
+  this.lastY = y;
+  this.setGridElement(this.lastX, this.lastY);
 };

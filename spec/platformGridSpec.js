@@ -82,6 +82,23 @@ describe("PlatformGrid", function () {
       tooticky.setPlatform();
       expect(tooticky.lastX).toBeLessThan(worldOptions.gridColumns);
     });
+
+    it('calls itself recursively in case of inaccessible platform', function () {
+      var testtooticky = tooticky.setPlatform.bind(tooticky);
+      spyOn(tooticky, 'detectInaccessiblePlatform').and.returnValue(true);
+      spyOn(tooticky, 'setPlatform');
+      tooticky.setFirstPlatform();
+      testtooticky();
+      expect(tooticky.setPlatform).toHaveBeenCalled();
+    });
+
+    it('places platforms if accessibility check is passed', function () {
+      spyOn(tooticky, 'detectInaccessiblePlatform').and.returnValue(false);
+      spyOn(tooticky, 'placePlatforms');
+      tooticky.setFirstPlatform();
+      tooticky.setPlatform();
+      expect(tooticky.placePlatforms).toHaveBeenCalled();
+    })
   });
 
   describe('#buildPlatforms', function () {
@@ -125,4 +142,16 @@ describe("PlatformGrid", function () {
       expect(tooticky.detectInaccessiblePlatform(3, 4)).toBe(false);
     });
   });
+
+  describe('#placePlatforms', function () {
+    it('places accessible platforms when called', function () {
+      spyOn(tooticky, 'setGridElement');
+      tooticky.placePlatforms(3, 4);
+      expect(tooticky.setGridElement).toHaveBeenCalled();
+    });
+  });
+
+  describe('#setYCoordinates', function () {
+    
+  })
 });
