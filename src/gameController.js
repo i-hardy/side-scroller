@@ -51,6 +51,13 @@ GameController.prototype.calculateScore = function () {
   this.renderer.receiveScore(this.score.showPoints());
 };
 
+GameController.prototype.playerLosesLifeOnFloor = function () {
+  if (this.player.isOnFloor === true) {
+    console.log('foo');
+    this.render();
+  }
+};
+
 GameController.prototype.ready = function () {
   this.collisionEvents();
   this.buildWorld();

@@ -2,11 +2,11 @@
 
 describe('GameController', function () {
   var atticus;
+  var joe;
 
   beforeEach(function () {
     atticus = new GameController();
   });
-
 
   describe('#collisionEvents', function () {
     it('creates player collision events via the event manager', function () {
@@ -130,6 +130,15 @@ describe('GameController', function () {
       spyOn(atticus, 'calculateScore');
       window.setInterval.calls.allArgs()[0][0]();
       expect(atticus.calculateScore).toHaveBeenCalled();
+    });
+  });
+
+  describe('#playerLoseLifeOnFloor', function() {
+    it('resets the player position when contact with the floor is made', function() {
+      spyOn(atticus, 'render');
+      atticus.player.onFloor();
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.render).toHaveBeenCalled();
     });
   });
 });
