@@ -2,6 +2,7 @@
 
 function Renderer(player, world, soundEngine) {
   this.player = player;
+  this.sprite = new Sprite()
   this.world = world;
   this.score = 0;
   this.soundEngine = soundEngine;
@@ -13,6 +14,20 @@ function Renderer(player, world, soundEngine) {
       leftEdge: 0
   };
 }
+
+Renderer.prototype.drawPlayer = function() {
+  console.log(this.player.getBodyObject().position.x);
+  this.ctx.drawImage(
+    this.sprite.image,
+    0 + this.sprite.frameIndexes[this.sprite.getDirection()][this.sprite.currentFrame] * this.sprite.separation,
+    0,
+    this.sprite.width,
+    this.sprite.height,
+    this.player.getBodyObject().position.x - 42,
+    this.player.getBodyObject().position.y - 42,
+    90,
+    90);
+};
 
 Renderer.prototype.sounds = function() {
   this.soundEngine.runSounds();
@@ -89,6 +104,8 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.drawPlayer();
+  this.sprite.update();
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;
