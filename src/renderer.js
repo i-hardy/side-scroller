@@ -16,11 +16,11 @@ function Renderer(player, world, soundEngine) {
 }
 
 Renderer.prototype.drawPlayer = function() {
-  console.log(this.player.getBodyObject().position.x);
+  console.log(this.sprite.getDirection());
   this.ctx.drawImage(
     this.sprite.image,
-    0 + this.sprite.frameIndexes[this.sprite.getDirection()][this.sprite.currentFrame] * this.sprite.separation,
-    0,
+    0 + this.sprite.frameIndexes[this.sprite.getDirection()][this.sprite.currentFrame] * this.sprite.width,
+    0 + this.sprite.getDirection() * this.sprite.height,
     this.sprite.width,
     this.sprite.height,
     this.player.getBodyObject().position.x - 42,
