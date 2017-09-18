@@ -107,4 +107,77 @@ describe('EventManager', function () {
       expect(carolyn.objectFloorCollisionEvent).toHaveBeenCalled();
     });
   });
+
+  describe('#playerCactusCollisionEvent', function () {
+    beforeEach(function () {
+      spyOn(worldBuilder, 'cactusTouched');
+    });
+
+    it('calls cactusTouched on the worldBuilder if bodyA is the player and bodyB is a cactus', function () {
+      event.pairs[0].bodyA.label = 'player';
+      event.pairs[0].bodyB.label = 'cactus';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).toHaveBeenCalled();
+    });
+
+    it('calls cactusTouched on the worldBuilder if bodyB is the player and bodyA is a cactus', function () {
+      event.pairs[0].bodyA.label = 'cactus';
+      event.pairs[0].bodyB.label = 'player';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyA is the player but bodyB is not a cactus', function () {
+      event.pairs[0].bodyA.label = 'player';
+      event.pairs[0].bodyB.label = 'floor';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyB is a cactus but bodyA is not the player', function () {
+      event.pairs[0].bodyA.label = 'object';
+      event.pairs[0].bodyB.label = 'platform';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyB is the player but bodyA is not a cactus', function () {
+      event.pairs[0].bodyA.label = 'floor';
+      event.pairs[0].bodyB.label = 'player';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyA is a cactus but bodyB is not the player', function () {
+      event.pairs[0].bodyA.label = 'cactus';
+      event.pairs[0].bodyB.label = 'platform';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if neither body is a cactus or the player', function () {
+      event.pairs[0].bodyA.label = 'object';
+      event.pairs[0].bodyB.label = 'platform';
+      carolyn.playerCactusCollisionEvent(event, worldBuilder);
+      expect(worldBuilder.cactusTouched).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#playerCactusCollision', function () {
+    beforeEach(function () {
+      spyOn(Matter.Events, 'on');
+    });
+
+    it('creates a Matter event on the game engine', function () {
+      carolyn.playerCactusCollision(worldBuilder);
+      expect(Matter.Events.on).toHaveBeenCalled();
+    });
+
+    it('passes in the playerCactusCollisionEvent function in a callback', function () {
+      spyOn(carolyn, 'playerCactusCollisionEvent');
+      carolyn.playerCactusCollision(worldBuilder);
+      Matter.Events.on.calls.allArgs()[0][2]();
+      expect(carolyn.playerCactusCollisionEvent).toHaveBeenCalled();
+    });
+  });
 });

@@ -15,6 +15,7 @@ GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
   this.eventManager.objectFloorCollision(this.worldBuilder);
+  this.eventManager.playerCactusCollision(this.worldBuilder);
 };
 
 GameController.prototype.buildWorld = function () {
@@ -45,9 +46,8 @@ GameController.prototype.addPlayer = function () {
 };
 
 GameController.prototype.calculateScore = function () {
-  this.score.increase(this.worldBuilder.fallenObjectPreciousness().reduce(function (sum, value) {
-    return sum + value;
-  }, 0));
+  var score = this.worldBuilder.fallenObjectPreciousness() - this.worldBuilder.touchedCactiSpikiness();
+  this.score.increase(score);
   this.renderer.receiveScore(this.score.showPoints());
 };
 

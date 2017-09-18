@@ -35,3 +35,20 @@ EventManager.prototype.objectFloorCollision = function (worldBuilder) {
     manager.objectFloorCollisionEvent(event, worldBuilder);
   });
 };
+
+EventManager.prototype.playerCactusCollision = function (worldBuilder) {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager.playerCactusCollisionEvent(event, worldBuilder);
+  });
+};
+
+EventManager.prototype.playerCactusCollisionEvent = function (event, worldBuilder) {
+  event.pairs.forEach(function (pair) {
+    if (pair.bodyA.label === 'player' && pair.bodyB.label === 'cactus') {
+      worldBuilder.cactusTouched(pair.bodyA);
+    } else if (pair.bodyA.label === 'cactus' && pair.bodyB.label === 'player') {
+      worldBuilder.cactusTouched(pair.bodyB);
+    }
+  });
+};
