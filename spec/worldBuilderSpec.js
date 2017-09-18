@@ -90,6 +90,17 @@ describe('WorldBuilder', function () {
     });
   });
 
+  describe('#objectOnFloor', function () {
+    it('receives an object body, and sets the corresponding PreciousObject to being on the floor', function () {
+      var body = {};
+      spyOn(PreciousObject.prototype, 'getBody').and.returnValue(body);
+      spyOn(PreciousObject.prototype, 'fallen');
+      jimmy.createPreciousObjects(1);
+      jimmy.objectOnFloor(body);
+      expect(PreciousObject.prototype.fallen).toHaveBeenCalled();
+    });
+  });
+
   describe('#getWorldBodies', function () {
     it('returns the worldBodies array', function () {
       expect(jimmy.getWorldBodies()).toEqual(jasmine.any(Array));
