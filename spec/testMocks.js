@@ -79,3 +79,8 @@ var playerBody = { bounds: { min: {
                     x: 0
                   }
                 };
+
+function Audio() {};
+
+Audio.prototype.pause = function () {};
+Audio.prototype.play = function () {};
