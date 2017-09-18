@@ -1,15 +1,14 @@
 'use strict';
 
-function SoundEngine(player, soundBank) {
-  this.player = player
-  this.soundBank = soundBank || new SoundBank
+function SoundEngine(player, playerSounds) {
+  this.playerSounds = playerSounds || new PlayerSounds(player)
 };
 
-SoundEngine.prototype.playerSounds = function() {
-  this._playerRunning();
+SoundEngine.prototype._setVols = function() {
+  this.playerSounds.setPlayerVols();
 };
 
-SoundEngine.prototype._playerRunning = function() {
-  this.soundBank.scamper.loop = true;
-  this.player.isOnFloor && (keys[KEY_D] || keys[KEY_A] ) ? this.soundBank.scamper.play() : this.soundBank.scamper.pause()
+SoundEngine.prototype.runSounds = function() {
+  this._setVols();
+  this.playerSounds.loadPlayerSounds();
 };
