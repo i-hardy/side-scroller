@@ -2,7 +2,6 @@
 
 function Renderer(player, world, soundEngine) {
   this.player = player;
-  this.sprite = new Sprite()
   this.world = world;
   this.score = 0;
   this.soundEngine = soundEngine;
@@ -13,20 +12,6 @@ function Renderer(player, world, soundEngine) {
       rightEdge: worldOptions.viewWidth,
       leftEdge: 0
   };
-}
-
-Renderer.prototype.drawPlayer = function() {
-  console.log(this.sprite.getDirection());
-  this.ctx.drawImage(
-    this.sprite.image,
-    0 + this.sprite.frameIndexes[this.sprite.getDirection()][this.sprite.currentFrame] * this.sprite.width,
-    0 + this.sprite.getDirection() * this.sprite.height,
-    this.sprite.width,
-    this.sprite.height,
-    this.player.getBodyObject().position.x - 42,
-    this.player.getBodyObject().position.y - 42,
-    90,
-    90);
 };
 
 Renderer.prototype.sounds = function() {
@@ -38,6 +23,19 @@ Renderer.prototype.playerMovement = function () {
   this.player.jump();
   this.player.moveLeft();
   this.player.moveRight();
+};
+
+Renderer.prototype.drawPlayer = function() {
+  this.ctx.drawImage(
+    this.player.spriteImage(),
+    0 + this.player.spriteFrameIndexes()[this.player.spriteDirection()][this.player.spriteCurrentFrame()] * this.player.spriteWidth(),
+    0 + this.player.spriteDirection() * this.player.spriteHeight(),
+    this.player.spriteWidth(),
+    this.player.spriteHeight(),
+    this.player.getBodyObject().position.x - 42,
+    this.player.getBodyObject().position.y - 42,
+    90,
+    90);
 };
 
 Renderer.prototype.checkBorder = function () {
@@ -104,8 +102,10 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+
   this.drawPlayer();
-  this.sprite.update();
+  this.player.spriteUpdate();
+
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;

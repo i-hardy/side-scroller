@@ -3,11 +3,12 @@
 describe('SoundEngine', function() {
 
   var player = {};
-  var playerSounds = { loadPlayerSounds: function() = {} }
+  var playerSounds;
   var soundEngine;
 
   beforeEach(function() {
-    soundEngine = new SoundEngine(player, playerSounds);
+    playerSounds = { loadPlayerSounds: function() {} }
+    soundEngine = new SoundEngine(player);
   });
 
   it('exists', function() {

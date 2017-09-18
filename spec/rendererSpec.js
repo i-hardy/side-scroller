@@ -138,7 +138,9 @@ describe('Renderer', function () {
       spyOn(moomin, 'checkBorder');
       spyOn(moomin, 'sounds');
       spyOn(moomin, 'scroll');
+      spyOn(moomin, 'drawPlayer');
       spyOn(context, 'beginPath');
+      spyOn(player, 'spriteUpdate');
       spyOn(window, 'requestAnimationFrame');
       moomin.updateScreen()
     });
