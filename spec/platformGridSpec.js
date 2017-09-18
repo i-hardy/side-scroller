@@ -104,4 +104,25 @@ describe("PlatformGrid", function () {
       expect(tooticky.setPlatform).toHaveBeenCalled();
     });
   });
+
+  describe('#detectInaccessiblePlatform', function () {
+    beforeEach(function () {
+      tooticky.secondlastX = 1;
+      tooticky.secondlastY = 3;
+      tooticky.lastX = 2;
+      tooticky.lastY = 2;
+    });
+
+    it('should be able to register an inaccessible platform', function () {
+      expect(tooticky.detectInaccessiblePlatform(3, 3)).toBe(true);
+    });
+
+    it('returns false if there is sufficient gap on x', function () {
+      expect(tooticky.detectInaccessiblePlatform(4, 3)).toBe(false);
+    });
+
+    it('returns false if there is sufficient gap on y', function () {
+      expect(tooticky.detectInaccessiblePlatform(3, 4)).toBe(false);
+    });
+  });
 });
