@@ -23,8 +23,8 @@ describe('Score', function () {
 
   describe('end of level bonus', function () {
     it('it awards end of level bonus if end is reached', function () {
-      hermione.endBonus();
-      expect(hermione.points).toEqual(hermione.END_BONUS);
+      hermione.endBonus(0.5);
+      expect(hermione.points).toEqual(hermione.END_BONUS*0.5);
     });
   });
 });
