@@ -1,3 +1,5 @@
+'use strict';
+
 describe("PlatformGrid", function () {
   var tooticky;
 

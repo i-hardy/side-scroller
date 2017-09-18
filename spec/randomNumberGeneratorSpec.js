@@ -1,3 +1,5 @@
+'use strict';
+
 describe('RandomNumberGenerator', function () {
 
   describe('#randomNumber', function() {

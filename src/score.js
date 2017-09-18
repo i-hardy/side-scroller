@@ -1,3 +1,5 @@
+'use strict';
+
 function Score() {
   this.points = 0;
   this.END_BONUS = 100;

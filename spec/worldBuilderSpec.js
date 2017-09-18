@@ -1,3 +1,5 @@
+'use strict';
+
 describe('WorldBuilder', function () {
   var jimmy;
 
@@ -91,13 +93,23 @@ describe('WorldBuilder', function () {
   });
 
   describe('#objectOnFloor', function () {
-    it('receives an object body, and sets the corresponding PreciousObject to being on the floor', function () {
-      var body = {};
-      spyOn(PreciousObject.prototype, 'getBody').and.returnValue(body);
+    var body = {};
+
+    beforeEach(function () {
       spyOn(PreciousObject.prototype, 'fallen');
+    });
+
+    it('receives an object body, and sets the corresponding PreciousObject to being on the floor', function () {
+      spyOn(PreciousObject.prototype, 'getBody').and.returnValue(body);
       jimmy.createPreciousObjects(1);
       jimmy.objectOnFloor(body);
       expect(PreciousObject.prototype.fallen).toHaveBeenCalled();
+    });
+
+    it('does nothing if there are no PreciousObjects matching the body', function () {
+      jimmy.createPreciousObjects(1);
+      jimmy.objectOnFloor(body);
+      expect(PreciousObject.prototype.fallen).not.toHaveBeenCalled();
     });
   });
 

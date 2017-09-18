@@ -1,6 +1,9 @@
+'use strict';
+
 function GameController () {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
+  this.eventManager = new EventManager(this.engine);
   this.worldBuilder = new WorldBuilder();
   this.score = new Score();
   this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
@@ -8,29 +11,10 @@ function GameController () {
   this.soundEngine = new SoundEngine(this.player);
 }
 
-GameController.prototype.addCollisionEvent = function (object, label, eventName, action) {
-  Matter.Events.on(this.engine, eventName, function(event) {
-    event.pairs.forEach(function (pair) {
-      if (pair.bodyA.label === label) {
-          object[action]();
-      } else if (pair.bodyB.label === label) {
-          object[action]();
-      }
-    });
- });
-};
-
 GameController.prototype.collisionEvents = function () {
-  this.addCollisionEvent(this.player, 'playerSensor', 'collisionEnd', 'notOnFloor');
-  this.addCollisionEvent(this.player, 'playerSensor', 'collisionActive', 'onFloor');
-  var controller = this;
-  Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    event.pairs.forEach(function (pair) {
-      if (pair.bodyA.label === 'object' && pair.bodyB.label === 'floor') {
-        controller.worldBuilder.objectOnFloor(pair.bodyA);
-      }
-    });
-  });
+  this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
+  this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
+  this.eventManager.objectFloorCollision(this.worldBuilder);
 };
 
 GameController.prototype.buildWorld = function () {

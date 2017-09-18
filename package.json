@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "grunt jasmine"
+    "test": "grunt test:coverage"
   },
   "author": "",
   "license": "ISC",

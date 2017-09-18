@@ -7,19 +7,18 @@ describe('GameController', function () {
     atticus = new GameController();
   });
 
-  describe('#addCollisionEvent', function () {
-    it('creates an event on the game engine', function () {
-      spyOn(Matter.Events, 'on');
-      atticus.addCollisionEvent();
-      expect(Matter.Events.on).toHaveBeenCalled();
-    });
-  });
 
   describe('#collisionEvents', function () {
-    it('creates collision events', function () {
-      spyOn(atticus, 'addCollisionEvent');
+    it('creates player collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'playerCollision');
       atticus.collisionEvents();
-      expect(atticus.addCollisionEvent).toHaveBeenCalled();
+      expect(EventManager.prototype.playerCollision).toHaveBeenCalled();
+    });
+
+    it('creates object-floor collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'objectFloorCollision');
+      atticus.collisionEvents();
+      expect(EventManager.prototype.objectFloorCollision).toHaveBeenCalled();
     });
   });
 
@@ -104,6 +103,33 @@ describe('GameController', function () {
       spyOn(atticus, 'addPlayer');
       atticus.ready();
       expect(atticus.addPlayer).toHaveBeenCalled();
+    });
+  });
+
+  describe('#render', function () {
+    beforeEach(function () {
+      spyOn(Matter.Engine, 'run');
+      spyOn(Renderer.prototype, 'updateScreen');
+      spyOn(window, 'setInterval');
+      atticus.render();
+    });
+
+    it('runs the Matter engine', function () {
+      expect(Matter.Engine.run).toHaveBeenCalled();
+    });
+
+    it('creates a renderer and runs its update screen function', function () {
+      expect(Renderer.prototype.updateScreen).toHaveBeenCalled();
+    });
+
+    it('sets an update interval on the window', function () {
+      expect(window.setInterval).toHaveBeenCalled();
+    });
+
+    it('passes in its calculateScore method in a callback', function () {
+      spyOn(atticus, 'calculateScore');
+      window.setInterval.calls.allArgs()[0][0]();
+      expect(atticus.calculateScore).toHaveBeenCalled();
     });
   });
 });
