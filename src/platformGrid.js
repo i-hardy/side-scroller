@@ -4,7 +4,7 @@ function PlatformGrid() {
   this.MIN_Y_GAP = -3;
   this.MAX_Y_GAP = 3;
   this.FIRST_PLATFORM_X = 2;
-  this.FIRST_PLATFORM_Y = worldOptions.gridRows - 1;
+  this.FIRST_PLATFORM_Y = 1;
 }
 
 PlatformGrid.prototype.buildPlatforms = function (platformNumber) {

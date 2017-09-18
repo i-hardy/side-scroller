@@ -12,7 +12,11 @@ describe("PlatformGrid", function () {
     });
 
     it('contains rows full of zeros', function () {
-      expect(tooticky.getGrid()[0][0]).toEqual(0);
+      tooticky.getGrid().forEach(function (row) {
+        row.forEach(function (item) {
+          expect(item).toEqual(0);
+        });
+      });
     });
 
     it('contains rows of a length based on the canvas width', function () {
@@ -36,7 +40,7 @@ describe("PlatformGrid", function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.getGrid()[worldOptions.gridRows - 1][2]).toEqual(1);
+      expect(tooticky.getGrid()[1][2]).toEqual(1);
     });
 
     it('records the x index of the platform', function () {
@@ -46,7 +50,7 @@ describe("PlatformGrid", function () {
 
     it('records the y index of the platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.lastY).toEqual(worldOptions.gridRows - 1);
+      expect(tooticky.lastY).toEqual(1);
     });
   });
 

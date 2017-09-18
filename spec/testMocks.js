@@ -1,5 +1,6 @@
 var Matter = {Body: {
               create: function () {},
+              setAngle: function () {}
               },
             Bodies: {
               rectangle: function () {},
@@ -14,12 +15,28 @@ var Matter = {Body: {
                     bounds: worldBounds
                   }
                 };
-              }
+              },
+              run: function () {}
             },
             Events: {
               on: function () {}
             }
           };
+
+var context = {};
+
+var canvas = {
+  getContext: function () {
+    return context;
+  }
+};
+
+var KEY_W = 87;
+var KEY_A = 65;
+var KEY_S = 83;
+var KEY_D = 68;
+
+var keys = [];
 
 var worldBounds = { min: {
                       x: 0,
@@ -31,4 +48,4 @@ var worldBounds = { min: {
                     }
                   };
 
-function Audio() {};
+function Audio() {}

@@ -59,6 +59,28 @@ describe('GameController', function () {
     });
   });
 
+  describe('#calculateScore', function () {
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('sets the game score based on the preciousness of the fallen objects', function () {
+      spyOn(Score.prototype, 'increase');
+      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue([1, 1]);
+      atticus.calculateScore();
+      expect(Score.prototype.increase).toHaveBeenCalled();
+    });
+
+    it('passes the score points into the renderer', function () {
+      spyOn(Renderer.prototype, 'receiveScore');
+      atticus.calculateScore();
+      expect(Renderer.prototype.receiveScore).toHaveBeenCalled();
+    });
+  });
+
   describe('#ready', function () {
     it('creates all collision events', function () {
       spyOn(atticus, 'collisionEvents');

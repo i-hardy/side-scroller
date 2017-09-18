@@ -4,6 +4,7 @@ describe('PreciousObject', function() {
   var preciousObject;
 
   beforeEach(function() {
+    spyOn(window, 'randomNumberGenerator').and.returnValue(2);
     spyOn(PreciousObject.prototype, 'createBody').and.callThrough();
     preciousObject = new PreciousObject(100, 150);
   });
@@ -15,6 +16,12 @@ describe('PreciousObject', function() {
 
     it('creates a Matter Body', function () {
       expect(PreciousObject.prototype.createBody).toHaveBeenCalled();
+    });
+  });
+
+  describe('#getPreciousness', function () {
+    it('returns the preciousness', function () {
+      expect(preciousObject.getPreciousness()).toEqual(2);
     });
   });
 
@@ -34,20 +41,16 @@ describe('PreciousObject', function() {
     });
   });
 
-  describe('#coordinates', function() {
-    it('returns the current x coordinate', function () {
-      expect(preciousObject.xCoordinate()).toEqual(100);
-    });
-
-    it('returns the current y coordinate', function () {
-      expect(preciousObject.yCoordinate()).toEqual(150);
+  describe('#isOnFloor', function () {
+    it('returns whether or not the object is on the floor', function () {
+      expect(preciousObject.isOnFloor()).toBe(false);
     });
   });
 
-  describe('hitting the ground', function() {
-    it('returns true when it hits the ground', function() {
-      preciousObject.y = 240;
-      expect(preciousObject.isOnGround()).toBe(true);
+  describe('#fallen', function() {
+    it('sets onFloor to true', function() {
+      preciousObject.fallen();
+      expect(preciousObject.isOnFloor()).toBe(true);
     });
   });
 });
