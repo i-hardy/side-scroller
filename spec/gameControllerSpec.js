@@ -67,7 +67,6 @@ describe('GameController', function () {
   describe('#calculateScore', function () {
     beforeEach(function () {
       spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue(4);
-      spyOn(WorldBuilder.prototype, 'touchedCactiSpikiness').and.returnValue(2);
       spyOn(atticus, 'render').and.callFake(function () {
         this.renderer = new Renderer;
       })
@@ -77,7 +76,6 @@ describe('GameController', function () {
     it('checks the values of fallen objects and touched cacti', function () {
       atticus.calculateScore();
       expect(WorldBuilder.prototype.fallenObjectPreciousness).toHaveBeenCalled();
-      expect(WorldBuilder.prototype.touchedCactiSpikiness).toHaveBeenCalled();
     });
 
     it('sets the game score based on fallen objects and touched cacti', function () {

@@ -47,109 +47,56 @@ describe('WorldBuilder', function () {
     });
   });
 
-  describe('#getPreciousObjects', function () {
-    it('returns the precious objects array', function () {
-      expect(jimmy.getPreciousObjects()).toEqual(jasmine.any(Array));
+  describe('#getAllObjects', function () {
+    it('returns the objects array', function () {
+      expect(jimmy.getAllObjects()).toEqual(jasmine.any(Array));
     });
   });
 
-  describe('#getFallenObjects', function () {
+  describe('#getCollidedObjects', function () {
     it('returns all precious objects that are on the floor', function () {
       jimmy.createPreciousObjects(1);
-      jimmy.getPreciousObjects()[0].fallen();
-      expect(jimmy.getFallenObjects()).toContain(jimmy.getPreciousObjects()[0]);
+      jimmy.getAllObjects()[0].collision();
+      expect(jimmy.getCollidedObjects()).toContain(jimmy.getAllObjects()[0]);
     });
   });
 
   describe('#fallenObjectPreciousness', function () {
-    it('returns the sum of fallen objects preciousness values', function () {
+    it('returns the sum of collision objects preciousness values', function () {
       spyOn(window, 'randomNumberGenerator').and.returnValue(2);
       jimmy.createPreciousObjects(1);
       jimmy.createPreciousObjects(2);
-      jimmy.getPreciousObjects()[0].fallen();
-      jimmy.getPreciousObjects()[1].fallen();
+      jimmy.getAllObjects()[0].collision();
+      jimmy.getAllObjects()[1].collision();
       expect(jimmy.fallenObjectPreciousness()).toEqual(4);
-    });
-  });
-
-  describe('#touchedCactiSpikiness', function () {
-    it('it returns the sum of touched cacti spikiness values', function () {
-      spyOn(window, 'randomNumberGenerator').and.returnValue(2);
-      jimmy.createCacti(1);
-      jimmy.getCacti()[0].playerTouch();
-      jimmy.createCacti(2);
-      jimmy.getCacti()[1].playerTouch();
-      expect(jimmy.touchedCactiSpikiness()).toEqual(4);
-    });
-  });
-
-  describe('#getCacti', function () {
-    it('returns the array of cacti', function () {
-      expect(jimmy.getCacti()).toEqual(jasmine.any(Array));
-    });
-  });
-
-  describe('#getTouchedCacti', function () {
-    it('returns an array of cacti which have been touched', function () {
-      jimmy.createCacti(1);
-      jimmy.getCacti()[0].playerTouch();
-      expect(jimmy.getTouchedCacti()).toContain(jimmy.getCacti()[0]);
     });
   });
 
   describe('#createPreciousObjects', function () {
     it('populates the precious objects array with instances of the PreciousObject class', function () {
       jimmy.createPreciousObjects(1);
-      expect(jimmy.getPreciousObjects()[0]).toEqual(jasmine.any(PreciousObject));
+      expect(jimmy.getAllObjects()[0]).toEqual(jasmine.any(PreciousObject));
     });
   });
 
-  describe('#createCacti', function () {
-    it('populates the cacti array with instances of the cactus class', function () {
-      jimmy.createCacti(1);
-      expect(jimmy.getCacti()[0]).toEqual(jasmine.any(Cactus));
-    });
-  });
-
-  describe('#objectOnFloor', function () {
+  describe('#objectCollided', function () {
     var body = {};
 
     beforeEach(function () {
-      spyOn(PreciousObject.prototype, 'fallen');
+      spyOn(PreciousObject.prototype, 'collision');
     });
 
     it('receives an object body, and sets the corresponding PreciousObject to being on the floor', function () {
       spyOn(PreciousObject.prototype, 'getBody').and.returnValue(body);
       jimmy.createPreciousObjects(1);
-      jimmy.objectOnFloor(body);
-      expect(PreciousObject.prototype.fallen).toHaveBeenCalled();
+      jimmy.objectCollided(body);
+      expect(PreciousObject.prototype.collision).toHaveBeenCalled();
     });
 
     it('does nothing if there are no PreciousObjects matching the body', function () {
       jimmy.createPreciousObjects(1);
-      jimmy.objectOnFloor(body);
-      expect(PreciousObject.prototype.fallen).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('#cactusTouched', function () {
-    var body = {};
-    
-    beforeEach(function () {
-      spyOn(Cactus.prototype, 'playerTouch');
-    });
-
-    it('receives a cactus body, and sets the corresponding Cactus to having been touched', function () {
-      spyOn(Cactus.prototype, 'getBody').and.returnValue(body);
-      jimmy.createCacti(1);
-      jimmy.cactusTouched(body);
-      expect(Cactus.prototype.playerTouch).toHaveBeenCalled();
-    });
-
-    it('does nothing if there are no Cacti matching the body', function () {
-      jimmy.createCacti(1);
-      jimmy.cactusTouched(body);
-      expect(Cactus.prototype.playerTouch).not.toHaveBeenCalled();
+      jimmy.objectCollided(body);
+      expect(PreciousObject.prototype.collision).not.toHaveBeenCalled();
     });
   });
 
@@ -196,13 +143,6 @@ describe('WorldBuilder', function () {
       expect(PreciousObject.prototype.getBody).toHaveBeenCalled();
     });
 
-    it('gets the body associated with each precious object', function () {
-      jimmy.createCacti(1);
-      spyOn(Cactus.prototype, 'getBody');
-      jimmy.nonPlatformBodies();
-      expect(Cactus.prototype.getBody).toHaveBeenCalled();
-    });
-
     it('adds more bodies to the worldBodies array', function () {
       var priorLength = jimmy.getWorldBodies().length;
       jimmy.nonPlatformBodies();
@@ -220,26 +160,40 @@ describe('WorldBuilder', function () {
   });
 
   describe('#objectOrCactus', function () {
-    it('has a one in ten chance to place a cactus', function () {
+    it('has a one in ten chance to return cactus', function () {
       spyOn(window, 'randomNumberGenerator').and.returnValue(1);
-      spyOn(jimmy, 'createCacti');
-      jimmy.objectOrCactus(1);
-      expect(jimmy.createCacti).toHaveBeenCalled();
+      expect(jimmy.objectOrCactus()).toEqual('cactus');
     });
 
-    it('has a nine in ten chance to place an object', function () {
+    it('has a nine in ten chance to return object', function () {
       spyOn(window, 'randomNumberGenerator').and.returnValue(5);
-      spyOn(jimmy, 'createPreciousObjects');
-      jimmy.objectOrCactus(1);
-      expect(jimmy.createPreciousObjects).toHaveBeenCalled();
+      expect(jimmy.objectOrCactus()).toEqual('object');
+    });
+  });
+
+  describe('#filterOutCacti', function () {
+    it('only returns objects that do not have the cacti label', function () {
+
     });
   });
 
   describe('#fallenPreciousObjectsRatio', function () {
     it('shows the ratio of fallen objects compared to all precious objects', function () {
+      spyOn(jimmy, 'objectOrCactus').and.returnValue('object');
       jimmy.createPreciousObjects(1);
       jimmy.createPreciousObjects(2);
-      jimmy.getPreciousObjects()[0].fallen();
+      jimmy.getAllObjects()[0].collision();
+      expect(jimmy.fallenPreciousObjectsRatio()).toEqual(0.5)
+    });
+
+    it('does not include objects that are cacti', function () {
+      spyOn(window, 'randomNumberGenerator').and.returnValue(5);
+      jimmy.createPreciousObjects(1);
+      jimmy.createPreciousObjects(1);
+      spyOn(jimmy, 'objectOrCactus').and.returnValue('cactus');
+      jimmy.createPreciousObjects(2);
+      jimmy.getAllObjects()[0].collision();
+      jimmy.getAllObjects()[2].collision();
       expect(jimmy.fallenPreciousObjectsRatio()).toEqual(0.5)
     });
   });

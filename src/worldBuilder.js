@@ -2,8 +2,7 @@
 
 function WorldBuilder() {
   this.worldBodies = [];
-  this.preciousObjects = [];
-  this.cacti = [];
+  this.objects = [];
   this.platformGrid = new PlatformGrid();
 }
 
@@ -21,62 +20,33 @@ WorldBuilder.prototype.getPlatformGrid = function () {
   return this.platformGrid.getGrid();
 };
 
-WorldBuilder.prototype.getPreciousObjects = function () {
-  return this.preciousObjects;
+WorldBuilder.prototype.getAllObjects = function () {
+  return this.objects;
 };
 
-WorldBuilder.prototype.getCacti = function () {
-  return this.cacti;
-};
 
-WorldBuilder.prototype.getFallenObjects = function () {
-  return this.preciousObjects.filter(function (object) {
-    return object.isOnFloor();
+WorldBuilder.prototype.getCollidedObjects = function () {
+  return this.objects.filter(function (object) {
+    return object.hasCollided();
   });
 };
 
 WorldBuilder.prototype.fallenObjectPreciousness = function () {
   var sum = 0;
-  this.getFallenObjects().forEach(function (object) {
-    sum += object.preciousness;
-  });
-  return sum;
-};
-
-WorldBuilder.prototype.getTouchedCacti = function () {
-  return this.cacti.filter(function (cactus) {
-    return cactus.hasBeenTouched();
-  });
-};
-
-WorldBuilder.prototype.touchedCactiSpikiness = function () {
-  var sum = 0;
-  this.getTouchedCacti().forEach(function (cactus) {
-    sum += cactus.getSpikiness();
+  this.getCollidedObjects().forEach(function (object) {
+    sum += object.getPreciousness();
   });
   return sum;
 };
 
 WorldBuilder.prototype.createPreciousObjects = function (xCoordinate) {
-  this.preciousObjects.push(new PreciousObject(xCoordinate, 0));
+  this.objects.push(new PreciousObject(xCoordinate, 0, this.objectOrCactus()));
 };
 
-WorldBuilder.prototype.createCacti = function (xCoordinate) {
-  this.cacti.push(new Cactus(xCoordinate, 0));
-};
-
-WorldBuilder.prototype.objectOnFloor = function (body) {
-  this.preciousObjects.forEach(function (object) {
+WorldBuilder.prototype.objectCollided = function (body) {
+  this.objects.forEach(function (object) {
     if (object.getBody() === body) {
-      object.fallen();
-    }
-  });
-};
-
-WorldBuilder.prototype.cactusTouched = function (body) {
-  this.cacti.forEach(function (cactus) {
-    if(cactus.getBody() === body) {
-      cactus.playerTouch();
+      object.collision();
     }
   });
 };
@@ -107,28 +77,31 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
 
 WorldBuilder.prototype.nonPlatformBodies = function () {
   var builder = this;
-  builder.preciousObjects.forEach(function (object) {
+  builder.objects.forEach(function (object) {
     builder.worldBodies.push(object.getBody());
-  });
-  builder.cacti.forEach(function (cactus) {
-    builder.worldBodies.push(cactus.getBody());
   });
 };
 
 WorldBuilder.prototype.placeObjects = function (xCoordinate) {
   if (randomNumberGenerator(0, 2) === 1) {
-    this.objectOrCactus(xCoordinate);
-  }
-};
-
-WorldBuilder.prototype.objectOrCactus = function (xCoordinate) {
-  if (randomNumberGenerator(0, 10) === 1) {
-    this.createCacti(xCoordinate);
-  } else {
     this.createPreciousObjects(xCoordinate);
   }
 };
 
+WorldBuilder.prototype.objectOrCactus = function () {
+  if (randomNumberGenerator(0, 10) === 1) {
+    return 'cactus';
+  } else {
+    return 'object';
+  }
+};
+
 WorldBuilder.prototype.fallenPreciousObjectsRatio = function () {
-  return (this.getFallenObjects().length / this.getPreciousObjects().length)
+  var allPreciousObjects = this.getAllObjects().filter(function (object) {
+    return object.getType() !== 'cactus';
+  });
+  var allFallenObjects = this.getCollidedObjects().filter(function (object) {
+    return object.getType() !== 'cactus';
+  });
+  return (allFallenObjects.length / allPreciousObjects.length);
 };

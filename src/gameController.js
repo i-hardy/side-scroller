@@ -46,8 +46,7 @@ GameController.prototype.addPlayer = function () {
 };
 
 GameController.prototype.calculateScore = function () {
-  var score = this.worldBuilder.fallenObjectPreciousness() - this.worldBuilder.touchedCactiSpikiness();
-  this.score.increase(score);
+  this.score.increase(this.worldBuilder.fallenObjectPreciousness());
   this.renderer.receiveScore(this.score.showPoints());
 };
 
