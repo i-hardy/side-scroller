@@ -45,6 +45,11 @@ var canvas = {
   }
 };
 
+var player_name_form = {
+  addEventListener: function () {},
+  reset: function () {}
+};
+
 var KEY_W = 87;
 var KEY_A = 65;
 var KEY_S = 83;
