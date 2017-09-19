@@ -21,27 +21,32 @@ EventManager.prototype.playerCollision = function (object, eventName, action) {
  });
 };
 
-EventManager.prototype.objectFloorCollisionEvent = function (event, worldBuilder) {
+EventManager.prototype.pairBodyLabels = function (pair) {
+  return [pair.bodyA.label, pair.bodyB.label].sort();
+};
+
+EventManager.prototype.validCollisionPairs = function (pair) {
+  var objectFloor = this.pairBodyLabels(pair)[0] === 'floor' && this.pairBodyLabels(pair)[1] === 'object';
+  var playerCactus = this.pairBodyLabels(pair)[0] === 'cactus' && this.pairBodyLabels(pair)[1] === 'player';
+  return objectFloor || playerCactus;
+};
+
+EventManager.prototype.objectCollisionEvent = function (event, worldBuilder) {
+  var manager = this;
   event.pairs.forEach(function (pair) {
-    if (pair.bodyA.label === 'object' && pair.bodyB.label === 'floor') {
-      worldBuilder.objectCollided(pair.bodyA);
+    if (manager.validCollisionPairs(pair)) {
+      if (pair.bodyA.label === 'object' || pair.bodyA.label === 'cactus') {
+        worldBuilder.objectCollided(pair.bodyA);
+      } else {
+        worldBuilder.objectCollided(pair.bodyB);
+      }
     }
   });
 };
 
-EventManager.prototype.objectCollision = function (worldBuilder, callback) {
+EventManager.prototype.objectCollision = function (worldBuilder) {
   var manager = this;
   Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager[callback](event, worldBuilder);
-  });
-};
-
-EventManager.prototype.playerCactusCollisionEvent = function (event, worldBuilder) {
-  event.pairs.forEach(function (pair) {
-    if (pair.bodyA.label === 'player' && pair.bodyB.label === 'cactus') {
-      worldBuilder.objectCollided(pair.bodyB);
-    } else if (pair.bodyA.label === 'cactus' && pair.bodyB.label === 'player') {
-      worldBuilder.objectCollided(pair.bodyA);
-    }
+    manager.objectCollisionEvent(event, worldBuilder);
   });
 };

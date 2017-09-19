@@ -18,7 +18,7 @@ describe('GameController', function () {
     it('creates object collision events via the event manager', function () {
       spyOn(EventManager.prototype, 'objectCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectCollision.calls.count()).toEqual(2);
+      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
     });
   });
 
