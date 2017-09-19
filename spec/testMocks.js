@@ -35,7 +35,8 @@ var context = {
   moveTo: function () {},
   lineTo: function () {},
   fillText: function () {},
-  setTransform: function () {}
+  setTransform: function () {},
+  drawImage: function() {}
 };
 
 var canvas = {
