@@ -29,6 +29,7 @@ var Matter = {Body: {
 
 var context = {
   clearRect: function () {},
+  fillRect: function () {},
   translate: function () {},
   beginPath: function () {},
   stroke: function () {},

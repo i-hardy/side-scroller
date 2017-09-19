@@ -19,14 +19,23 @@ OpeningScreen.prototype.getRules = function () {
   return this.rules;
 };
 
+OpeningScreen.prototype.drawWall = function () {
+  this.ctx.globalAlpha = 0.8;
+  this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
+  this.ctx.globalAlpha = 1;
+};
+
 OpeningScreen.prototype.draw = function () {
+  this.drawWall();
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillRect(75, 50, (worldOptions.viewWidth - 150), (worldOptions.height - 100))
   this.ctx.fillStyle = 'black';
   this.ctx.textAlign = 'center';
-  this.ctx.font = '24px sans-serif';
-  this.ctx.fillText(this.getTitle(), 512, 100);
-  this.ctx.font = '16px sans-serif';
+  this.ctx.font = '64px Lobster';
+  this.ctx.fillText(this.getTitle(), 512, 125);
+  this.ctx.font = '24px Bangers';
   for (var i = 0; i < this.getRules().length; i++) {
-    var yHeight = 300 + (i * 16);
+    var yHeight = 325 + (i * 24);
     this.ctx.fillText(this.getRules()[i], 512, yHeight);
   }
 };

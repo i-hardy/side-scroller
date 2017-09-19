@@ -3,14 +3,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="assets/stylesheet.css">
+  <link href="https://fonts.googleapis.com/css?family=Bangers|Lobster" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles/stylesheet.css">
   <title>Side-Scroller</title>
 </head>
 <body>
+  <img src="assets/images/wall.jpg" id="wall_img" style="display:none;" alt="">
   <canvas id="canvas" width="1024" height="512"></canvas>
   <form id="player_name_form">
     <p><input type="text" name="name" id="player_name" placeholder="Enter your name"></p>
-    <p><input type="submit" name="submit_player_name" value="Start game"></p>
+    <p><button type="submit" id="submit_player_name">Start game</button></p>
   </form>
   <script src="src/matter.min.js"></script>
   <script src="src/worldOptions.js"></script>

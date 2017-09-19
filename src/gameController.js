@@ -70,6 +70,10 @@ GameController.prototype.render = function () {
   this.renderer.updateScreen();
   var controller = this;
   window.setInterval(function () {
+    controller.renderer.spriteLoop();
+  }, 1000/15);
+  window.setInterval(function () {
+    controller.renderer.gameLoop();
     controller.calculateScore();
   }, 1000/60);
 };
