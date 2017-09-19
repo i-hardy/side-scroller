@@ -12,13 +12,13 @@ describe('GameController', function () {
     it('creates player collision events via the event manager', function () {
       spyOn(EventManager.prototype, 'playerCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.playerCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.playerCollision.calls.count()).toEqual(2);
     });
 
-    it('creates object-floor collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'objectFloorCollision');
+    it('creates object collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'objectCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectFloorCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
     });
   });
 
@@ -60,15 +60,20 @@ describe('GameController', function () {
 
   describe('#calculateScore', function () {
     beforeEach(function () {
+      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue(4);
       spyOn(atticus, 'render').and.callFake(function () {
         this.renderer = new Renderer;
       })
       atticus.render();
     });
 
-    it('sets the game score based on the preciousness of the fallen objects', function () {
+    it('checks the values of fallen objects and touched cacti', function () {
+      atticus.calculateScore();
+      expect(WorldBuilder.prototype.fallenObjectPreciousness).toHaveBeenCalled();
+    });
+
+    it('sets the game score based on fallen objects and touched cacti', function () {
       spyOn(Score.prototype, 'increase');
-      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue([1, 1]);
       atticus.calculateScore();
       expect(Score.prototype.increase).toHaveBeenCalled();
     });
@@ -111,6 +116,9 @@ describe('GameController', function () {
       spyOn(Matter.Engine, 'run');
       spyOn(Renderer.prototype, 'updateScreen');
       spyOn(window, 'setInterval');
+      spyOn(Renderer.prototype, 'gameLoop');
+      spyOn(atticus, 'calculateScore');
+      spyOn(Renderer.prototype, 'spriteLoop');
       atticus.render();
     });
 
@@ -126,9 +134,18 @@ describe('GameController', function () {
       expect(window.setInterval).toHaveBeenCalled();
     });
 
-    it('passes in its calculateScore method in a callback', function () {
-      spyOn(atticus, 'calculateScore');
+    it('passes in the renderer spriteLoop method in a callback', function () {
       window.setInterval.calls.allArgs()[0][0]();
+      expect(Renderer.prototype.spriteLoop).toHaveBeenCalled();
+    });
+
+    it('passes in the renderer gameLoop method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
+      expect(Renderer.prototype.gameLoop).toHaveBeenCalled();
+    });
+
+    it('passes in its calculateScore method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
       expect(atticus.calculateScore).toHaveBeenCalled();
     });
   });

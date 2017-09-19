@@ -2,14 +2,14 @@
 
 function WorldBuilder() {
   this.worldBodies = [];
-  this.preciousObjects = [];
+  this.objects = [];
   this.platformGrid = new PlatformGrid();
 }
 
 WorldBuilder.prototype.buildCompleteWorld = function () {
   this.buildPlatforms();
   this.createWorldBodies();
-  this.preciousObjectBodies();
+  this.nonPlatformBodies();
 };
 
 WorldBuilder.prototype.buildPlatforms = function () {
@@ -20,36 +20,35 @@ WorldBuilder.prototype.getPlatformGrid = function () {
   return this.platformGrid.getGrid();
 };
 
-WorldBuilder.prototype.getPreciousObjects = function () {
-  return this.preciousObjects;
+WorldBuilder.prototype.getAllObjects = function () {
+  return this.objects;
 };
 
-WorldBuilder.prototype.getFallenObjects = function () {
-  return this.preciousObjects.filter(function (object) {
-    return object.isOnFloor();
+
+WorldBuilder.prototype.getCollidedObjects = function () {
+  return this.objects.filter(function (object) {
+    return object.hasCollided();
   });
 };
 
 WorldBuilder.prototype.fallenObjectPreciousness = function () {
-  return this.getFallenObjects().map(function (object) {
-    return object.preciousness;
+  var sum = 0;
+  this.getCollidedObjects().forEach(function (object) {
+    sum += object.getPreciousness();
   });
+  return sum;
 };
 
 WorldBuilder.prototype.createPreciousObjects = function (xCoordinate) {
-  this.preciousObjects.push(new PreciousObject(xCoordinate, 0));
+  this.objects.push(new PreciousObject(xCoordinate, 0, this.objectOrCactus()));
 };
 
-WorldBuilder.prototype.objectOnFloor = function (body) {
-  this.preciousObjects.forEach(function (object) {
+WorldBuilder.prototype.objectCollided = function (body) {
+  this.objects.forEach(function (object) {
     if (object.getBody() === body) {
-      object.fallen();
+      object.collision();
     }
   });
-};
-
-WorldBuilder.prototype.objectsStillOnPlatforms = function () {
-  return this.preciousObjects > this.getFallenObjects();
 };
 
 WorldBuilder.prototype.getWorldBodies = function () {
@@ -76,9 +75,9 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
   }
 };
 
-WorldBuilder.prototype.preciousObjectBodies = function () {
+WorldBuilder.prototype.nonPlatformBodies = function () {
   var builder = this;
-  builder.preciousObjects.forEach(function (object) {
+  builder.objects.forEach(function (object) {
     builder.worldBodies.push(object.getBody());
   });
 };
@@ -89,6 +88,20 @@ WorldBuilder.prototype.placeObjects = function (xCoordinate) {
   }
 };
 
+WorldBuilder.prototype.objectOrCactus = function () {
+  if (randomNumberGenerator(0, 10) === 1) {
+    return 'cactus';
+  } else {
+    return 'object';
+  }
+};
+
 WorldBuilder.prototype.fallenPreciousObjectsRatio = function () {
-  return (this.getFallenObjects().length / this.getPreciousObjects().length)
+  var allPreciousObjects = this.getAllObjects().filter(function (object) {
+    return object.getType() !== 'cactus';
+  });
+  var allFallenObjects = this.getCollidedObjects().filter(function (object) {
+    return object.getType() !== 'cactus';
+  });
+  return (allFallenObjects.length / allPreciousObjects.length);
 };

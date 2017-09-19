@@ -6,7 +6,7 @@ describe('PreciousObject', function() {
   beforeEach(function() {
     spyOn(window, 'randomNumberGenerator').and.returnValue(2);
     spyOn(PreciousObject.prototype, 'createBody').and.callThrough();
-    mrFancyPants = new PreciousObject(100, 150);
+    mrFancyPants = new PreciousObject(100, 150, 'object');
   });
 
   describe('#instantiation', function() {
@@ -17,16 +17,25 @@ describe('PreciousObject', function() {
     it('creates a Matter Body', function () {
       expect(PreciousObject.prototype.createBody).toHaveBeenCalled();
     });
+
+    it('has a type', function () {
+      expect(preciousObject.getType()).toEqual('object');
+    });
   });
 
   describe('#getPreciousness', function () {
     it('returns the preciousness', function () {
       expect(mrFancyPants.getPreciousness()).toEqual(2);
     });
+
+    it('requests negative preciousness if the type is cactus', function () {
+      var cactus = new PreciousObject(100, 150, 'cactus');
+      expect(window.randomNumberGenerator.calls.allArgs()[1]).toEqual([-5, -1]);
+    });
   });
 
   describe('#getBody', function () {
-    it('returns the Matter Body relating to the precious object', function () {
+    it('returns the Matter Body relating to the object', function () {
       spyOn(Matter.Bodies, 'rectangle').and.returnValue({name: 'Body'});
       mrFancyPants.createBody();
       expect(mrFancyPants.getBody()).toEqual({name: 'Body'});
@@ -41,16 +50,16 @@ describe('PreciousObject', function() {
     });
   });
 
-  describe('#isOnFloor', function () {
-    it('returns whether or not the object is on the floor', function () {
-      expect(mrFancyPants.isOnFloor()).toBe(false);
+  describe('#hasCollided', function () {
+    it('returns whether or not the object has registered a collision', function () {
+      expect(mrFancyPants.hasCollided()).toBe(false);
     });
   });
 
-  describe('#fallen', function() {
-    it('sets onFloor to true', function() {
-      mrFancyPants.fallen();
-      expect(mrFancyPants.isOnFloor()).toBe(true);
+  describe('#collision', function() {
+    it('sets collided to true', function() {
+      mrFancyPants.collision();
+      expect(mrFancyPants.hasCollided()).toBe(true);
     });
   });
 });

@@ -29,6 +29,7 @@ var Matter = {Body: {
 
 var context = {
   clearRect: function () {},
+  fillRect: function () {},
   translate: function () {},
   beginPath: function () {},
   stroke: function () {},
@@ -43,6 +44,11 @@ var canvas = {
   getContext: function () {
     return context;
   }
+};
+
+var player_name_form = {
+  addEventListener: function () {},
+  reset: function () {}
 };
 
 var KEY_W = 87;

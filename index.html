@@ -3,6 +3,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Bangers|Lobster" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles/stylesheet.css">
   <title>Side-Scroller</title>
 </head>
 <body>
@@ -30,9 +32,15 @@
   <img id="teddy_img" src="assets/images/teddy.png" style="display:none">
   <img id="wool_img" src="assets/images/wool.png" style="display:none">
   <img id="floor_img" src="assets/images/floor.png" style="display:none">
+  <img src="assets/images/wall.jpg" id="wall_img" style="display:none;" alt="">
   <canvas id="canvas" width="1024" height="512"></canvas>
+  <form id="player_name_form">
+    <p><input type="text" name="name" id="player_name" placeholder="Enter your name"></p>
+    <p><button type="submit" id="submit_player_name">Start game</button></p>
+  </form>
   <script src="src/matter.min.js"></script>
   <script src="src/worldOptions.js"></script>
+  <script src="src/openingScreen.js"></script>
   <script src="src/randomNumberGenerator.js"></script>
   <script src="src/platformGrid.js"></script>
   <script src="src/worldBuilder.js"></script>
@@ -46,29 +54,12 @@
   <script src="src/score.js"></script>
   <script src="src/eventManager.js"></script>
   <script src="src/gameController.js"></script>
+  <script src="src/domInterface.js"></script>
   <script type="text/javascript">
-    const KEY_W = 87;
-    const KEY_A = 65;
-    const KEY_S = 83;
-    const KEY_D = 68;
-
-    // movement
-
-    const keys = [];
-
-      window.onload = function () {
-        document.body.addEventListener('keyup', function(e) {
-          keys[e.keyCode] = false;
-        });
-
-        document.body.addEventListener('keydown', function(e) {
-          keys[e.keyCode] = true;
-        });
-
-        controller = new GameController();
-        controller.ready();
-        controller.render();
-      }
+    window.onload = function () {
+      domInterface.eventListeners();
+      domInterface.gameOpening();
+    };
   </script>
 </body>
 </html>

@@ -6,7 +6,7 @@ function GameController () {
   this.eventManager = new EventManager(this.engine);
   this.worldBuilder = new WorldBuilder();
   this.score = new Score();
-  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
+  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5, label: 'player' }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
   this.soundEngine = new SoundEngine(this.player);
 }
@@ -14,7 +14,7 @@ function GameController () {
 GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
-  this.eventManager.objectFloorCollision(this.worldBuilder);
+  this.eventManager.objectCollision(this.worldBuilder);
 };
 
 GameController.prototype.buildWorld = function () {
@@ -45,9 +45,7 @@ GameController.prototype.addPlayer = function () {
 };
 
 GameController.prototype.calculateScore = function () {
-  this.score.increase(this.worldBuilder.fallenObjectPreciousness().reduce(function (sum, value) {
-    return sum + value;
-  }, 0));
+  this.score.increase(this.worldBuilder.fallenObjectPreciousness());
   this.renderer.receiveScore(this.score.showPoints());
 };
 
@@ -70,6 +68,10 @@ GameController.prototype.render = function () {
   this.renderer.updateScreen();
   var controller = this;
   window.setInterval(function () {
+    controller.renderer.spriteLoop();
+  }, 1000/15);
+  window.setInterval(function () {
+    controller.renderer.gameLoop();
     controller.calculateScore();
   }, 1000/60);
 };
