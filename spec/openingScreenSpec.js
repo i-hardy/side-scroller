@@ -25,10 +25,31 @@ describe('OpeningScreen', function () {
     });
   });
 
+  describe('#drawWall', function () {
+    it('draws the background image', function () {
+      spyOn(context, 'drawImage');
+      timmy.drawWall();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+  });
+
   describe('#draw', function () {
-    it('writes the game name and rules on the canvas', function () {
+    beforeEach(function () {
+      spyOn(timmy, 'drawWall')
       spyOn(context, 'fillText');
+      spyOn(context, 'fillRect');
       timmy.draw();
+    });
+
+    it('draws the background image', function () {
+      expect(timmy.drawWall).toHaveBeenCalled();
+    });
+
+    it('draws a box for the text to go on', function () {
+      expect(context.fillRect).toHaveBeenCalled();
+    });
+
+    it('writes the game name and rules on the canvas', function () {
       expect(context.fillText.calls.count()).toEqual(timmy.getRules().length + 1);
     });
   });

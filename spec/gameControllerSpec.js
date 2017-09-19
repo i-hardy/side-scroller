@@ -122,6 +122,9 @@ describe('GameController', function () {
       spyOn(Matter.Engine, 'run');
       spyOn(Renderer.prototype, 'updateScreen');
       spyOn(window, 'setInterval');
+      spyOn(Renderer.prototype, 'gameLoop');
+      spyOn(atticus, 'calculateScore');
+      spyOn(Renderer.prototype, 'spriteLoop');
       atticus.render();
     });
 
@@ -137,9 +140,18 @@ describe('GameController', function () {
       expect(window.setInterval).toHaveBeenCalled();
     });
 
-    it('passes in its calculateScore method in a callback', function () {
-      spyOn(atticus, 'calculateScore');
+    it('passes in the renderer spriteLoop method in a callback', function () {
       window.setInterval.calls.allArgs()[0][0]();
+      expect(Renderer.prototype.spriteLoop).toHaveBeenCalled();
+    });
+
+    it('passes in the renderer gameLoop method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
+      expect(Renderer.prototype.gameLoop).toHaveBeenCalled();
+    });
+
+    it('passes in its calculateScore method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
       expect(atticus.calculateScore).toHaveBeenCalled();
     });
   });

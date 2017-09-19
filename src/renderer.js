@@ -71,23 +71,38 @@ Renderer.prototype.receiveDestructionPercentage = function (percentage) {
 };
 
 Renderer.prototype.scoreText = function () {
-  return 'Score: ' + this.score;
+  return playerName + "'s score: " + this.score;
 };
 
 Renderer.prototype.showDestructionPercentage = function () {
   return this.destructionPercentage;
 };
 
-Renderer.prototype.updateScreen = function () {
+Renderer.prototype.drawWall = function () {
+  this.ctx.globalAlpha = 0.8;
+  this.ctx.drawImage(document.getElementById('wall_img'), this.viewport.leftEdge, 0);
+  this.ctx.globalAlpha = 1;
+};
+
+Renderer.prototype.gameLoop = function () {
   this.playerMovement();
   this.checkBorder();
   this.sounds();
   this.scroll();
+};
+
+Renderer.prototype.spriteLoop = function () {
+  this.player.spriteUpdate();
+};
+
+Renderer.prototype.updateScreen = function () {
   var bodies = this.world.bodies;
 
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
+  this.drawWall();
+  
   this.ctx.beginPath();
   for (var i = 0; i < bodies.length; i += 1) {
     var vertices = bodies[i].vertices;
@@ -100,12 +115,11 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.lineWidth = 1;
   this.ctx.strokeStyle = '#000';
   this.ctx.stroke();
-  this.ctx.font = '24px sans-serif';
+  this.ctx.fillStyle = '#000'
+  this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
 
   this.drawPlayer();
-  this.player.spriteUpdate();
-
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;
@@ -116,7 +130,7 @@ Renderer.prototype.updateScreen = function () {
 };
 
 Renderer.prototype.endGameScreen = function () {
-  this.ctx.font = '24px sans-serif';
+  this.ctx.font = '24px frankfurtregular';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
   this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
 };
