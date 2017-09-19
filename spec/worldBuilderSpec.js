@@ -171,12 +171,6 @@ describe('WorldBuilder', function () {
     });
   });
 
-  describe('#filterOutCacti', function () {
-    it('only returns objects that do not have the cacti label', function () {
-
-    });
-  });
-
   describe('#fallenPreciousObjectsRatio', function () {
     it('shows the ratio of fallen objects compared to all precious objects', function () {
       spyOn(jimmy, 'objectOrCactus').and.returnValue('object');

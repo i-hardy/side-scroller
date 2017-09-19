@@ -12,19 +12,13 @@ describe('GameController', function () {
     it('creates player collision events via the event manager', function () {
       spyOn(EventManager.prototype, 'playerCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.playerCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.playerCollision.calls.count()).toEqual(2);
     });
 
-    it('creates object-floor collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'objectFloorCollision');
+    it('creates object collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'objectCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectFloorCollision).toHaveBeenCalled();
-    });
-
-    it('creates player-cactus collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'playerCactusCollision');
-      atticus.collisionEvents();
-      expect(EventManager.prototype.playerCactusCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
     });
   });
 
