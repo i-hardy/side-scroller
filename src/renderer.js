@@ -41,7 +41,9 @@ Renderer.prototype.drawPlayer = function() {
 Renderer.prototype.drawObjects = function () {
     var bubble = this;
     var objects = worldOptions.preciousObjectsImg;
-    var platformNumber = this.world.bodies.filter(body => body.label==="platform").length;
+    var platformNumber = this.world.bodies.filter(function(body){
+        body.label==="platform";
+      }).length;
 
     this.world.bodies.forEach(function(body, i) {
       if (body.label === "object") {
@@ -49,11 +51,12 @@ Renderer.prototype.drawObjects = function () {
 
       } else if (body.label === "platform") {
         bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+
       } else if (body.label === "floor") {
         bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
       }
-  }
-)};
+    });
+};
 
 
 Renderer.prototype.checkBorder = function () {
