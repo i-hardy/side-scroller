@@ -90,21 +90,28 @@ describe('EventManager', function () {
     });
   });
 
-  describe('#objectFloorCollision', function () {
+  describe('#objectCollision', function () {
     beforeEach(function () {
       spyOn(Matter.Events, 'on');
     });
 
     it('creates a Matter event on the game engine', function () {
-      carolyn.objectFloorCollision();
+      carolyn.objectCollision();
       expect(Matter.Events.on).toHaveBeenCalled();
     });
 
-    it('passes in the objectFloorCollisionEvent function in a callback', function () {
+    it('passes in the objectFloorCollisionEvent function in a callback if given as an argument', function () {
       spyOn(carolyn, 'objectFloorCollisionEvent');
-      carolyn.objectFloorCollision();
+      carolyn.objectCollision(worldBuilder, 'objectFloorCollisionEvent');
       Matter.Events.on.calls.allArgs()[0][2]();
       expect(carolyn.objectFloorCollisionEvent).toHaveBeenCalled();
+    });
+
+    it('passes in the playerCactusCollisionEvent function in a callback if given as an argument', function () {
+      spyOn(carolyn, 'playerCactusCollisionEvent');
+      carolyn.objectCollision(worldBuilder, 'playerCactusCollisionEvent');
+      Matter.Events.on.calls.allArgs()[0][2]();
+      expect(carolyn.playerCactusCollisionEvent).toHaveBeenCalled();
     });
   });
 
@@ -160,24 +167,6 @@ describe('EventManager', function () {
       event.pairs[0].bodyB.label = 'platform';
       carolyn.playerCactusCollisionEvent(event, worldBuilder);
       expect(worldBuilder.objectCollided).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('#playerCactusCollision', function () {
-    beforeEach(function () {
-      spyOn(Matter.Events, 'on');
-    });
-
-    it('creates a Matter event on the game engine', function () {
-      carolyn.playerCactusCollision(worldBuilder);
-      expect(Matter.Events.on).toHaveBeenCalled();
-    });
-
-    it('passes in the playerCactusCollisionEvent function in a callback', function () {
-      spyOn(carolyn, 'playerCactusCollisionEvent');
-      carolyn.playerCactusCollision(worldBuilder);
-      Matter.Events.on.calls.allArgs()[0][2]();
-      expect(carolyn.playerCactusCollisionEvent).toHaveBeenCalled();
     });
   });
 });

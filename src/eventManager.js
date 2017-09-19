@@ -29,17 +29,10 @@ EventManager.prototype.objectFloorCollisionEvent = function (event, worldBuilder
   });
 };
 
-EventManager.prototype.objectFloorCollision = function (worldBuilder) {
+EventManager.prototype.objectCollision = function (worldBuilder, callback) {
   var manager = this;
   Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager.objectFloorCollisionEvent(event, worldBuilder);
-  });
-};
-
-EventManager.prototype.playerCactusCollision = function (worldBuilder) {
-  var manager = this;
-  Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager.playerCactusCollisionEvent(event, worldBuilder);
+    manager[callback](event, worldBuilder);
   });
 };
 
