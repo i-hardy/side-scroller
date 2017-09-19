@@ -8,13 +8,13 @@
   <title>Side-Scroller</title>
 </head>
 <body>
-  <img src="assets/images/wall.jpg" id="wall_img" style="display:none;" alt="">
   <canvas id="canvas" width="1024" height="512"></canvas>
   <form id="player_name_form">
     <p><input type="text" name="name" id="player_name" placeholder="Enter your name"></p>
     <p><button type="submit" id="submit_player_name">Start game</button></p>
   </form>
   <script src="src/matter.min.js"></script>
+  <script src="src/gameImages.js"></script>
   <script src="src/worldOptions.js"></script>
   <script src="src/openingScreen.js"></script>
   <script src="src/randomNumberGenerator.js"></script>
@@ -32,6 +32,8 @@
   <script src="src/gameController.js"></script>
   <script src="src/domInterface.js"></script>
   <script type="text/javascript">
+    gameImages.loadImages();
+
     window.onload = function () {
       domInterface.eventListeners();
       domInterface.gameOpening();

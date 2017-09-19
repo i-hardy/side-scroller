@@ -80,7 +80,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 
 Renderer.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(document.getElementById('wall_img'), this.viewport.leftEdge, 0);
+  this.ctx.drawImage(gameImages.background, this.viewport.leftEdge, 0);
   this.ctx.globalAlpha = 1;
 };
 
@@ -102,7 +102,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
   this.drawWall();
-  
+
   this.ctx.beginPath();
   for (var i = 0; i < bodies.length; i += 1) {
     var vertices = bodies[i].vertices;
