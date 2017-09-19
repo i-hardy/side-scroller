@@ -3,12 +3,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="assets/stylesheet.css">
   <title>Side-Scroller</title>
 </head>
 <body>
   <canvas id="canvas" width="1024" height="512"></canvas>
+  <form id="player_name_form">
+    <p><input type="text" name="name" id="player_name" placeholder="Enter your name"></p>
+    <p><input type="submit" name="submit_player_name" value="Start game"></p>
+  </form>
   <script src="src/matter.min.js"></script>
   <script src="src/worldOptions.js"></script>
+  <script src="src/openingScreen.js"></script>
   <script src="src/randomNumberGenerator.js"></script>
   <script src="src/platformGrid.js"></script>
   <script src="src/worldBuilder.js"></script>
@@ -32,6 +38,16 @@
     const keys = [];
 
       window.onload = function () {
+        function collectName() {
+          document
+            .getElementById("player_name_form")
+            .addEventListener("submit", function(submitEvent) {
+              submitEvent.preventDefault();
+              getInput();
+              resetForm();
+            });
+        }
+
         document.body.addEventListener('keyup', function(e) {
           keys[e.keyCode] = false;
         });
@@ -40,9 +56,32 @@
           keys[e.keyCode] = true;
         });
 
-        controller = new GameController();
-        controller.ready();
-        controller.render();
+        opening = new OpeningScreen();
+        opening.draw();
+
+        // controller = new GameController();
+        // controller.ready();
+        // controller.render();
+
+        function collectName() {
+          document
+            .getElementById("player_name_form")
+            .addEventListener("submit", function(submitEvent) {
+              submitEvent.preventDefault();
+              getInput();
+              resetForm();
+            });
+        }
+
+        function getInput() {
+          var input = document.forms[0].player_name.value;
+        }
+
+        function resetForm() {
+          document
+            .getElementById("player_name_form")
+            .reset();
+        }
       }
   </script>
 </body>
