@@ -66,6 +66,8 @@ Renderer.prototype.drawShelf = function () {
 
       } else if (body.label === "platform") {
         bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+      } else if (body.label === "floor") {
+        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
       }
   }
 )};
@@ -132,7 +134,7 @@ Renderer.prototype.updateScreen = function () {
   }
   this.ctx.lineWidth = 1;
   this.ctx.strokeStyle = '#000';
-  this.ctx.stroke();
+  // this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
   this.drawShelf();
