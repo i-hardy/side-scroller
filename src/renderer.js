@@ -25,6 +25,19 @@ Renderer.prototype.playerMovement = function () {
   this.player.moveRight();
 };
 
+Renderer.prototype.drawPlayer = function() {
+  this.ctx.drawImage(
+    this.player.spriteImage(),
+    0 + this.player.spriteFrameIndexes()[this.player.spriteDirection()][this.player.spriteCurrentFrame()] * this.player.spriteWidth(),
+    0 + this.player.spriteDirection() * this.player.spriteHeight(),
+    this.player.spriteWidth(),
+    this.player.spriteHeight(),
+    this.player.getBodyObject().position.x - 42,
+    this.player.getBodyObject().position.y - 42,
+    90,
+    90);
+};
+
 Renderer.prototype.checkBorder = function () {
   var playerBounds = this.player.getBodyObject().bounds;
   if (playerBounds.min.x < this.viewport.leftEdge || playerBounds.max.x > this.viewport.rightEdge) {
@@ -89,6 +102,10 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+
+  this.drawPlayer();
+  this.player.spriteUpdate();
+
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;
