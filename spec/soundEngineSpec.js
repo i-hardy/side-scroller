@@ -3,11 +3,11 @@
 describe('SoundEngine', function() {
 
   var player = {};
-  var playerSounds = { loadPlayerSounds: function() = {} }
   var soundEngine;
+  var playerSounds;
 
   beforeEach(function() {
-    soundEngine = new SoundEngine(player, playerSounds);
+    soundEngine = new SoundEngine(player);
   });
 
   it('exists', function() {
@@ -16,9 +16,9 @@ describe('SoundEngine', function() {
 
   describe('#runSounds', function() {
     it('calls loadPlayerSounds', function() {
-      spyOn(playerSounds, 'loadPlayerSounds')
+      spyOn(PlayerSounds.prototype, 'loadPlayerSounds')
       soundEngine.runSounds();
-      expect(playerSounds.loadPlayerSounds()).toHaveBeenCalled();
+      expect(PlayerSounds.prototype.loadPlayerSounds).toHaveBeenCalled();
     });
   });
 });
