@@ -38,6 +38,18 @@ Renderer.prototype.drawPlayer = function() {
     90);
 };
 
+Renderer.prototype.drawShelf = function () {
+    var bubble = this;
+    this.world.bodies.forEach(function(body) {
+      if (body.label === "object") {
+        bubble.ctx.drawImage(document.getElementById("cupcake_img"), body.position.x-20, body.position.y-20);
+      } else if (body.label === "platform") {
+        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+      }
+  }
+)};
+
+
 Renderer.prototype.checkBorder = function () {
   var playerBounds = this.player.getBodyObject().bounds;
   if (playerBounds.min.x < this.viewport.leftEdge || playerBounds.max.x > this.viewport.rightEdge) {
@@ -105,6 +117,8 @@ Renderer.prototype.updateScreen = function () {
 
   this.drawPlayer();
   this.player.spriteUpdate();
+
+  this.drawShelf();
 
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
