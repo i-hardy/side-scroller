@@ -40,9 +40,83 @@ Renderer.prototype.drawPlayer = function() {
 
 Renderer.prototype.drawShelf = function () {
     var bubble = this;
-    this.world.bodies.forEach(function(body) {
+    var objects = ["chardonnay_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "merlot_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                    "poo-cake_img",
+                    "rioja_img",
+                    "rose_img",
+                    "ruby_img",
+                    "tardis_img",
+                    "teapot_img",
+                    "teddy_img",
+                    "wool_img",
+                    "chardonnay_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "merlot_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                    "poo-cake_img",
+                    "rioja_img",
+                    "rose_img",
+                    "ruby_img",
+                    "tardis_img",
+                    "teapot_img",
+                    "teddy_img",
+                    "wool_img",
+                    "chardonnay_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "merlot_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                    "poo-cake_img",
+                    "rioja_img",
+                    "rose_img",
+                    "ruby_img",
+                    "tardis_img",
+                    "teapot_img",
+                    "teddy_img",
+                    "wool_img",
+                    "chardonnay_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "merlot_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                    "poo-cake_img",
+                    "rioja_img",
+                    "rose_img",
+                    "ruby_img",
+                    "tardis_img",
+                    "teapot_img",
+                    "teddy_img",
+                    "wool_img",
+                    "chardonnay_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "merlot_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                  ];
+    this.world.bodies.forEach(function(body, i) {
       if (body.label === "object") {
-        bubble.ctx.drawImage(document.getElementById("cupcake_img"), body.position.x-20, body.position.y-20);
+          bubble.ctx.drawImage(document.getElementById(objects[i-45]), body.position.x-20, body.position.y-20);
+
       } else if (body.label === "platform") {
         bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
       }
@@ -114,11 +188,9 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
-
+  this.drawShelf();
   this.drawPlayer();
   this.player.spriteUpdate();
-
-  this.drawShelf();
 
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
