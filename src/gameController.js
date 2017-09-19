@@ -1,6 +1,6 @@
 'use strict';
 
-function GameController () {
+function GameController() {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
   this.eventManager = new EventManager(this.engine);
@@ -11,10 +11,13 @@ function GameController () {
   this.soundEngine = new SoundEngine(this.player);
 }
 
+
+
 GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
   this.eventManager.objectFloorCollision(this.worldBuilder);
+  this.eventManager.playerFloorCollision(this.player);
 };
 
 GameController.prototype.buildWorld = function () {
@@ -51,13 +54,6 @@ GameController.prototype.calculateScore = function () {
   this.renderer.receiveScore(this.score.showPoints());
 };
 
-GameController.prototype.playerLosesLifeOnFloor = function () {
-  if (this.player.isOnFloor === true) {
-    console.log('foo');
-    this.render();
-  }
-};
-
 GameController.prototype.ready = function () {
   this.collisionEvents();
   this.buildWorld();
@@ -74,3 +70,8 @@ GameController.prototype.render = function () {
     controller.calculateScore();
   }, 1000/60);
 };
+
+GameController.prototype.playerLosesLifeOnFloor = function () {
+  sessionStorage.setItem('score', this.score.showPoints());
+  location.reload();
+}

@@ -5,7 +5,7 @@ function PlatformGrid() {
   this.MAX_X_GAP = 3;
   this.MIN_Y_GAP = -3;
   this.MAX_Y_GAP = 3;
-  this.FIRST_PLATFORM_X = 2;
+  this.FIRST_PLATFORM_X = 1;
   this.FIRST_PLATFORM_Y = 1;
 }
 

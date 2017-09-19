@@ -35,3 +35,18 @@ EventManager.prototype.objectFloorCollision = function (worldBuilder) {
     manager.objectFloorCollisionEvent(event, worldBuilder);
   });
 };
+
+EventManager.prototype.playerFloorCollisionEvent = function (event, player) {
+  event.pairs.forEach(function (pair) {
+    if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'floor') {
+      controller.playerLosesLifeOnFloor();
+    }
+  });
+};
+
+EventManager.prototype.playerFloorCollision = function (player) {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager.playerFloorCollisionEvent(event, player);
+  });
+};
