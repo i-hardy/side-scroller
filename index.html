@@ -27,62 +27,12 @@
   <script src="src/score.js"></script>
   <script src="src/eventManager.js"></script>
   <script src="src/gameController.js"></script>
+  <script src="src/domInterface.js"></script>
   <script type="text/javascript">
-    const KEY_W = 87;
-    const KEY_A = 65;
-    const KEY_S = 83;
-    const KEY_D = 68;
-
-    // movement
-
-    const keys = [];
-
-      window.onload = function () {
-        function collectName() {
-          document
-            .getElementById("player_name_form")
-            .addEventListener("submit", function(submitEvent) {
-              submitEvent.preventDefault();
-              getInput();
-              resetForm();
-            });
-        }
-
-        document.body.addEventListener('keyup', function(e) {
-          keys[e.keyCode] = false;
-        });
-
-        document.body.addEventListener('keydown', function(e) {
-          keys[e.keyCode] = true;
-        });
-
-        opening = new OpeningScreen();
-        opening.draw();
-
-        // controller = new GameController();
-        // controller.ready();
-        // controller.render();
-
-        function collectName() {
-          document
-            .getElementById("player_name_form")
-            .addEventListener("submit", function(submitEvent) {
-              submitEvent.preventDefault();
-              getInput();
-              resetForm();
-            });
-        }
-
-        function getInput() {
-          var input = document.forms[0].player_name.value;
-        }
-
-        function resetForm() {
-          document
-            .getElementById("player_name_form")
-            .reset();
-        }
-      }
+    window.onload = function () {
+      domInterface.eventListeners();
+      domInterface.gameOpening();
+    };
   </script>
 </body>
 </html>
