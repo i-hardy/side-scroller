@@ -9,6 +9,7 @@ function GameController() {
   this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
   this.soundEngine = new SoundEngine(this.player);
+  console.log(this.player);
 }
 
 
@@ -75,10 +76,16 @@ GameController.prototype.render = function () {
   }, 1000/60);
 };
 
+GameController.prototype.returnPlayerToStart = function () {
+  this.player.bodyParts[0].position.x = 20;
+  this.player.bodyParts[0].position.y = 362;
+};
+
 GameController.prototype.playerLosesLifeOnFloor = function () {
   sessionStorage.setItem('score', this.score.showPoints());
-  this.removePlayer();
-  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
-  this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
-  this.addPlayer();
+  // this.removePlayer();
+  // this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
+  // this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
+  // this.addPlayer();
+  this.returnPlayerToStart();
 }
