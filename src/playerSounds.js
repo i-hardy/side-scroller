@@ -10,6 +10,7 @@ PlayerSounds.prototype.setPlayerVols = function () {
 PlayerSounds.prototype.loadPlayerSounds = function () {
   this._playerRunning();
   this._playerJumping();
+  this._startTheme();
 };
 
 PlayerSounds.prototype._playerRunning = function() {
@@ -19,4 +20,14 @@ PlayerSounds.prototype._playerRunning = function() {
 
 PlayerSounds.prototype._playerJumping = function() {
   if (keys[KEY_W]) { this.soundBank.meow1.play() };
+};
+
+PlayerSounds.prototype._startTheme = function() {
+  this.soundBank.gameTheme.loop = true;
+  this.soundBank.gameTheme.play();
+  var buffer = 0.18
+  if(this.soundBank.gameTheme.currentTime > this.soundBank.gameTheme.duration - buffer) {
+    this.soundBank.gameTheme.currentTime = 0;
+    this.soundBank.gameTheme.play();
+  };
 };
