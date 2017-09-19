@@ -138,7 +138,9 @@ describe('Renderer', function () {
       spyOn(moomin, 'checkBorder');
       spyOn(moomin, 'sounds');
       spyOn(moomin, 'scroll');
+      spyOn(moomin, 'drawPlayer');
       spyOn(context, 'beginPath');
+      spyOn(player, 'spriteUpdate');
       spyOn(window, 'requestAnimationFrame');
       moomin.updateScreen()
     });
@@ -184,5 +186,53 @@ describe('Renderer', function () {
       moomin.endGameScreen();
       expect(moomin.showDestructionPercentage).toHaveBeenCalled();
     });
+  });
+
+  describe('#drawPlayer', function() {
+
+    beforeEach(function() {
+      spyOn(context, 'drawImage')
+      spyOn(player, 'spriteImage');
+      spyOn(player, 'spriteFrameIndexes').and.returnValue([[],[]]);
+      spyOn(player, 'spriteDirection').and.returnValue(1);
+      spyOn(player, 'spriteCurrentFrame');
+      spyOn(player, 'spriteWidth');
+      spyOn(player, 'spriteHeight');
+      spyOn(player, 'getBodyObject').and.returnValue(playerBody);
+      moomin.drawPlayer()
+    });
+
+    it('calls drawImage on this.ctx', function() {
+      expect(context.drawImage).toHaveBeenCalled()
+    });
+
+    it('calls spriteImage on this.player', function() {
+      expect(player.spriteImage).toHaveBeenCalled()
+    });
+
+    it('calls spriteFrameIndexes on this.player', function() {
+      expect(player.spriteFrameIndexes).toHaveBeenCalled()
+    });
+
+    it('calls spriteDirection on this.player', function() {
+      expect(player.spriteDirection).toHaveBeenCalled()
+    });
+
+    it('calls spriteCurrentFrame on this.player', function() {
+      expect(player.spriteCurrentFrame).toHaveBeenCalled()
+    });
+
+    it('calls spriteWidth on this.player', function() {
+      expect(player.spriteWidth).toHaveBeenCalled()
+    });
+
+    it('calls spriteHeight on this.player', function() {
+      expect(player.spriteHeight).toHaveBeenCalled()
+    });
+
+    it('calls getBodyObject on this.player', function() {
+      expect(player.getBodyObject).toHaveBeenCalled()
+    });
+
   });
 });
