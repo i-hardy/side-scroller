@@ -20,6 +20,12 @@ describe('GameController', function () {
       atticus.collisionEvents();
       expect(EventManager.prototype.objectFloorCollision).toHaveBeenCalled();
     });
+
+    it('creates player-cactus collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'playerCactusCollision');
+      atticus.collisionEvents();
+      expect(EventManager.prototype.playerCactusCollision).toHaveBeenCalled();
+    });
   });
 
   describe('#buildWorld', function () {
@@ -60,15 +66,20 @@ describe('GameController', function () {
 
   describe('#calculateScore', function () {
     beforeEach(function () {
+      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue(4);
       spyOn(atticus, 'render').and.callFake(function () {
         this.renderer = new Renderer;
       })
       atticus.render();
     });
 
-    it('sets the game score based on the preciousness of the fallen objects', function () {
+    it('checks the values of fallen objects and touched cacti', function () {
+      atticus.calculateScore();
+      expect(WorldBuilder.prototype.fallenObjectPreciousness).toHaveBeenCalled();
+    });
+
+    it('sets the game score based on fallen objects and touched cacti', function () {
       spyOn(Score.prototype, 'increase');
-      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue([1, 1]);
       atticus.calculateScore();
       expect(Score.prototype.increase).toHaveBeenCalled();
     });

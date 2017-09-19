@@ -24,7 +24,7 @@ EventManager.prototype.playerCollision = function (object, eventName, action) {
 EventManager.prototype.objectFloorCollisionEvent = function (event, worldBuilder) {
   event.pairs.forEach(function (pair) {
     if (pair.bodyA.label === 'object' && pair.bodyB.label === 'floor') {
-      worldBuilder.objectOnFloor(pair.bodyA);
+      worldBuilder.objectCollided(pair.bodyA);
     }
   });
 };
@@ -33,5 +33,22 @@ EventManager.prototype.objectFloorCollision = function (worldBuilder) {
   var manager = this;
   Matter.Events.on(this.engine, 'collisionStart', function(event) {
     manager.objectFloorCollisionEvent(event, worldBuilder);
+  });
+};
+
+EventManager.prototype.playerCactusCollision = function (worldBuilder) {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager.playerCactusCollisionEvent(event, worldBuilder);
+  });
+};
+
+EventManager.prototype.playerCactusCollisionEvent = function (event, worldBuilder) {
+  event.pairs.forEach(function (pair) {
+    if (pair.bodyA.label === 'player' && pair.bodyB.label === 'cactus') {
+      worldBuilder.objectCollided(pair.bodyB);
+    } else if (pair.bodyA.label === 'cactus' && pair.bodyB.label === 'player') {
+      worldBuilder.objectCollided(pair.bodyA);
+    }
   });
 };
