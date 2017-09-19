@@ -12,7 +12,7 @@ function Renderer(player, world, soundEngine) {
       rightEdge: worldOptions.viewWidth,
       leftEdge: 0
   };
-};
+}
 
 Renderer.prototype.sounds = function() {
   this.soundEngine.runSounds();
