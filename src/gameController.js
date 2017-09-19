@@ -47,6 +47,10 @@ GameController.prototype.addPlayer = function () {
   Matter.World.add(this.world, [this.player.getBodyObject()]);
 };
 
+GameController.prototype.removePlayer = function () {
+  Matter.World.remove(this.world, [this.player.getBodyObject()]);
+};
+
 GameController.prototype.calculateScore = function () {
   this.score.increase(this.worldBuilder.fallenObjectPreciousness().reduce(function (sum, value) {
     return sum + value;
@@ -73,5 +77,8 @@ GameController.prototype.render = function () {
 
 GameController.prototype.playerLosesLifeOnFloor = function () {
   sessionStorage.setItem('score', this.score.showPoints());
-  location.reload();
+  this.removePlayer();
+  this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
+  this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
+  this.addPlayer();
 }

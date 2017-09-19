@@ -133,14 +133,18 @@ describe('GameController', function () {
     });
   });
 
-  // describe('#playerLoseLifeOnFloor', function() {
-  //   it('resets the player position when contact with the floor is made', function() {
-  //     // spyOn(atticus, 'calculateScore');
-  //     // // atticus.playerLosesLifeOnFloor();
-  //     // expect(atticus.calculateScore).toHaveBeenCalled();
-  //     spyOn(Renderer.prototype, 'receiveScore');
-  //     // atticus.playerLosesLifeOnFloor();
-  //     expect(Renderer.prototype.receiveScore).toHaveBeenCalled();
-  //   });
-  // });
+  describe('#playerLoseLifeOnFloor', function() {
+    it('removes the player when contact with the floor is made', function() {
+      spyOn(atticus, 'removePlayer');
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.removePlayer).toHaveBeenCalled();
+    });
+
+    it('sets the player back to starting position', function() {
+      spyOn(atticus, 'removePlayer');
+      spyOn(atticus, 'addPlayer');
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.addPlayer).toHaveBeenCalled();
+    })
+  });
 });
