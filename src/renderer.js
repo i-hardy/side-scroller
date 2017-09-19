@@ -38,26 +38,9 @@ Renderer.prototype.drawPlayer = function() {
     90);
 };
 
-Renderer.prototype.drawShelf = function () {
+Renderer.prototype.drawObjects = function () {
     var bubble = this;
-    var objects = ["chardonnay_img",
-                    "cupcake_img",
-                    "fishbowl_img",
-                    "macbook_img",
-                    "mario_img",
-                    "merlot_img",
-                    "mushroom_img",
-                    "pokeball_img",
-                    "poo-cake_img",
-                    "rioja_img",
-                    "rose_img",
-                    "ruby_img",
-                    "tardis_img",
-                    "teapot_img",
-                    "teddy_img",
-                    "wool_img"
-                  ];
-    var objectNumber = this.world.bodies.filter(body => body.label==="object").length;
+    var objects = worldOptions.preciousObjectsImg;
     var platformNumber = this.world.bodies.filter(body => body.label==="platform").length;
 
     this.world.bodies.forEach(function(body, i) {
@@ -135,7 +118,9 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.stroke();
   this.ctx.font = '24px sans-serif';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
-  this.drawShelf();
+
+  this.drawObjects();
+
   this.drawPlayer();
   this.player.spriteUpdate();
 
