@@ -57,10 +57,10 @@ describe('EventManager', function () {
   });
 
   describe('#pairBodyLabels', function () {
-    it('returns a sorted array of labels of each body in the given pair', function () {
+    it('returns a sorted string of labels of each body in the given pair', function () {
       event.pairs[0].bodyA.label = 'object';
       event.pairs[0].bodyB.label = 'floor';
-      expect(carolyn.pairBodyLabels(event.pairs[0])).toEqual(['floor', 'object'])
+      expect(carolyn.pairBodyLabels(event.pairs[0])).toEqual('floor,object');
     });
   });
 

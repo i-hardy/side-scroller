@@ -22,13 +22,11 @@ EventManager.prototype.playerCollision = function (object, eventName, action) {
 };
 
 EventManager.prototype.pairBodyLabels = function (pair) {
-  return [pair.bodyA.label, pair.bodyB.label].sort();
+  return [pair.bodyA.label, pair.bodyB.label].sort().join();
 };
 
 EventManager.prototype.validCollisionPairs = function (pair) {
-  var objectFloor = this.pairBodyLabels(pair)[0] === 'floor' && this.pairBodyLabels(pair)[1] === 'object';
-  var playerCactus = this.pairBodyLabels(pair)[0] === 'cactus' && this.pairBodyLabels(pair)[1] === 'player';
-  return objectFloor || playerCactus;
+  return this.pairBodyLabels(pair) === 'floor,object' || this.pairBodyLabels(pair) === 'cactus,player';
 };
 
 EventManager.prototype.objectCollisionEvent = function (event, worldBuilder) {
