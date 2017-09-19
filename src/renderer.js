@@ -42,7 +42,7 @@ Renderer.prototype.drawObjects = function () {
     var bubble = this;
     var objects = worldOptions.preciousObjectsImg;
     var platformNumber = this.world.bodies.filter(function(body){
-        body.label==="platform";
+        return body.label === "platform";
       }).length;
 
     this.world.bodies.forEach(function(body, i) {
@@ -123,7 +123,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
   this.drawWall();
-  
+
   this.ctx.beginPath();
   for (var i = 0; i < bodies.length; i += 1) {
     var vertices = bodies[i].vertices;

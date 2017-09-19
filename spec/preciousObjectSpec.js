@@ -19,7 +19,7 @@ describe('PreciousObject', function() {
     });
 
     it('has a type', function () {
-      expect(preciousObject.getType()).toEqual('object');
+      expect(mrFancyPants.getType()).toEqual('object');
     });
   });
 
