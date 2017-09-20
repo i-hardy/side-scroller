@@ -88,5 +88,5 @@ Player.prototype.spriteDirection = function() {
 };
 
 Player.prototype.spriteUpdate = function() {
-  return this.sprite.update();
+  this.sprite.update();
 };
