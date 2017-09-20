@@ -58,20 +58,9 @@ GameController.prototype.addPlayer = function () {
   Matter.World.add(this.world, [this.player.getBodyObject()]);
 };
 
-GameController.prototype.removePlayer = function () {
-  Matter.World.remove(this.world, [this.player.getBodyObject()]);
-};
-
 GameController.prototype.calculateScore = function () {
   this.score.increase(this.worldBuilder.fallenObjectPreciousness());
   this.renderer.receiveScore(this.score.showPoints());
-};
-
-
-GameController.prototype.playerLosesLifeOnFloor = function () {
-  if (this.player.isOnFloor === true) {
-    this.render();
-  }
 };
 
 GameController.prototype.addEndBonus = function () {
