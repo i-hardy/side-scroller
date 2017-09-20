@@ -68,12 +68,6 @@ GameController.prototype.calculateScore = function () {
 };
 
 
-GameController.prototype.playerLosesLifeOnFloor = function () {
-  if (this.player.isOnFloor === true) {
-    this.render();
-  }
-};
-
 GameController.prototype.addEndBonus = function () {
   this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
   this.renderer.receiveScore(this.score.showPoints());
@@ -107,6 +101,11 @@ GameController.prototype.returnPlayerToStart = function () {
 };
 
 GameController.prototype.playerLosesLifeOnFloor = function () {
-  this.returnPlayerToStart();
-  this.renderer.returnViewToStart();
+  this.player.decreaseLives();
+  if (this.player.isDead()) {
+    this.endGame();
+  } else {
+    this.returnPlayerToStart();
+    this.renderer.returnViewToStart();
+  }
 };

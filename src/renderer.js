@@ -146,6 +146,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.lineWidth = 1;
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.ctx.fillText(this.player.getLives(), this.viewport.centreX, 80);
 
   this.drawObjects();
 

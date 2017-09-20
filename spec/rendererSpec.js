@@ -191,6 +191,7 @@ describe('Renderer', function () {
       spyOn(moomin, 'scoreText');
       spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
+      spyOn(Player.prototype, 'getLives');
       moomin.updateScreen();
     });
 
@@ -230,6 +231,10 @@ describe('Renderer', function () {
       spyOn(gameController, 'isGameOver').and.returnValue(true);
       moomin.updateScreen();
       expect(moomin.endGameScreen).toHaveBeenCalled();
+    });
+
+    it('it shows the player lives', function () {
+      expect(Player.prototype.getLives).toHaveBeenCalled();
     });
   });
 
