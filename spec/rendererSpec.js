@@ -290,4 +290,34 @@ describe('Renderer', function () {
     });
 
   });
+
+  describe('#drawObjects', function () {
+    beforeEach(function() {
+      spyOn(context, 'drawImage')
+    });
+
+    it('calls drawImage for object when instructed', function () {
+      world.bodies[0] = {label: "object", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for platform when instructed', function () {
+      world.bodies[0] = {label: "platform", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for floor when instructed', function () {
+      world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('doesnt call drawImage for other labels', function () {
+      world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).not.toHaveBeenCalled();
+    });
+  });
 });
