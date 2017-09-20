@@ -107,7 +107,6 @@ GameController.prototype.returnPlayerToStart = function () {
 };
 
 GameController.prototype.playerLosesLifeOnFloor = function () {
-  sessionStorage.setItem('score', this.score.showPoints());
   this.returnPlayerToStart();
   this.renderer.returnViewToStart();
-}
+};
