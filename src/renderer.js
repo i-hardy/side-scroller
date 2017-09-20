@@ -165,6 +165,7 @@ Renderer.prototype.updateScreen = function () {
 };
 
 Renderer.prototype.endGameScreen = function () {
+  domInterface.showResetButton();
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.fillStyle = 'black';
   this.ctx.font = '24px Bangers';
