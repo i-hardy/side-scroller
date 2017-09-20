@@ -21,8 +21,8 @@ ObjectSounds.prototype.loadObjectSounds = function () {
 ObjectSounds.prototype._playCrash = function () {
   if (this.score.showPoints() > this.scoreTracker) {
     this._selectCrash().play();
-    this.scoreTracker = this.score.showPoints();
   };
+  this.scoreTracker = this.score.showPoints();
 };
 
 ObjectSounds.prototype._selectCrash = function () {

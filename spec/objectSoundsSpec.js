@@ -10,4 +10,20 @@ describe('ObjectSounds', function() {
   it('exists', function() {
     expect(objectSounds).toBeDefined();
   });
+
+  describe('#setObjectVols', function() {
+    it('calls setObjectVols on soundBank', function() {
+        spyOn(SoundBank.prototype, 'setObjectVols')
+        objectSounds.setObjectVols();
+        expect(SoundBank.prototype.setObjectVols).toHaveBeenCalled();
+    });
+  });
+
+  describe('#loadObjectSounds', function() {
+    it('calls _playCrash', function() {
+        spyOn(objectSounds, 'playCrash')
+        objectSounds.setObjectVols();
+        expect(objectSounds._playCrash).toHaveBeenCalled();
+    });
+  });
 });
