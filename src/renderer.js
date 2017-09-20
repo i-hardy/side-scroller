@@ -15,7 +15,7 @@ function Renderer(player, world, soundEngine) {
 }
 
 Renderer.prototype.sounds = function() {
-  this.soundEngine.playerSounds();
+  this.soundEngine.runSounds();
 };
 
 Renderer.prototype.playerMovement = function () {
@@ -24,6 +24,43 @@ Renderer.prototype.playerMovement = function () {
   this.player.moveLeft();
   this.player.moveRight();
 };
+
+Renderer.prototype.drawPlayer = function() {
+  this.ctx.drawImage(
+    this.player.spriteImage(),
+    0 + this.player.spriteFrameIndexes()[this.player.spriteDirection()][this.player.spriteCurrentFrame()] * this.player.spriteWidth(),
+    0 + this.player.spriteDirection() * this.player.spriteHeight(),
+    this.player.spriteWidth(),
+    this.player.spriteHeight(),
+    this.player.getBodyObject().position.x - 42,
+    this.player.getBodyObject().position.y - 42,
+    90,
+    90);
+};
+
+Renderer.prototype.drawObjects = function () {
+    var bubble = this;
+    var objects = worldOptions.preciousObjectsImg;
+    var platformNumber = this.world.bodies.filter(function(body){
+        return body.label === "platform";
+      }).length;
+
+    this.world.bodies.forEach(function(body, i) {
+      if (body.label === "object") {
+          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.position.y-20);
+
+      } else if (body.label === "platform") {
+        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+
+      } else if (body.label === "floor") {
+        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+
+      } else if (body.label === "cactus") {
+        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.position.y-20);
+      }
+    });
+};
+
 
 Renderer.prototype.checkBorder = function () {
   var playerBounds = this.player.getBodyObject().bounds;
@@ -59,19 +96,42 @@ Renderer.prototype.receiveScore = function (number) {
   this.score = number;
 };
 
-Renderer.prototype.scoreText = function () {
-  return 'Score: ' + this.score;
+Renderer.prototype.receiveDestructionPercentage = function (percentage) {
+  this.destructionPercentage = percentage;
 };
 
-Renderer.prototype.updateScreen = function () {
+Renderer.prototype.scoreText = function () {
+  return playerName + "'s score: " + this.score;
+};
+
+Renderer.prototype.showDestructionPercentage = function () {
+  return this.destructionPercentage;
+};
+
+Renderer.prototype.drawWall = function () {
+  this.ctx.globalAlpha = 0.8;
+  this.ctx.drawImage(document.getElementById('wall_img'), this.viewport.leftEdge, 0);
+  this.ctx.globalAlpha = 1;
+};
+
+Renderer.prototype.gameLoop = function () {
   this.playerMovement();
   this.checkBorder();
   this.sounds();
   this.scroll();
+};
+
+Renderer.prototype.spriteLoop = function () {
+  this.player.spriteUpdate();
+};
+
+Renderer.prototype.updateScreen = function () {
   var bodies = this.world.bodies;
 
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.translate(-this.viewport.leftEdge, 0);
+
+  this.drawWall();
 
   this.ctx.beginPath();
   for (var i = 0; i < bodies.length; i += 1) {
@@ -85,8 +145,13 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.lineWidth = 1;
   this.ctx.strokeStyle = '#000';
   this.ctx.stroke();
-  this.ctx.font = '24px sans-serif';
+  this.ctx.fillStyle = '#000'
+  this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+
+  this.drawObjects();
+
+  this.drawPlayer();
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;
@@ -94,4 +159,10 @@ Renderer.prototype.updateScreen = function () {
   window.requestAnimationFrame(function () {
     renderer.updateScreen();
   });
+};
+
+Renderer.prototype.endGameScreen = function () {
+  this.ctx.font = '24px frankfurtregular';
+  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
 };
