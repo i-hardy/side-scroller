@@ -1,14 +1,17 @@
 'use strict';
 
-function SoundEngine(player, playerSounds) {
-  this.playerSounds = playerSounds || new PlayerSounds(player)
+function SoundEngine(player, score) {
+  this.playerSounds = new PlayerSounds(player)
+  this.objectSounds = new ObjectSounds(score)
 };
 
 SoundEngine.prototype._setVols = function() {
   this.playerSounds.setPlayerVols();
+  this.objectSounds.setObjectVols();
 };
 
 SoundEngine.prototype.runSounds = function() {
   this._setVols();
   this.playerSounds.loadPlayerSounds();
+  this.objectSounds.loadObjectSounds();
 };
