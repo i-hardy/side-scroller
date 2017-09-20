@@ -10,6 +10,7 @@ WorldBuilder.prototype.buildCompleteWorld = function () {
   this.buildPlatforms();
   this.createWorldBodies();
   this.nonPlatformBodies();
+  this.endGamePlatform();
 };
 
 WorldBuilder.prototype.buildPlatforms = function () {
@@ -75,6 +76,14 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
     this.worldBodies.push(Matter.Bodies.rectangle(x, y, bWidth, bHeight, { isStatic: true,
                                                                            label: 'platform'}));
   }
+};
+
+WorldBuilder.prototype.endGamePlatform = function () {
+  var x = worldOptions.width - (worldOptions.platformWidth / 2)
+  var y = worldOptions.platformWidth * 2
+  this.worldBodies.push(Matter.Bodies.rectangle(x, y, worldOptions.platformWidth,
+                                                      worldOptions.platformHeight,
+                                                      { isStatic: true, label: 'endGamePlatform'}));
 };
 
 WorldBuilder.prototype.nonPlatformBodies = function () {

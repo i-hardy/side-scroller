@@ -141,6 +141,14 @@ describe('WorldBuilder', function () {
     });
   });
 
+  describe('#endGamePlatform', function () {
+    it('creates a special platform at the right edge of the world', function () {
+      spyOn(Matter.Bodies, 'rectangle');
+      jimmy.endGamePlatform();
+      expect(Matter.Bodies.rectangle).toHaveBeenCalled();
+    });
+  });
+
   describe('#nonPlatformBodies', function () {
     beforeEach(function () {
       jimmy.buildPlatforms();

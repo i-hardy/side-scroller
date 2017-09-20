@@ -8,6 +8,26 @@ describe('GameController', function () {
     atticus = new GameController();
   });
 
+  describe('#isGameOver', function () {
+    it('returns whether or not the game is over', function () {
+      expect(atticus.isGameOver()).toBe(false);
+    });
+  });
+
+  describe('#endGame', function () {
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('sets gameOver to true', function () {
+      atticus.endGame();
+      expect(atticus.isGameOver()).toBe(true);
+    });
+  });
+
   describe('#collisionEvents', function () {
     it('creates player collision events via the event manager', function () {
       spyOn(EventManager.prototype, 'playerCollision');
@@ -204,3 +224,4 @@ describe('GameController', function () {
       expect(Renderer.prototype.receiveDestructionPercentage).toHaveBeenCalled();
     });
   });
+});

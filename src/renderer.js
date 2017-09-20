@@ -3,6 +3,7 @@
 function Renderer(player, world, soundEngine) {
   this.player = player;
   this.world = world;
+  // console.log(this.world.bodies);
   this.score = 0;
   this.soundEngine = soundEngine;
   this.canvas = document.getElementById('canvas');
@@ -156,13 +157,19 @@ Renderer.prototype.updateScreen = function () {
 
   var renderer = this;
 
-  window.requestAnimationFrame(function () {
-    renderer.updateScreen();
-  });
+  if (gameController.isGameOver()) {
+    renderer.endGameScreen();
+  } else {
+    window.requestAnimationFrame(function () {
+      renderer.updateScreen();
+    });
+  }
 };
 
 Renderer.prototype.endGameScreen = function () {
-  this.ctx.font = '24px frankfurtregular';
+  this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
+  this.ctx.fillStyle = 'black';
+  this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
   this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
 };

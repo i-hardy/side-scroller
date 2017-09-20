@@ -53,6 +53,10 @@ var player_name_form = {
   reset: function () {}
 };
 
+var gameController = {playerLosesLifeOnFloor: function () {},
+                      endGame: function () {},
+                      isGameOver: function () {}};
+
 var KEY_W = 87;
 var KEY_A = 65;
 var KEY_S = 83;

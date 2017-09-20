@@ -3,21 +3,31 @@
 function GameController() {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
+  this.gameOver = false;
   this.eventManager = new EventManager(this.engine);
   this.worldBuilder = new WorldBuilder();
   this.score = new Score();
   this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5, label: 'player' }));
   this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
   this.soundEngine = new SoundEngine(this.player);
-  console.log(this.player);
 }
 
+GameController.prototype.isGameOver = function () {
+  return this.gameOver;
+};
 
+GameController.prototype.endGame = function () {
+  this.gameOver = true;
+  this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
+  this.renderer.receiveScore(this.score.showPoints());
+  this.renderer.receiveDestructionPercentage(this.score.calculateDestructionPercentage());
+};
 
 GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
   this.eventManager.playerFloorCollision(this.player);
+  this.eventManager.endGameCollision();
   this.eventManager.objectCollision(this.worldBuilder);
 };
 
