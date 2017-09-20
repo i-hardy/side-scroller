@@ -77,8 +77,8 @@ GameController.prototype.render = function () {
 };
 
 GameController.prototype.returnPlayerToStart = function () {
-  this.player.bodyParts[0].position.x = 20;
-  this.player.bodyParts[0].position.y = 362;
+  this.player.bodyParts[0].position.x = 30;
+  this.player.bodyParts[0].position.y = 362.0579234715594;
 };
 
 GameController.prototype.playerLosesLifeOnFloor = function () {
@@ -86,6 +86,18 @@ GameController.prototype.playerLosesLifeOnFloor = function () {
   // this.removePlayer();
   // this.player = new Player(Matter.Bodies.rectangle(30,0, worldOptions.playerSize, worldOptions.playerSize, { density:0.002, friction: 0.5 }));
   // this.player.addParts(Matter.Bodies.circle(30,45,5, {density:0, friction:0.3, isSensor: true, label: 'playerSensor'}));
+  // this.returnPlayerToStart();
+  this.renderer.returnViewToStart();
+  // this.renderer.player = this.player;
+  // this.soundEngine.player = this.player;
+  //
+  // this.renderer.returnViewToStart();
+  // this.collisionEvents();
+  //
   // this.addPlayer();
-  this.returnPlayerToStart();
+  //
+  //
+  // console.log(this.player);
+  // console.log(this.renderer.player);
+  // console.log(this.soundEngine.player);
 }

@@ -49,6 +49,12 @@ Renderer.prototype.scroll = function () {
   }
 };
 
+Renderer.prototype.returnViewToStart = function () {
+  this.viewport.leftEdge = 0;
+  this.viewport.centreX = worldOptions.viewWidth * 0.5;
+  this.viewport.rightEdge = worldOptions.viewWidth;
+};
+
 Renderer.prototype.receiveScore = function (number) {
   this.score = number;
 };
