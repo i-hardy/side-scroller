@@ -6,7 +6,7 @@ function Score() {
 }
 
 Score.prototype.showPoints = function () {
-  return this.points;
+  return this.points + JSON.parse(sessionStorage.getItem('score'));
 };
 
 Score.prototype.increase = function (points) {

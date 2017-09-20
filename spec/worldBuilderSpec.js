@@ -116,18 +116,28 @@ describe('WorldBuilder', function () {
   });
 
   describe('#platformBodies', function () {
+    beforeEach(function () {
+      spyOn(jimmy, 'placeObjects');
+    });
+
     it('creates Matter rectangles', function () {
       spyOn(Matter.Bodies, 'rectangle');
       jimmy.buildPlatforms();
-      jimmy.platformBodies(1, 2);
+      jimmy.platformBodies(1, 1);
       expect(Matter.Bodies.rectangle).toHaveBeenCalled();
     });
 
     it('delegates the creation of precious objects', function () {
-      spyOn(jimmy, 'placeObjects').and.callThrough();
+      spyOn(jimmy, 'getPlatformGrid').and.returnValue([[1]])
       jimmy.buildPlatforms();
-      jimmy.platformBodies(1, 2);
+      jimmy.platformBodies(0, 0);
       expect(jimmy.placeObjects).toHaveBeenCalled();
+    });
+
+    it('prevents an object being created on the first platform', function () {
+      jimmy.buildPlatforms();
+      jimmy.platformBodies(1, 1);
+      expect(jimmy.placeObjects).not.toHaveBeenCalled();
     });
   });
 

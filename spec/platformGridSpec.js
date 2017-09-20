@@ -42,12 +42,12 @@ describe("PlatformGrid", function () {
   describe('#setFirstPlatform', function () {
     it('sets the first platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.getGrid()[1][2]).toEqual(1);
+      expect(tooticky.getGrid()[1][2]).toEqual(0);
     });
 
     it('records the x index of the platform', function () {
       tooticky.setFirstPlatform();
-      expect(tooticky.lastX).toEqual(2);
+      expect(tooticky.lastX).toEqual(1);
     });
 
     it('records the y index of the platform', function () {
@@ -66,8 +66,8 @@ describe("PlatformGrid", function () {
     it('sets an x index greater than the last x index', function() {
       tooticky.setFirstPlatform();
       tooticky.setPlatform();
-      expect(tooticky.lastX).toBeGreaterThan(2);
-      expect(tooticky.lastX).toBeLessThan(6);
+      expect(tooticky.lastX).toBeGreaterThan(1);
+      expect(tooticky.lastX).toBeLessThan(5);
     });
 
     it('does not create new platforms for x indices that are off the grid', function() {
