@@ -54,6 +54,9 @@ Renderer.prototype.drawObjects = function () {
 
       } else if (body.label === "floor") {
         bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+
+      } else if (body.label === "cactus") {
+        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.position.y-20);
       }
     });
 };

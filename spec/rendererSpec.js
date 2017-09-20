@@ -316,6 +316,12 @@ describe('Renderer', function () {
       expect(context.drawImage).toHaveBeenCalled();
     });
 
+    it('calls drawImage for cactus when instructed', function () {
+      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
     it('doesnt call drawImage for other labels', function () {
       world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}};
       moomin.drawObjects();
