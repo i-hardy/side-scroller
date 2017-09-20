@@ -2,11 +2,31 @@
 
 describe('GameController', function () {
   var atticus;
+  var joe;
 
   beforeEach(function () {
     atticus = new GameController();
   });
 
+  describe('#isGameOver', function () {
+    it('returns whether or not the game is over', function () {
+      expect(atticus.isGameOver()).toBe(false);
+    });
+  });
+
+  describe('#endGame', function () {
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('sets gameOver to true', function () {
+      atticus.endGame();
+      expect(atticus.isGameOver()).toBe(true);
+    });
+  });
 
   describe('#collisionEvents', function () {
     it('creates player collision events via the event manager', function () {
@@ -148,6 +168,28 @@ describe('GameController', function () {
       window.setInterval.calls.allArgs()[1][0]();
       expect(atticus.calculateScore).toHaveBeenCalled();
     });
+  });
+
+
+  describe('#playerLoseLifeOnFloor', function() {
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('resets the player when contact with the floor is made', function() {
+      spyOn(atticus, 'returnPlayerToStart');
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.returnPlayerToStart).toHaveBeenCalled();
+    });
+
+    it('sets the player back to starting position', function() {
+      spyOn(Renderer.prototype, 'returnViewToStart');
+      atticus.playerLosesLifeOnFloor();
+      expect(Renderer.prototype.returnViewToStart).toHaveBeenCalled();
+    })
   });
 
   describe('#addEndBonus', function () {

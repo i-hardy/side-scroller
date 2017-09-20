@@ -38,6 +38,30 @@ Renderer.prototype.drawPlayer = function() {
     90);
 };
 
+Renderer.prototype.drawObjects = function () {
+    var bubble = this;
+    var objects = worldOptions.preciousObjectsImg;
+    var platformNumber = this.world.bodies.filter(function(body){
+        return body.label === "platform";
+      }).length;
+
+    this.world.bodies.forEach(function(body, i) {
+      if (body.label === "object") {
+          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.bounds.max.y-40);
+
+      } else if (body.label === "platform") {
+        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+
+      } else if (body.label === "floor") {
+        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+
+      } else if (body.label === "cactus") {
+        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.bounds.max.y-40);
+      }
+    });
+};
+
+
 Renderer.prototype.checkBorder = function () {
   var playerBounds = this.player.getBodyObject().bounds;
   if (playerBounds.min.x < this.viewport.leftEdge || playerBounds.max.x > this.viewport.rightEdge) {
@@ -62,6 +86,12 @@ Renderer.prototype.scroll = function () {
   }
 };
 
+Renderer.prototype.returnViewToStart = function () {
+  this.viewport.leftEdge = 0;
+  this.viewport.centreX = worldOptions.viewWidth * 0.5;
+  this.viewport.rightEdge = worldOptions.viewWidth;
+};
+
 Renderer.prototype.receiveScore = function (number) {
   this.score = number;
 };
@@ -80,7 +110,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 
 Renderer.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(gameImages.background, this.viewport.leftEdge, 0);
+  this.ctx.drawImage(gameImages.background, 0, 0);
   this.ctx.globalAlpha = 1;
 };
 
@@ -113,24 +143,29 @@ Renderer.prototype.updateScreen = function () {
     this.ctx.lineTo(vertices[0].x, vertices[0].y);
   }
   this.ctx.lineWidth = 1;
-  this.ctx.strokeStyle = '#000';
-  this.ctx.stroke();
-  this.ctx.fillStyle = '#000'
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+
+  this.drawObjects();
 
   this.drawPlayer();
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 
   var renderer = this;
 
-  window.requestAnimationFrame(function () {
-    renderer.updateScreen();
-  });
+  if (gameController.isGameOver()) {
+    renderer.endGameScreen();
+  } else {
+    window.requestAnimationFrame(function () {
+      renderer.updateScreen();
+    });
+  }
 };
 
 Renderer.prototype.endGameScreen = function () {
-  this.ctx.font = '24px frankfurtregular';
+  this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
+  this.ctx.fillStyle = 'black';
+  this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
   this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
 };

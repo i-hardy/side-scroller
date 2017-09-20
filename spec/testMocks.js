@@ -3,7 +3,9 @@
 var Matter = {Body: {
               create: function () {},
               setAngle: function () {},
-              applyForce: function () {}
+              applyForce: function () {},
+              setPosition: function () {},
+              setVelocity: function () {},
               },
             Bodies: {
               rectangle: function () {},
@@ -50,6 +52,10 @@ var player_name_form = {
   addEventListener: function () {},
   reset: function () {}
 };
+
+var gameController = {playerLosesLifeOnFloor: function () {},
+                      endGame: function () {},
+                      isGameOver: function () {}};
 
 var KEY_W = 87;
 var KEY_A = 65;

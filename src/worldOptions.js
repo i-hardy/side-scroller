@@ -14,13 +14,27 @@
     platformHeight: pHeight,
     gridRows: Math.floor(height / pHeight) - 2,
     gridColumns: width / pWidth,
-    object: pHeight,
-    cactus: pHeight - 10,
+    object: pHeight-10,
+    cactus: pHeight-10,
     scrollIncrement: 3,
     playerFriction: 0.001,
     verticalForce: 0.01,
     horizontalForce: 0.001,
-    playerSize: pHeight * 1.5
+    playerSize: pHeight * 1.5,
+    preciousObjectsImg: ["wine_img",
+                    "cupcake_img",
+                    "fishbowl_img",
+                    "macbook_img",
+                    "mario_img",
+                    "mushroom_img",
+                    "pokeball_img",
+                    "poo-cake_img",
+                    "ruby_img",
+                    "tardis_img",
+                    "teapot_img",
+                    "teddy_img",
+                    "wool_img"
+                  ]
   };
 
   exports.worldOptions = worldOptions;

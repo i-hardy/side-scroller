@@ -106,4 +106,60 @@ describe('Player', function() {
       expect(Matter.Body.applyForce).not.toHaveBeenCalled();
     });
   });
+
+  describe('#spriteImage', function () {
+    it('returns the associated sprite image', function () {
+      spyOn(Sprite.prototype, 'getImage');
+      player.spriteImage();
+      expect(Sprite.prototype.getImage).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteFrameIndexes', function () {
+    it('returns the associated sprite frame indexes', function () {
+      spyOn(Sprite.prototype, 'getFrameIndexes');
+      player.spriteFrameIndexes();
+      expect(Sprite.prototype.getFrameIndexes).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteCurrentFrame', function () {
+    it('returns the associated sprite current frame', function () {
+      spyOn(Sprite.prototype, 'getCurrentFrame');
+      player.spriteCurrentFrame();
+      expect(Sprite.prototype.getCurrentFrame).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteHeight', function () {
+    it('returns the associated sprite height', function () {
+      spyOn(Sprite.prototype, 'getHeight');
+      player.spriteHeight();
+      expect(Sprite.prototype.getHeight).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteWidth', function () {
+    it('returns the associated sprite width', function () {
+      spyOn(Sprite.prototype, 'getWidth');
+      player.spriteWidth();
+      expect(Sprite.prototype.getWidth).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteDirection', function () {
+    it('returns the associated sprite direction', function () {
+      spyOn(Sprite.prototype, 'getDirection');
+      player.spriteDirection();
+      expect(Sprite.prototype.getDirection).toHaveBeenCalled();
+    });
+  });
+
+  describe('#spriteUpdate', function () {
+    it('calls the associated sprite update function', function () {
+      spyOn(Sprite.prototype, 'update');
+      player.spriteUpdate();
+      expect(Sprite.prototype.update).toHaveBeenCalled();
+    });
+  });
 });

@@ -3,14 +3,16 @@
 describe('Renderer', function () {
   var moomin;
   var player;
+  var score;
   var world;
   var soundEngine;
 
   beforeEach(function () {
     spyOn(document, 'getElementById').and.returnValue(canvas);
     player = new Player();
+    score = new Score();
     world = Matter.Engine.create().world;
-    soundEngine = new SoundEngine();
+    soundEngine = new SoundEngine(player, score);
     moomin = new Renderer(player, world, soundEngine);
   });
 
@@ -187,6 +189,7 @@ describe('Renderer', function () {
       spyOn(moomin, 'drawWall');
       spyOn(moomin, 'drawPlayer');
       spyOn(moomin, 'scoreText');
+      spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
       moomin.updateScreen();
     });
@@ -221,6 +224,12 @@ describe('Renderer', function () {
       spyOn(moomin, 'updateScreen');
       window.requestAnimationFrame.calls.allArgs()[0][0]();
       expect(moomin.updateScreen).toHaveBeenCalled();
+    });
+
+    it('calls endGameScreen instead if the game is over', function () {
+      spyOn(gameController, 'isGameOver').and.returnValue(true);
+      moomin.updateScreen();
+      expect(moomin.endGameScreen).toHaveBeenCalled();
     });
   });
 
@@ -289,5 +298,41 @@ describe('Renderer', function () {
       expect(player.getBodyObject).toHaveBeenCalled()
     });
 
+  });
+
+  describe('#drawObjects', function () {
+    beforeEach(function() {
+      spyOn(context, 'drawImage')
+    });
+
+    it('calls drawImage for object when instructed', function () {
+      world.bodies[0] = {label: "object", position: {x:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for platform when instructed', function () {
+      world.bodies[0] = {label: "platform", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for floor when instructed', function () {
+      world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for cactus when instructed', function () {
+      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('doesnt call drawImage for other labels', function () {
+      world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).not.toHaveBeenCalled();
+    });
   });
 });
