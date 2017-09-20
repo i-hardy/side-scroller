@@ -3,14 +3,16 @@
 describe('Renderer', function () {
   var moomin;
   var player;
+  var score;
   var world;
   var soundEngine;
 
   beforeEach(function () {
     spyOn(document, 'getElementById').and.returnValue(canvas);
     player = new Player();
+    score = new Score();
     world = Matter.Engine.create().world;
-    soundEngine = new SoundEngine();
+    soundEngine = new SoundEngine(player, score);
     moomin = new Renderer(player, world, soundEngine);
   });
 
@@ -297,7 +299,7 @@ describe('Renderer', function () {
     });
 
     it('calls drawImage for object when instructed', function () {
-      world.bodies[0] = {label: "object", position: {x:0, y:0}};
+      world.bodies[0] = {label: "object", position: {x:0}, bounds: {max: {y: 0}}};
       moomin.drawObjects();
       expect(context.drawImage).toHaveBeenCalled();
     });
