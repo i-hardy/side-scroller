@@ -15,7 +15,7 @@ describe('PlayerSounds', function() {
   });
 
   afterEach(function() {
-      window.Audio = audioOriginal;
+    window.Audio = audioOriginal;
   });
 
   it('exists', function() {
@@ -52,24 +52,6 @@ describe('PlayerSounds', function() {
     });
   });
 
-  describe('#_playerJumping', function () {
-    beforeEach(function () {
-      spyOn(audioMock, 'play');
-      keys = [];
-    });
-
-    it('plays a sound if the player has jumped', function () {
-      keys[KEY_W] = true;
-      playerSounds._playerJumping();
-      expect(audioMock.play).toHaveBeenCalled();
-    });
-
-    it('otherwise does nothing', function () {
-      playerSounds._playerJumping();
-      expect(audioMock.play).not.toHaveBeenCalled();
-    });
-  });
-
   describe('#_playerRunning', function () {
     beforeEach(function () {
       spyOn(audioMock, 'play');
@@ -102,6 +84,48 @@ describe('PlayerSounds', function() {
       keys[KEY_D] = true;
       playerSounds._playerRunning();
       expect(audioMock.pause).toHaveBeenCalled();
+    });
+  });
+
+  describe('#_playerJumping', function () {
+    beforeEach(function () {
+      spyOn(audioMock, 'play');
+      keys = [];
+    });
+
+    it('plays a sound if the player has jumped', function () {
+      keys[KEY_W] = true;
+      playerSounds._playerJumping();
+      expect(audioMock.play).toHaveBeenCalled();
+    });
+
+    it('otherwise does nothing', function () {
+      playerSounds._playerJumping();
+      expect(audioMock.play).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#_startTheme', function () {
+    beforeEach(function () {
+      spyOn(audioMock, 'play');
+      spyOn(SoundBank.prototype, 'resetThemeTime');
+    });
+
+    it('plays the game theme', function () {
+      playerSounds._startTheme();
+      expect(audioMock.play).toHaveBeenCalled();
+    });
+
+    it('loops the theme if it has exceeded its duration', function () {
+      playerSounds.soundBank.gameTheme.duration = 1;
+      playerSounds.soundBank.gameTheme.currentTime = 2;
+      playerSounds._startTheme();
+      expect(SoundBank.prototype.resetThemeTime).toHaveBeenCalled();
+    });
+
+    it('does not loop the theme otherwise', function () {
+      playerSounds._startTheme();
+      expect(SoundBank.prototype.resetThemeTime).not.toHaveBeenCalled();
     });
   });
 });
