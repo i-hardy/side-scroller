@@ -134,17 +134,23 @@ describe('GameController', function () {
   });
 
   describe('#playerLoseLifeOnFloor', function() {
-    it('removes the player when contact with the floor is made', function() {
-      spyOn(atticus, 'removePlayer');
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('resets the player when contact with the floor is made', function() {
+      spyOn(atticus, 'returnPlayerToStart');
       atticus.playerLosesLifeOnFloor();
-      expect(atticus.removePlayer).toHaveBeenCalled();
+      expect(atticus.returnPlayerToStart).toHaveBeenCalled();
     });
 
     it('sets the player back to starting position', function() {
-      spyOn(atticus, 'removePlayer');
-      spyOn(atticus, 'addPlayer');
+      spyOn(Renderer.prototype, 'returnViewToStart');
       atticus.playerLosesLifeOnFloor();
-      expect(atticus.addPlayer).toHaveBeenCalled();
+      expect(Renderer.prototype.returnViewToStart).toHaveBeenCalled();
     })
   });
 });
