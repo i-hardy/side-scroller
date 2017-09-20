@@ -69,7 +69,9 @@ WorldBuilder.prototype.platformBodies = function (i, j) {
   if (this.getPlatformGrid()[i][j] === 1) {
     var y = (worldOptions.height - worldOptions.playerSize) - (i * bHeight);
     var x = j * bWidth - (bWidth/2);
-    this.placeObjects(x);
+    if (j !== 1) {
+      this.placeObjects(x);
+    }
     this.worldBodies.push(Matter.Bodies.rectangle(x, y, bWidth, bHeight, { isStatic: true,
                                                                            label: 'platform'}));
   }

@@ -52,7 +52,7 @@ EventManager.prototype.objectCollision = function (worldBuilder) {
 EventManager.prototype.playerFloorCollisionEvent = function (event, player) {
   event.pairs.forEach(function (pair) {
     if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'floor') {
-      controller.playerLosesLifeOnFloor();
+      gameController.playerLosesLifeOnFloor();
     }
   });
 };
