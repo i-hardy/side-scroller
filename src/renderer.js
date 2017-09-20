@@ -3,7 +3,6 @@
 function Renderer(player, world, soundEngine) {
   this.player = player;
   this.world = world;
-  // console.log(this.world.bodies);
   this.score = 0;
   this.soundEngine = soundEngine;
   this.canvas = document.getElementById('canvas');
