@@ -1,3 +1,5 @@
+'use strict';
+
 function PlayerSounds(player, soundBank) {
   this.player = player
   this.soundBank = soundBank || new SoundBank

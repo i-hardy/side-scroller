@@ -47,7 +47,7 @@ Renderer.prototype.drawObjects = function () {
 
     this.world.bodies.forEach(function(body, i) {
       if (body.label === "object") {
-          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.position.y-20);
+          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.bounds.max.y-40);
 
       } else if (body.label === "platform") {
         bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
@@ -56,7 +56,7 @@ Renderer.prototype.drawObjects = function () {
         bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
 
       } else if (body.label === "cactus") {
-        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.position.y-20);
+        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.bounds.max.y-40);
       }
     });
 };
@@ -110,7 +110,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 
 Renderer.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(document.getElementById('wall_img'), this.viewport.leftEdge, 0);
+  this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
   this.ctx.globalAlpha = 1;
 };
 
@@ -143,9 +143,6 @@ Renderer.prototype.updateScreen = function () {
     this.ctx.lineTo(vertices[0].x, vertices[0].y);
   }
   this.ctx.lineWidth = 1;
-  this.ctx.strokeStyle = '#000';
-  this.ctx.stroke();
-  this.ctx.fillStyle = '#000'
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
 
