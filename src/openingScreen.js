@@ -5,7 +5,7 @@ function OpeningScreen() {
   this.rules = ["Your mission: to rid the shelves of their cumbersome objects",
                 "Fall to the floor and you'll lose a life",
                 "Touch a cactus and you'll lose points",
-                "Make it to the end and get a bonus based on how much destruction you managed",
+                "Make it to the end and get a bonus based on how much destruction you cause",
                 "Good luck!"];
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
