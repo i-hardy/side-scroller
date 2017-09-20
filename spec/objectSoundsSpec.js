@@ -21,8 +21,8 @@ describe('ObjectSounds', function() {
 
   describe('#loadObjectSounds', function() {
     it('calls _playCrash', function() {
-        spyOn(objectSounds, 'playCrash')
-        objectSounds.setObjectVols();
+        spyOn(objectSounds, '_playCrash')
+        objectSounds.loadObjectSounds();
         expect(objectSounds._playCrash).toHaveBeenCalled();
     });
   });

@@ -8,6 +8,7 @@ function SoundBank() {
   this.metalCrash = new Audio('./assets/sounds/metalcrash.mp3')
   this.chinaCrash = new Audio('./assets/sounds/chinacrash.mp3')
   this.woodCrash = new Audio('./assets/sounds/woodcrash.mp3')
+  this.ping = new Audio('./assets/sounds/ping.mp3')
 };
 
 SoundBank.prototype.setPlayerVols = function () {
@@ -21,6 +22,7 @@ SoundBank.prototype.setObjectVols = function () {
   this._setMetalCrashVol();
   this._setChinaCrashVol();
   this._setWoodCrashVol();
+  this._setPingVol();
 };
 
 SoundBank.prototype._setThemeVol = function() {
@@ -49,4 +51,8 @@ SoundBank.prototype._setChinaCrashVol = function() {
 
 SoundBank.prototype._setWoodCrashVol = function() {
   this.woodCrash.volume = 0.2;
+};
+
+SoundBank.prototype._setPingVol = function() {
+  this.ping.volume = 0.2;
 };
