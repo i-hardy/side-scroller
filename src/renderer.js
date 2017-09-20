@@ -40,23 +40,28 @@ Renderer.prototype.drawPlayer = function() {
 
 Renderer.prototype.drawObjects = function () {
     var bubble = this;
-    var objects = worldOptions.preciousObjectsImg;
+    var objects = [];
+    for (var key in gameImages.objects) {
+      if (gameImages.objects.hasOwnProperty(key)) {
+        objects.push(gameImages.objects[key]);
+      }
+    }
     var platformNumber = this.world.bodies.filter(function(body){
         return body.label === "platform";
       }).length;
 
     this.world.bodies.forEach(function(body, i) {
       if (body.label === "object") {
-          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.bounds.max.y-40);
+          bubble.ctx.drawImage(objects[(i-platformNumber)%objects.length], body.position.x-20, body.bounds.max.y-40);
 
       } else if (body.label === "platform") {
-        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+        bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
 
       } else if (body.label === "floor") {
-        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+        bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
 
       } else if (body.label === "cactus") {
-        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.bounds.max.y-40);
+        bubble.ctx.drawImage(gameImages.cactus, body.position.x-10, body.bounds.max.y-40);
       }
     });
 };
@@ -110,7 +115,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 
 Renderer.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(gameImages.background, 0, 0);
+  this.ctx.drawImage(gameImages.wall, 0, 0);
   this.ctx.globalAlpha = 1;
 };
 
