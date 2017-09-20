@@ -48,3 +48,33 @@ EventManager.prototype.objectCollision = function (worldBuilder) {
     manager.objectCollisionEvent(event, worldBuilder);
   });
 };
+
+EventManager.prototype.playerFloorCollisionEvent = function (event, player) {
+  event.pairs.forEach(function (pair) {
+    if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'floor') {
+      gameController.playerLosesLifeOnFloor();
+    }
+  });
+};
+
+EventManager.prototype.playerFloorCollision = function (player) {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager.playerFloorCollisionEvent(event, player);
+  });
+};
+
+EventManager.prototype.endGameCollisionEvent = function (event) {
+  event.pairs.forEach(function (pair) {
+    if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'endGamePlatform') {
+      gameController.endGame();
+    }
+  });
+};
+
+EventManager.prototype.endGameCollision = function () {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager.endGameCollisionEvent(event);
+  });
+};

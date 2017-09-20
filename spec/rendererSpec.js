@@ -189,6 +189,7 @@ describe('Renderer', function () {
       spyOn(moomin, 'drawWall');
       spyOn(moomin, 'drawPlayer');
       spyOn(moomin, 'scoreText');
+      spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
       moomin.updateScreen();
     });
@@ -223,6 +224,12 @@ describe('Renderer', function () {
       spyOn(moomin, 'updateScreen');
       window.requestAnimationFrame.calls.allArgs()[0][0]();
       expect(moomin.updateScreen).toHaveBeenCalled();
+    });
+
+    it('calls endGameScreen instead if the game is over', function () {
+      spyOn(gameController, 'isGameOver').and.returnValue(true);
+      moomin.updateScreen();
+      expect(moomin.endGameScreen).toHaveBeenCalled();
     });
   });
 
