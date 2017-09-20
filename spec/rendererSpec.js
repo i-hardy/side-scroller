@@ -3,14 +3,16 @@
 describe('Renderer', function () {
   var moomin;
   var player;
+  var score;
   var world;
   var soundEngine;
 
   beforeEach(function () {
     spyOn(document, 'getElementById').and.returnValue(canvas);
     player = new Player();
+    score = new Score();
     world = Matter.Engine.create().world;
-    soundEngine = new SoundEngine();
+    soundEngine = new SoundEngine(player, score);
     moomin = new Renderer(player, world, soundEngine);
   });
 
