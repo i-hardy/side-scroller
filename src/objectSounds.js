@@ -9,7 +9,7 @@ function ObjectSounds(score, soundBank) {
                     this.soundBank.chinaCrash,
                     this.soundBank.woodCrash  ];
   this.ping = this.soundBank.ping;
-};
+}
 
 ObjectSounds.prototype.setObjectVols = function () {
   this.soundBank.setObjectVols();
@@ -24,7 +24,7 @@ ObjectSounds.prototype._playCrash = function () {
     this._selectCrash().play();
   } else if(this.score.showPoints() < this.scoreTracker) {
     this._playPing();
-  };
+  }
   this.scoreTracker = this.score.showPoints();
 };
 
