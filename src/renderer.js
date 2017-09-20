@@ -38,6 +38,27 @@ Renderer.prototype.drawPlayer = function() {
     90);
 };
 
+Renderer.prototype.drawObjects = function () {
+    var bubble = this;
+    var objects = worldOptions.preciousObjectsImg;
+    var platformNumber = this.world.bodies.filter(function(body){
+        return body.label === "platform";
+      }).length;
+
+    this.world.bodies.forEach(function(body, i) {
+      if (body.label === "object") {
+          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.position.y-20);
+
+      } else if (body.label === "platform") {
+        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+
+      } else if (body.label === "floor") {
+        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+      }
+    });
+};
+
+
 Renderer.prototype.checkBorder = function () {
   var playerBounds = this.player.getBodyObject().bounds;
   if (playerBounds.min.x < this.viewport.leftEdge || playerBounds.max.x > this.viewport.rightEdge) {
@@ -102,7 +123,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
   this.drawWall();
-  
+
   this.ctx.beginPath();
   for (var i = 0; i < bodies.length; i += 1) {
     var vertices = bodies[i].vertices;
@@ -118,6 +139,8 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.fillStyle = '#000'
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+
+  this.drawObjects();
 
   this.drawPlayer();
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
