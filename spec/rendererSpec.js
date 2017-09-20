@@ -297,7 +297,7 @@ describe('Renderer', function () {
     });
 
     it('calls drawImage for object when instructed', function () {
-      world.bodies[0] = {label: "object", position: {x:0, y:0}};
+      world.bodies[0] = {label: "object", position: {x:0}, bounds: {max: {y: 0}}};
       moomin.drawObjects();
       expect(context.drawImage).toHaveBeenCalled();
     });

@@ -152,7 +152,7 @@ describe('WorldBuilder', function () {
 
   describe('#placeObjects', function () {
     it('generates objects based on the outcome of a random number call', function () {
-      spyOn(window, 'randomNumberGenerator').and.returnValue(1);
+      spyOn(window, 'randomNumberGenerator').and.returnValue(4);
       spyOn(jimmy, 'objectOrCactus');
       jimmy.placeObjects();
       expect(jimmy.objectOrCactus).toHaveBeenCalled();
