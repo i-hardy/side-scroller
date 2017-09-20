@@ -94,7 +94,7 @@ WorldBuilder.prototype.nonPlatformBodies = function () {
 };
 
 WorldBuilder.prototype.placeObjects = function (xCoordinate) {
-  if (randomNumberGenerator(0, 2) === 1) {
+  if (randomNumberGenerator(0, 10) > 3) {
     this.createPreciousObjects(xCoordinate);
   }
 };
