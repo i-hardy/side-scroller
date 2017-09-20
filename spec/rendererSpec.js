@@ -7,6 +7,7 @@ describe('Renderer', function () {
   var soundEngine;
 
   beforeEach(function () {
+    spyOn(document, 'getElementById').and.returnValue(canvas);
     player = new Player();
     world = Matter.Engine.create().world;
     soundEngine = new SoundEngine();
@@ -15,9 +16,9 @@ describe('Renderer', function () {
 
   describe('#sounds', function () {
     it('plays the player sounds', function () {
-      spyOn(soundEngine, 'playerSounds');
+      spyOn(soundEngine, 'runSounds');
       moomin.sounds();
-      expect(soundEngine.playerSounds).toHaveBeenCalled();
+      expect(soundEngine.runSounds).toHaveBeenCalled();
     })
   });
 
@@ -107,26 +108,48 @@ describe('Renderer', function () {
 
   describe('#scoreText', function () {
     it('returns the current score as a string', function () {
-      expect(moomin.scoreText()).toEqual('Score: 0');
+      expect(moomin.scoreText()).toEqual(playerName + "'s score: 0");
+    });
+  });
+
+  describe('#showDestructionPercentage', function () {
+    it('returns the destruction percentage', function () {
+      moomin.receiveDestructionPercentage("50%");
+      expect(moomin.showDestructionPercentage()).toEqual("50%");
+    });
+  });
+
+  describe('#receiveDestructionPercentage', function () {
+    it('sets a destruction percentage amount', function () {
+      moomin.receiveDestructionPercentage("50%");
+      expect(moomin.destructionPercentage).toEqual("50%");
     });
   });
 
   describe('#receiveScore', function () {
     it('sets the score to be the received number', function () {
       moomin.receiveScore(1);
-      expect(moomin.scoreText()).toEqual('Score: 1');
+      expect(moomin.scoreText()).toEqual(playerName + "'s score: 1");
     });
   });
 
-  describe('#updateScreen', function () {
+  describe('#drawWall', function () {
+    it('draws the background image', function () {
+      spyOn(context, 'drawImage');
+      moomin.drawWall();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+  });
+
+  describe('#gameLoop', function () {
     beforeEach(function () {
       spyOn(moomin, 'playerMovement');
       spyOn(moomin, 'checkBorder');
       spyOn(moomin, 'sounds');
       spyOn(moomin, 'scroll');
-      spyOn(context, 'beginPath');
-      spyOn(window, 'requestAnimationFrame');
-      moomin.updateScreen()
+      spyOn(moomin, 'drawPlayer');
+      spyOn(player, 'spriteUpdate');
+      moomin.gameLoop()
     });
 
     it('calls the playerMovement function', function () {
@@ -144,11 +167,163 @@ describe('Renderer', function () {
     it('calls the scroll function', function () {
       expect(moomin.scroll).toHaveBeenCalled();
     });
+  });
+
+  describe('#spriteLoop', function () {
+    it('loops the player sprite', function () {
+      spyOn(player, 'spriteUpdate');
+      moomin.spriteLoop();
+      expect(player.spriteUpdate).toHaveBeenCalled();
+    });
+  });
+
+  describe('#updateScreen', function () {
+    beforeEach(function () {
+      spyOn(context, 'beginPath');
+      spyOn(context, 'clearRect');
+      spyOn(context, 'translate');
+      spyOn(context, 'setTransform');
+      spyOn(context, 'fillText');
+      spyOn(moomin, 'drawWall');
+      spyOn(moomin, 'drawPlayer');
+      spyOn(moomin, 'scoreText');
+      spyOn(window, 'requestAnimationFrame');
+      moomin.updateScreen();
+    });
+
+    it('clears the view', function () {
+      expect(context.clearRect).toHaveBeenCalled();
+    });
+
+    it('translates the view', function () {
+      expect(context.translate).toHaveBeenCalled();
+    });
+
+    it('draws the background', function () {
+      expect(moomin.drawWall).toHaveBeenCalled();
+    });
+
+    it('draws the player', function () {
+      expect(moomin.drawPlayer).toHaveBeenCalled();
+    });
+
+    it('draws the score', function () {
+      expect(context.fillText).toHaveBeenCalled();
+      expect(moomin.scoreText).toHaveBeenCalled();
+    });
+
+    it('transforms the view', function () {
+      expect(context.setTransform).toHaveBeenCalled();
+    });
 
     it('calls requestAnimationFrame with itself as a callback', function () {
+      moomin.updateScreen();
       spyOn(moomin, 'updateScreen');
       window.requestAnimationFrame.calls.allArgs()[0][0]();
       expect(moomin.updateScreen).toHaveBeenCalled();
+    });
+  });
+
+  describe('#endGameScreen', function () {
+    it('calls fillText to display text on the canvas', function () {
+      spyOn(context, 'fillText');
+      moomin.endGameScreen();
+      expect(context.fillText).toHaveBeenCalled();
+    });
+
+    it('shows the final score, including the bonus', function () {
+      spyOn(moomin, 'scoreText');
+      moomin.endGameScreen();
+      expect(moomin.scoreText).toHaveBeenCalled();
+    });
+
+    it('shows the destruction percentage', function () {
+      spyOn(moomin, 'showDestructionPercentage');
+      moomin.endGameScreen();
+      expect(moomin.showDestructionPercentage).toHaveBeenCalled();
+    });
+  });
+
+  describe('#drawPlayer', function() {
+    beforeEach(function() {
+      spyOn(context, 'drawImage')
+      spyOn(player, 'spriteImage');
+      spyOn(player, 'spriteFrameIndexes').and.returnValue([[],[]]);
+      spyOn(player, 'spriteDirection').and.returnValue(1);
+      spyOn(player, 'spriteCurrentFrame');
+      spyOn(player, 'spriteWidth');
+      spyOn(player, 'spriteHeight');
+      spyOn(player, 'getBodyObject').and.returnValue(playerBody);
+      moomin.drawPlayer()
+    });
+
+    it('calls drawImage on this.ctx', function() {
+      expect(context.drawImage).toHaveBeenCalled()
+    });
+
+    it('calls spriteImage on this.player', function() {
+      expect(player.spriteImage).toHaveBeenCalled()
+    });
+
+    it('calls spriteFrameIndexes on this.player', function() {
+      expect(player.spriteFrameIndexes).toHaveBeenCalled()
+    });
+
+    it('calls spriteDirection on this.player', function() {
+      expect(player.spriteDirection).toHaveBeenCalled()
+    });
+
+    it('calls spriteCurrentFrame on this.player', function() {
+      expect(player.spriteCurrentFrame).toHaveBeenCalled()
+    });
+
+    it('calls spriteWidth on this.player', function() {
+      expect(player.spriteWidth).toHaveBeenCalled()
+    });
+
+    it('calls spriteHeight on this.player', function() {
+      expect(player.spriteHeight).toHaveBeenCalled()
+    });
+
+    it('calls getBodyObject on this.player', function() {
+      expect(player.getBodyObject).toHaveBeenCalled()
+    });
+
+  });
+
+  describe('#drawObjects', function () {
+    beforeEach(function() {
+      spyOn(context, 'drawImage')
+    });
+
+    it('calls drawImage for object when instructed', function () {
+      world.bodies[0] = {label: "object", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for platform when instructed', function () {
+      world.bodies[0] = {label: "platform", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for floor when instructed', function () {
+      world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for cactus when instructed', function () {
+      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
+    it('doesnt call drawImage for other labels', function () {
+      world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}};
+      moomin.drawObjects();
+      expect(context.drawImage).not.toHaveBeenCalled();
     });
   });
 });

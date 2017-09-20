@@ -1,0 +1,32 @@
+body {
+  font-family: 'Lobster';
+}
+
+#player_name_form {
+  font-family: 'Bangers';
+  position: absolute;
+  text-align: center;
+  top: 175px;
+  left: 440px;
+}
+
+#player_name_form input {
+  font-family: 'Bangers';
+  font-size: 16px;
+  text-align: center;
+  padding: 0.5em;
+}
+
+#submit_player_name {
+  font-family: 'Bangers';
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border: none;
+  padding: 0.5em;
+}
+
+#submit_player_name:hover {
+  box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 8px 25px 0 rgba(0,0,0,0.19);
+}

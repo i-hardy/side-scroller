@@ -5,6 +5,7 @@ function Player(body) {
   this.body = this.bodyParts[1];
   this.object = {};
   this.isOnFloor = false;
+  this.sprite = new Sprite();
 }
 
 Player.prototype.addParts = function(bodyPart) {
@@ -60,4 +61,32 @@ Player.prototype.getBodyParts = function() {
 
 Player.prototype.getBodyObject = function() {
   return this.object;
+};
+
+Player.prototype.spriteImage = function() {
+  return this.sprite.getImage();
+};
+
+Player.prototype.spriteFrameIndexes = function() {
+  return this.sprite.getFrameIndexes();
+};
+
+Player.prototype.spriteCurrentFrame = function() {
+  return this.sprite.getCurrentFrame();
+};
+
+Player.prototype.spriteHeight = function() {
+  return this.sprite.getHeight();
+};
+
+Player.prototype.spriteWidth = function() {
+  return this.sprite.getWidth();
+};
+
+Player.prototype.spriteDirection = function() {
+  return this.sprite.getDirection();
+};
+
+Player.prototype.spriteUpdate = function() {
+  this.sprite.update();
 };

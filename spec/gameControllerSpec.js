@@ -12,13 +12,13 @@ describe('GameController', function () {
     it('creates player collision events via the event manager', function () {
       spyOn(EventManager.prototype, 'playerCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.playerCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.playerCollision.calls.count()).toEqual(2);
     });
 
-    it('creates object-floor collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'objectFloorCollision');
+    it('creates object collision events via the event manager', function () {
+      spyOn(EventManager.prototype, 'objectCollision');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectFloorCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
     });
   });
 
@@ -60,15 +60,20 @@ describe('GameController', function () {
 
   describe('#calculateScore', function () {
     beforeEach(function () {
+      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue(4);
       spyOn(atticus, 'render').and.callFake(function () {
         this.renderer = new Renderer;
       })
       atticus.render();
     });
 
-    it('sets the game score based on the preciousness of the fallen objects', function () {
+    it('checks the values of fallen objects and touched cacti', function () {
+      atticus.calculateScore();
+      expect(WorldBuilder.prototype.fallenObjectPreciousness).toHaveBeenCalled();
+    });
+
+    it('sets the game score based on fallen objects and touched cacti', function () {
       spyOn(Score.prototype, 'increase');
-      spyOn(WorldBuilder.prototype, 'fallenObjectPreciousness').and.returnValue([1, 1]);
       atticus.calculateScore();
       expect(Score.prototype.increase).toHaveBeenCalled();
     });
@@ -111,6 +116,9 @@ describe('GameController', function () {
       spyOn(Matter.Engine, 'run');
       spyOn(Renderer.prototype, 'updateScreen');
       spyOn(window, 'setInterval');
+      spyOn(Renderer.prototype, 'gameLoop');
+      spyOn(atticus, 'calculateScore');
+      spyOn(Renderer.prototype, 'spriteLoop');
       atticus.render();
     });
 
@@ -126,12 +134,22 @@ describe('GameController', function () {
       expect(window.setInterval).toHaveBeenCalled();
     });
 
-    it('passes in its calculateScore method in a callback', function () {
-      spyOn(atticus, 'calculateScore');
+    it('passes in the renderer spriteLoop method in a callback', function () {
       window.setInterval.calls.allArgs()[0][0]();
+      expect(Renderer.prototype.spriteLoop).toHaveBeenCalled();
+    });
+
+    it('passes in the renderer gameLoop method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
+      expect(Renderer.prototype.gameLoop).toHaveBeenCalled();
+    });
+
+    it('passes in its calculateScore method in a second callback', function () {
+      window.setInterval.calls.allArgs()[1][0]();
       expect(atticus.calculateScore).toHaveBeenCalled();
     });
   });
+
 
   describe('#playerLoseLifeOnFloor', function() {
     it('resets the player position when contact with the floor is made', function() {
@@ -141,4 +159,36 @@ describe('GameController', function () {
       expect(atticus.render).toHaveBeenCalled();
     });
   });
-});
+
+  describe('#addEndBonus', function () {
+    beforeEach(function () {
+      spyOn(atticus, 'render').and.callFake(function () {
+        this.renderer = new Renderer;
+      })
+      atticus.render();
+    });
+
+    it('adds end bonus when called - when game ends', function () {
+      spyOn(Score.prototype, 'endBonus');
+      atticus.addEndBonus();
+      expect(Score.prototype.endBonus).toHaveBeenCalled();
+    });
+
+    it('passes the correct ratio argument for end bonus calculation', function () {
+      spyOn(WorldBuilder.prototype, 'fallenPreciousObjectsRatio');
+      atticus.addEndBonus();
+      expect(WorldBuilder.prototype.fallenPreciousObjectsRatio).toHaveBeenCalled();
+    });
+
+    it('passes the score points into the renderer', function () {
+      spyOn(Renderer.prototype, 'receiveScore');
+      atticus.addEndBonus();
+      expect(Renderer.prototype.receiveScore).toHaveBeenCalled();
+    });
+
+    it('passes the destruction percentage into the renderer', function () {
+      spyOn(Renderer.prototype, 'receiveDestructionPercentage');
+      atticus.addEndBonus();
+      expect(Renderer.prototype.receiveDestructionPercentage).toHaveBeenCalled();
+    });
+  });

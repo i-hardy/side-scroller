@@ -13,6 +13,11 @@ Score.prototype.increase = function (points) {
   this.points = points;
 };
 
-Score.prototype.endBonus = function () {
-  this.points += this.END_BONUS;
+Score.prototype.endBonus = function (ratio) {
+  this.destructionRatio = ratio;
+  this.points += this.END_BONUS*ratio;
+};
+
+Score.prototype.calculateDestructionPercentage = function () {
+  return this.destructionRatio * 100 + "%";
 };

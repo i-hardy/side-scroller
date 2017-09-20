@@ -29,19 +29,26 @@ var Matter = {Body: {
 
 var context = {
   clearRect: function () {},
+  fillRect: function () {},
   translate: function () {},
   beginPath: function () {},
   stroke: function () {},
   moveTo: function () {},
   lineTo: function () {},
   fillText: function () {},
-  setTransform: function () {}
+  setTransform: function () {},
+  drawImage: function() {}
 };
 
 var canvas = {
   getContext: function () {
     return context;
   }
+};
+
+var player_name_form = {
+  addEventListener: function () {},
+  reset: function () {}
 };
 
 var KEY_W = 87;
