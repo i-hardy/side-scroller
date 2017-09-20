@@ -190,4 +190,35 @@ describe('EventManager', function () {
       expect(carolyn.objectCollisionEvent).toHaveBeenCalled();
     });
   });
+
+  describe('#endGameCollisionEvent', function () {
+    beforeEach(function () {
+      spyOn(gameController, 'endGame');
+    });
+
+    it('ends the game if a collision occurs between the player and the end game platform', function () {
+      event.pairs[0].bodyA.label = 'playerSensor';
+      event.pairs[0].bodyB.label = 'endGamePlatform';
+      carolyn.endGameCollisionEvent(event);
+      expect(gameController.endGame).toHaveBeenCalled();
+    });
+  });
+
+  describe('#endGameCollision', function () {
+    beforeEach(function () {
+      spyOn(Matter.Events, 'on');
+    });
+
+    it('creates a Matter event on the game engine', function () {
+      carolyn.endGameCollision();
+      expect(Matter.Events.on).toHaveBeenCalled();
+    });
+
+    it('passes in the endGameCollisionEvent function in a callback', function () {
+      spyOn(carolyn, 'endGameCollisionEvent');
+      carolyn.endGameCollision();
+      Matter.Events.on.calls.allArgs()[0][2]();
+      expect(carolyn.endGameCollisionEvent).toHaveBeenCalled();
+    });
+  });
 });

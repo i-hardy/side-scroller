@@ -1,8 +1,9 @@
 'use strict';
 
-function GameController () {
+function GameController() {
   this.engine = Matter.Engine.create();
   this.world = this.engine.world;
+  this.gameOver = false;
   this.eventManager = new EventManager(this.engine);
   this.worldBuilder = new WorldBuilder();
   this.score = new Score();
@@ -11,9 +12,22 @@ function GameController () {
   this.soundEngine = new SoundEngine(this.player, this.score);
 }
 
+GameController.prototype.isGameOver = function () {
+  return this.gameOver;
+};
+
+GameController.prototype.endGame = function () {
+  this.gameOver = true;
+  this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
+  this.renderer.receiveScore(this.score.showPoints());
+  this.renderer.receiveDestructionPercentage(this.score.calculateDestructionPercentage());
+};
+
 GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
+  this.eventManager.playerFloorCollision(this.player);
+  this.eventManager.endGameCollision();
   this.eventManager.objectCollision(this.worldBuilder);
 };
 
@@ -44,14 +58,18 @@ GameController.prototype.addPlayer = function () {
   Matter.World.add(this.world, [this.player.getBodyObject()]);
 };
 
+GameController.prototype.removePlayer = function () {
+  Matter.World.remove(this.world, [this.player.getBodyObject()]);
+};
+
 GameController.prototype.calculateScore = function () {
   this.score.increase(this.worldBuilder.fallenObjectPreciousness());
   this.renderer.receiveScore(this.score.showPoints());
 };
 
+
 GameController.prototype.playerLosesLifeOnFloor = function () {
   if (this.player.isOnFloor === true) {
-    console.log('foo');
     this.render();
   }
 };
@@ -81,4 +99,14 @@ GameController.prototype.render = function () {
     controller.renderer.gameLoop();
     controller.calculateScore();
   }, 1000/60);
+};
+
+GameController.prototype.returnPlayerToStart = function () {
+  Matter.Body.setVelocity(this.player.getBodyObject(), {x: 0, y: 0});
+  Matter.Body.setPosition(this.player.getBodyObject(), {x: 32, y: 0});
+};
+
+GameController.prototype.playerLosesLifeOnFloor = function () {
+  this.returnPlayerToStart();
+  this.renderer.returnViewToStart();
 };
