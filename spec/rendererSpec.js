@@ -327,6 +327,12 @@ describe('Renderer', function () {
       expect(context.drawImage).toHaveBeenCalled();
     });
 
+    it('calls drawImage for end-platform when instructed', function () {
+      world.bodies[0] = {label: "endGamePlatform", position: {x:0, y:0}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
+      moomin.drawObjects();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+
     it('calls drawImage for floor when instructed', function () {
       world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();

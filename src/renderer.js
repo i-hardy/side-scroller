@@ -60,7 +60,7 @@ Renderer.prototype.drawObjects = function () {
       } else if (body.label === "cactus") {
           texture = gameImages.cactus;
 
-      } else if (body.label === "platform") {
+      } else if (body.label === "platform" || body.label === "endGamePlatform") {
           bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
 
 
