@@ -21,11 +21,12 @@ OpeningScreen.prototype.getRules = function () {
 
 OpeningScreen.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
+  this.ctx.drawImage(gameImages.wall, 0, 0);
   this.ctx.globalAlpha = 1;
 };
 
 OpeningScreen.prototype.draw = function () {
+  this.ctx.clearRect(0, 0, worldOptions.width, worldOptions.height);
   this.drawWall();
   this.ctx.fillStyle = 'white';
   this.ctx.fillRect(75, 50, (worldOptions.viewWidth - 150), (worldOptions.height - 100))

@@ -25,6 +25,10 @@ SoundBank.prototype.setObjectVols = function () {
   this._setPingVol();
 };
 
+SoundBank.prototype.resetThemeTime = function () {
+  this.gameTheme.currentTime = 0;
+};
+
 SoundBank.prototype._setThemeVol = function() {
   this.gameTheme.volume = 0.2;
 }

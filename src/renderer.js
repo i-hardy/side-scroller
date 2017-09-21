@@ -40,23 +40,28 @@ Renderer.prototype.drawPlayer = function() {
 
 Renderer.prototype.drawObjects = function () {
     var bubble = this;
-    var objects = worldOptions.preciousObjectsImg;
+    var objects = [];
+    for (var key in gameImages.objects) {
+      if (gameImages.objects.hasOwnProperty(key)) {
+        objects.push(gameImages.objects[key]);
+      }
+    }
     var platformNumber = this.world.bodies.filter(function(body){
         return body.label === "platform";
       }).length;
 
     this.world.bodies.forEach(function(body, i) {
       if (body.label === "object") {
-          bubble.ctx.drawImage(document.getElementById(objects[(i-platformNumber)%objects.length]), body.position.x-20, body.bounds.max.y-40);
+          bubble.ctx.drawImage(objects[(i-platformNumber)%objects.length], body.position.x-20, body.bounds.max.y-40);
 
       } else if (body.label === "platform") {
-        bubble.ctx.drawImage(document.getElementById("shelf_img"), body.position.x-64, body.position.y-20);
+        bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
 
       } else if (body.label === "floor") {
-        bubble.ctx.drawImage(document.getElementById("floor_img"), body.position.x-4608, body.bounds.max.y-20);
+        bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
 
       } else if (body.label === "cactus") {
-        bubble.ctx.drawImage(document.getElementById("cactus_img"), body.position.x-10, body.bounds.max.y-40);
+        bubble.ctx.drawImage(gameImages.cactus, body.position.x-10, body.bounds.max.y-40);
       }
     });
 };
@@ -110,7 +115,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 
 Renderer.prototype.drawWall = function () {
   this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
+  this.ctx.drawImage(gameImages.wall, 0, 0);
   this.ctx.globalAlpha = 1;
 };
 
@@ -133,18 +138,9 @@ Renderer.prototype.updateScreen = function () {
 
   this.drawWall();
 
-  this.ctx.beginPath();
-  for (var i = 0; i < bodies.length; i += 1) {
-    var vertices = bodies[i].vertices;
-    this.ctx.moveTo(vertices[0].x, vertices[0].y);
-    for (var j = 1; j < vertices.length; j += 1) {
-        this.ctx.lineTo(vertices[j].x, vertices[j].y);
-    }
-    this.ctx.lineTo(vertices[0].x, vertices[0].y);
-  }
-  this.ctx.lineWidth = 1;
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.ctx.fillText(this.player.getLives(), this.viewport.centreX, 80);
 
   this.drawObjects();
 
@@ -163,6 +159,7 @@ Renderer.prototype.updateScreen = function () {
 };
 
 Renderer.prototype.endGameScreen = function () {
+  domInterface.showResetButton();
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.fillStyle = 'black';
   this.ctx.font = '24px Bangers';
