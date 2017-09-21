@@ -190,4 +190,94 @@ describe('EventManager', function () {
       expect(carolyn.objectCollisionEvent).toHaveBeenCalled();
     });
   });
+
+  describe('#playerFloorCollisionEvent', function () {
+    beforeEach(function () {
+      spyOn(gameController, 'playerLosesLifeOnFloor');
+    });
+
+    it('calls playerLosesLifeOnFloor if a collision occurs between the player and the floor', function () {
+      event.pairs[0].bodyA.label = 'playerSensor';
+      event.pairs[0].bodyB.label = 'floor';
+      carolyn.playerFloorCollisionEvent(event);
+      expect(gameController.playerLosesLifeOnFloor).toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyA is not the player', function () {
+      event.pairs[0].bodyA.label = 'object';
+      event.pairs[0].bodyB.label = 'floor';
+      carolyn.playerFloorCollisionEvent(event);
+      expect(gameController.playerLosesLifeOnFloor).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyB is not the floor', function () {
+      event.pairs[0].bodyA.label = 'player';
+      event.pairs[0].bodyB.label = 'object';
+      carolyn.playerFloorCollisionEvent(event);
+      expect(gameController.playerLosesLifeOnFloor).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#playerFloorCollision', function () {
+    beforeEach(function () {
+      spyOn(Matter.Events, 'on');
+    });
+
+    it('creates a Matter event on the game engine', function () {
+      carolyn.objectCollision();
+      expect(Matter.Events.on).toHaveBeenCalled();
+    });
+
+    it('passes in the playerFloorCollisionEvent function in a callback', function () {
+      spyOn(carolyn, 'playerFloorCollisionEvent');
+      carolyn.playerFloorCollision(worldBuilder);
+      Matter.Events.on.calls.allArgs()[0][2]();
+      expect(carolyn.playerFloorCollisionEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('#endGameCollisionEvent', function () {
+    beforeEach(function () {
+      spyOn(gameController, 'endGame');
+    });
+
+    it('ends the game if a collision occurs between the player and the end game platform', function () {
+      event.pairs[0].bodyA.label = 'playerSensor';
+      event.pairs[0].bodyB.label = 'endGamePlatform';
+      carolyn.endGameCollisionEvent(event);
+      expect(gameController.endGame).toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyA is not the player', function () {
+      event.pairs[0].bodyA.label = 'object';
+      event.pairs[0].bodyB.label = 'endGamePlatform';
+      carolyn.endGameCollisionEvent(event);
+      expect(gameController.endGame).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if bodyB is not the end game platform', function () {
+      event.pairs[0].bodyA.label = 'playerSensor';
+      event.pairs[0].bodyB.label = 'platform';
+      carolyn.endGameCollisionEvent(event);
+      expect(gameController.endGame).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#endGameCollision', function () {
+    beforeEach(function () {
+      spyOn(Matter.Events, 'on');
+    });
+
+    it('creates a Matter event on the game engine', function () {
+      carolyn.endGameCollision();
+      expect(Matter.Events.on).toHaveBeenCalled();
+    });
+
+    it('passes in the endGameCollisionEvent function in a callback', function () {
+      spyOn(carolyn, 'endGameCollisionEvent');
+      carolyn.endGameCollision();
+      Matter.Events.on.calls.allArgs()[0][2]();
+      expect(carolyn.endGameCollisionEvent).toHaveBeenCalled();
+    });
+  });
 });

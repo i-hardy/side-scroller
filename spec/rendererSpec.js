@@ -3,14 +3,16 @@
 describe('Renderer', function () {
   var moomin;
   var player;
+  var score;
   var world;
   var soundEngine;
 
   beforeEach(function () {
     spyOn(document, 'getElementById').and.returnValue(canvas);
     player = new Player();
+    score = new Score();
     world = Matter.Engine.create().world;
-    soundEngine = new SoundEngine();
+    soundEngine = new SoundEngine(player, score);
     moomin = new Renderer(player, world, soundEngine);
   });
 
@@ -187,6 +189,7 @@ describe('Renderer', function () {
       spyOn(moomin, 'drawWall');
       spyOn(moomin, 'drawPlayer');
       spyOn(moomin, 'scoreText');
+      spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
       moomin.updateScreen();
     });
@@ -221,6 +224,12 @@ describe('Renderer', function () {
       spyOn(moomin, 'updateScreen');
       window.requestAnimationFrame.calls.allArgs()[0][0]();
       expect(moomin.updateScreen).toHaveBeenCalled();
+    });
+
+    it('calls endGameScreen instead if the game is over', function () {
+      spyOn(gameController, 'isGameOver').and.returnValue(true);
+      moomin.updateScreen();
+      expect(moomin.endGameScreen).toHaveBeenCalled();
     });
   });
 
