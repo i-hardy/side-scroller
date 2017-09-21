@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/i-hardy/side-scroller.svg?branch=master)](https://travis-ci.org/i-hardy/side-scroller) [![Code Climate](https://codeclimate.com/github/i-hardy/side-scroller/badges/gpa.svg)](https://codeclimate.com/github/i-hardy/side-scroller) [![Test Coverage](https://codeclimate.com/github/i-hardy/side-scroller/badges/coverage.svg)](https://codeclimate.com/github/i-hardy/side-scroller/coverage)
 
 <p align="center">
-![cat gif](https://i.imgur.com/vdLE8dJ.gif)
-![cat gif](http://g.recordit.co/H4FKngqxaX.gif)
+<img src="https://i.imgur.com/vdLE8dJ.gif"/>
+<img src="http://g.recordit.co/H4FKngqxaX.gif"/>
 </p>
 
 CATastrophe is a procedurally-generated, side-scrolling platformer in which you play as a cat and liberate the world from its useless possesions. Using a custom-written level design AI, the game distributes platforms and objects at random to create a new player experience every time.
