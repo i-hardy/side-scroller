@@ -25,11 +25,10 @@ PlayerSounds.prototype._playerJumping = function() {
 };
 
 PlayerSounds.prototype._startTheme = function() {
-  this.soundBank.gameTheme.loop = true;
   this.soundBank.gameTheme.play();
   var buffer = 0.18
   if(this.soundBank.gameTheme.currentTime > this.soundBank.gameTheme.duration - buffer) {
-    this.soundBank.gameTheme.currentTime = 0;
+    this.soundBank.resetThemeTime();
     this.soundBank.gameTheme.play();
   };
 };

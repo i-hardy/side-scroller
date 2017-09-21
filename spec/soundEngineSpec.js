@@ -15,7 +15,6 @@ describe('SoundEngine', function() {
   });
 
   describe('#runSounds', function() {
-
     beforeEach(function() {
       spyOn(soundEngine, '_setVols')
       spyOn(PlayerSounds.prototype, 'loadPlayerSounds')
@@ -35,6 +34,20 @@ describe('SoundEngine', function() {
     it('calls loadObjectSounds', function() {
       soundEngine.runSounds();
       expect(ObjectSounds.prototype.loadObjectSounds).toHaveBeenCalled();
+    });
+  });
+
+  describe('#_setVols', function () {
+    it('sets the player sounds volumes', function () {
+      spyOn(PlayerSounds.prototype, 'setPlayerVols');
+      soundEngine._setVols();
+      expect(PlayerSounds.prototype.setPlayerVols).toHaveBeenCalled();
+    });
+
+    it('sets the object sounds volumes', function () {
+      spyOn(ObjectSounds.prototype, 'setObjectVols');
+      soundEngine._setVols();
+      expect(ObjectSounds.prototype.setObjectVols).toHaveBeenCalled();
     });
   });
 });
