@@ -58,5 +58,5 @@ SoundBank.prototype._setWoodCrashVol = function() {
 };
 
 SoundBank.prototype._setPingVol = function() {
-  this.ping.volume = 0.2;
+  this.ping.volume = 0.3;
 };

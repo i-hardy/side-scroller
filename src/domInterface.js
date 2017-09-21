@@ -6,6 +6,7 @@ var keys = [];
 var playerName;
 var gameController;
 var opening;
+var isThemeMuted = false;
 
 (function(exports) {
   'use strict';
@@ -17,6 +18,9 @@ var opening;
       });
       document.body.addEventListener('keydown', function(e) {
         keys[e.keyCode] = true;
+        if (e.keyCode === 77) {
+          isThemeMuted = !isThemeMuted;
+        };
       });
       domInterface.collectNameAndStart();
     },
