@@ -1,15 +1,25 @@
+canvas {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #E8E8E7;
+}
+
 body {
   font-family: 'Lobster';
+  background-color: black;
 }
 
 /* Game Opening Screen */
 
 #player_name_form {
   font-family: 'Bangers';
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: 175px;
-  left: 440px;
+  top: 40%;
 }
 
 #player_name_form input {

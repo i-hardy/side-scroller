@@ -9,7 +9,7 @@ describe('OpeningScreen', function () {
 
   describe("#getTitle", function () {
     it('returns the name of the game', function () {
-      expect(timmy.getTitle()).toEqual("KittyGame");
+      expect(timmy.getTitle()).toEqual("Catastrophe!");
     });
   });
 
