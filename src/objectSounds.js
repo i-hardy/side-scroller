@@ -20,9 +20,10 @@ ObjectSounds.prototype.loadObjectSounds = function () {
 };
 
 ObjectSounds.prototype._playCrash = function () {
-  if(this.score.showPoints() > this.scoreTracker) {
+  var scoreDifference = this.score.showPoints() - this.scoreTracker
+  if(scoreDifference > 0 && scoreDifference < 6) {
     this._selectCrash().play();
-  } else if(this.score.showPoints() < this.scoreTracker) {
+  } else if(scoreDifference < 0  && scoreDifference > -6) {
     this._playPing();
   }
   this.scoreTracker = this.score.showPoints();
