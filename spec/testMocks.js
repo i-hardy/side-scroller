@@ -53,6 +53,10 @@ var player_name_form = {
   reset: function () {}
 };
 
+var reset_button = {
+  addEventListener: function () {}
+};
+
 var gameController = {playerLosesLifeOnFloor: function () {},
                       endGame: function () {},
                       isGameOver: function () {}};
