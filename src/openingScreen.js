@@ -1,7 +1,7 @@
 'use strict';
 
 function OpeningScreen() {
-  this.title = "KittyGame";
+  this.title = "Catastrophe!";
   this.rules = ["Your mission: to rid the shelves of their cumbersome objects",
                 "Fall to the floor and you'll lose a life",
                 "Touch a cactus and you'll lose points",
