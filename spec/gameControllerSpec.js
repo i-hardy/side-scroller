@@ -19,12 +19,18 @@ describe('GameController', function () {
       spyOn(atticus, 'render').and.callFake(function () {
         this.renderer = new Renderer;
       })
+      spyOn(SoundEngine.prototype, 'killSounds')
       atticus.render();
     });
 
     it('sets gameOver to true', function () {
       atticus.endGame();
       expect(atticus.isGameOver()).toBe(true);
+    });
+
+    it('calls killSounds on soundEngine', function () {
+      atticus.endGame();
+      expect(SoundEngine.prototype.killSounds).toHaveBeenCalled()
     });
   });
 

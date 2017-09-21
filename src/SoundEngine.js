@@ -11,6 +11,11 @@ SoundEngine.prototype.runSounds = function() {
   this.objectSounds.loadObjectSounds();
 };
 
+SoundEngine.prototype.killSounds = function () {
+  this.playerSounds.killPlayerSounds();
+  this.objectSounds.killObjectSounds();
+};
+
 SoundEngine.prototype._setVols = function() {
   this.playerSounds.setPlayerVols();
   this.objectSounds.setObjectVols();
