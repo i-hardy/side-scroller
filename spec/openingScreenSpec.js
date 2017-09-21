@@ -31,24 +31,16 @@ describe('OpeningScreen', function () {
     });
   });
 
-  describe('#drawWall', function () {
-    it('draws the background image', function () {
-      spyOn(context, 'drawImage');
-      timmy.drawWall();
-      expect(context.drawImage).toHaveBeenCalled();
-    });
-  });
-
   describe('#draw', function () {
     beforeEach(function () {
-      spyOn(timmy, 'drawWall')
+      spyOn(context, 'drawImage');
       spyOn(context, 'fillText');
       spyOn(context, 'fillRect');
       timmy.draw();
     });
 
     it('draws the background image', function () {
-      expect(timmy.drawWall).toHaveBeenCalled();
+      expect(context.drawImage).toHaveBeenCalled();
     });
 
     it('draws a box for the text to go on', function () {

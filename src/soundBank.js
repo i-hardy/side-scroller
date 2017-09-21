@@ -1,15 +1,15 @@
 'use strict';
 
 function SoundBank() {
-  this.scamper = new Audio('./assets/sounds/scurrying.wav')
-  this.meow1 = new Audio('./assets/sounds/meow1.wav')
-  this.gameTheme = new Audio('./assets/sounds/gametheme.mp3')
-  this.glassCrash = new Audio('./assets/sounds/glasscrash.mp3')
-  this.metalCrash = new Audio('./assets/sounds/metalcrash.mp3')
-  this.chinaCrash = new Audio('./assets/sounds/chinacrash.mp3')
-  this.woodCrash = new Audio('./assets/sounds/woodcrash.mp3')
-  this.ping = new Audio('./assets/sounds/ping.mp3')
-};
+  this.scamper = new Audio('./assets/sounds/scurrying.wav');
+  this.meow1 = new Audio('./assets/sounds/meow1.wav');
+  this.gameTheme = new Audio('./assets/sounds/gametheme.mp3');
+  this.glassCrash = new Audio('./assets/sounds/glasscrash.mp3');
+  this.metalCrash = new Audio('./assets/sounds/metalcrash.mp3');
+  this.chinaCrash = new Audio('./assets/sounds/chinacrash.mp3');
+  this.woodCrash = new Audio('./assets/sounds/woodcrash.mp3');
+  this.ping = new Audio('./assets/sounds/ping.mp3');
+}
 
 SoundBank.prototype.setPlayerVols = function () {
   this._setMeowVol();
@@ -31,7 +31,7 @@ SoundBank.prototype.resetThemeTime = function () {
 
 SoundBank.prototype._setThemeVol = function() {
   this.gameTheme.volume = 0.2;
-}
+};
 
 SoundBank.prototype._setMeowVol = function() {
   this.meow1.volume = 0.3;
