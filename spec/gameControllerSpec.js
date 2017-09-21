@@ -35,10 +35,10 @@ describe('GameController', function () {
       expect(EventManager.prototype.playerCollision.calls.count()).toEqual(2);
     });
 
-    it('creates object collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'objectCollision');
+    it('creates three collision start events via the event manager', function () {
+      spyOn(EventManager.prototype, 'collisionStarts');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.collisionStarts.calls.count()).toEqual(2);
     });
   });
 
@@ -189,7 +189,20 @@ describe('GameController', function () {
       spyOn(Renderer.prototype, 'returnViewToStart');
       atticus.playerLosesLifeOnFloor();
       expect(Renderer.prototype.returnViewToStart).toHaveBeenCalled();
-    })
+    });
+
+    it('it decreases the players lives', function () {
+      spyOn(Player.prototype, 'decreaseLives');
+      atticus.playerLosesLifeOnFloor();
+      expect(Player.prototype.decreaseLives).toHaveBeenCalled();
+    });
+
+    it('it ends game if kitty is kaput', function () {
+      spyOn(Player.prototype, 'isDead').and.returnValue(true);
+      spyOn(atticus, 'endGame');
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.endGame).toHaveBeenCalled();
+    });
   });
 
   describe('#addEndBonus', function () {

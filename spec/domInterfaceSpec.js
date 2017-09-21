@@ -121,4 +121,24 @@ describe('DOM interface', function () {
       expect(player_name_form.style).toEqual("display:none;");
     });
   });
+
+  describe('resetGame', function () {
+    beforeEach(function () {
+      spyOn(domInterface, 'gameOpening');
+      spyOn(gameController, 'endGame');
+      domInterface.resetGame();
+    });
+
+    it('sets the keys back to nul', function () {
+      expect(keys).toEqual([]);
+    });
+
+    it('sets the gameController endgame', function () {
+      expect(gameController.endGame).toHaveBeenCalled();
+    });
+
+    it('restarts the game', function () {
+      expect(domInterface.gameOpening).toHaveBeenCalled();
+    });
+  });
 });
