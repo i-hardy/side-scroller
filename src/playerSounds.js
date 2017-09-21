@@ -15,6 +15,10 @@ PlayerSounds.prototype.loadPlayerSounds = function () {
   this._startTheme();
 };
 
+PlayerSounds.prototype.killPlayerSounds = function () {
+  this.soundBank.killPlayerSounds();
+};
+
 PlayerSounds.prototype._playerRunning = function() {
   this.soundBank.scamper.loop = true;
   if (this.player.isOnFloor && (keys[KEY_D] || keys[KEY_A])) {
@@ -29,7 +33,7 @@ PlayerSounds.prototype._playerJumping = function() {
 };
 
 PlayerSounds.prototype._startTheme = function() {
-  if (isThemeMuted === true) { this.soundBank.gameTheme.pause(); return };
+  if (isThemeMuted === true) { this.soundBank.gameTheme.pause(); return }
   this.soundBank.gameTheme.play();
   var buffer = 0.18;
   if(this.soundBank.gameTheme.currentTime > this.soundBank.gameTheme.duration - buffer) {
