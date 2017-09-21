@@ -103,3 +103,7 @@ Player.prototype.decreaseLives = function () {
 Player.prototype.isDead = function () {
   return this.lives <= 0;
 };
+
+Player.prototype.livesText = function () {
+  return "Lives: " + this.getLives();
+};

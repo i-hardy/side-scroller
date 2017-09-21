@@ -188,4 +188,10 @@ describe('Player', function() {
       expect(player.isDead()).toEqual(false);
     });
   });
+
+  describe('#livesText', function () {
+    it('returns current lives as a string', function () {
+      expect(player.livesText()).toEqual("Lives: " + player.getLives());
+    });
+  });
 });
