@@ -68,7 +68,7 @@ Renderer.prototype.drawObjects = function () {
           bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
       }
 
-      if (texture !== null) {
+      if (texture) {
         bubble.ctx.translate(body.position.x, body.position.y);
         bubble.ctx.rotate(body.angle);
         bubble.ctx.drawImage(texture,
