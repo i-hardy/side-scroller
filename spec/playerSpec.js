@@ -162,4 +162,30 @@ describe('Player', function() {
       expect(Sprite.prototype.update).toHaveBeenCalled();
     });
   });
+
+  describe('#getLives', function () {
+    it('defaults to nine', function () {
+      expect(player.getLives()).toEqual(9);
+    });
+  });
+
+  describe('#decreaseLives', function () {
+    it('decrases lives', function () {
+      player.decreaseLives();
+      expect(player.getLives()).toEqual(8);
+    });
+  });
+
+  describe('#isDead', function () {
+    it('returns true if lives are zero', function () {
+      for (var i = 0; i < 9; i++) {
+        player.decreaseLives();
+      }
+      expect(player.isDead()).toEqual(true);
+    });
+
+    it('returns true if lives are zero', function () {
+      expect(player.isDead()).toEqual(false);
+    });
+  });
 });

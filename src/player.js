@@ -6,6 +6,7 @@ function Player(body) {
   this.object = {};
   this.isOnFloor = false;
   this.sprite = new Sprite();
+  this.lives = 9;
 }
 
 Player.prototype.addParts = function(bodyPart) {
@@ -89,4 +90,16 @@ Player.prototype.spriteDirection = function() {
 
 Player.prototype.spriteUpdate = function() {
   this.sprite.update();
+};
+
+Player.prototype.getLives = function () {
+  return this.lives;
+};
+
+Player.prototype.decreaseLives = function () {
+  this.lives -= 1;
+};
+
+Player.prototype.isDead = function () {
+  return this.lives <= 0;
 };

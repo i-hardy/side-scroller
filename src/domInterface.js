@@ -22,6 +22,12 @@ var isThemeMuted = false;
           isThemeMuted = !isThemeMuted;
         };
       });
+      var reset = document.getElementById('reset_game');
+      reset.addEventListener('click', function(e) {
+        domInterface.hideResetButton();
+        domInterface.showForm();
+        domInterface.resetGame();
+      });
       domInterface.collectNameAndStart();
     },
 
@@ -62,6 +68,30 @@ var isThemeMuted = false;
       document
         .getElementById("player_name_form")
         .style = "display:none;";
+    },
+
+    showForm: function () {
+      document
+        .getElementById("player_name_form")
+        .style = "display: initial;";
+    },
+
+    showResetButton: function () {
+      document
+        .getElementById("reset_game")
+        .style = "display: initial;";
+    },
+
+    hideResetButton: function () {
+      document
+        .getElementById("reset_game")
+        .style = "display: none;";
+    },
+
+    resetGame: function () {
+      keys = [];
+      gameController.endGame();
+      domInterface.gameOpening();
     }
   };
 
