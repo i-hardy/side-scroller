@@ -35,10 +35,10 @@ describe('GameController', function () {
       expect(EventManager.prototype.playerCollision.calls.count()).toEqual(2);
     });
 
-    it('creates object collision events via the event manager', function () {
-      spyOn(EventManager.prototype, 'objectCollision');
+    it('creates three collision start events via the event manager', function () {
+      spyOn(EventManager.prototype, 'collisionStarts');
       atticus.collisionEvents();
-      expect(EventManager.prototype.objectCollision).toHaveBeenCalled();
+      expect(EventManager.prototype.collisionStarts.calls.count()).toEqual(2);
     });
   });
 

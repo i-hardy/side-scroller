@@ -163,6 +163,6 @@ Renderer.prototype.endGameScreen = function () {
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.fillStyle = 'black';
   this.ctx.font = '24px Bangers';
-  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
-  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 150);
 };

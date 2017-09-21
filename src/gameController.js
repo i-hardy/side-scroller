@@ -26,9 +26,8 @@ GameController.prototype.endGame = function () {
 GameController.prototype.collisionEvents = function () {
   this.eventManager.playerCollision(this.player, 'collisionEnd', 'notOnFloor');
   this.eventManager.playerCollision(this.player, 'collisionActive', 'onFloor');
-  this.eventManager.playerFloorCollision(this.player);
-  this.eventManager.endGameCollision();
-  this.eventManager.objectCollision(this.worldBuilder);
+  this.eventManager.collisionStarts(this, 'lifeAndDeathCollisionEvent');
+  this.eventManager.collisionStarts(this.worldBuilder, 'objectCollisionEvent');
 };
 
 GameController.prototype.buildWorld = function () {
