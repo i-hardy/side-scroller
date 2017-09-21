@@ -18,6 +18,8 @@ GameController.prototype.isGameOver = function () {
 
 GameController.prototype.endGame = function () {
   this.gameOver = true;
+  window.clearInterval(this.spriteLoop);
+  window.clearInterval(this.gameLoop);
   this.soundEngine.killSounds();
   this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
   this.renderer.receiveScore(this.score.showPoints());
@@ -81,10 +83,10 @@ GameController.prototype.render = function () {
   this.renderer = new Renderer(this.player, this.world, this.soundEngine);
   this.renderer.updateScreen();
   var controller = this;
-  window.setInterval(function () {
+  this.spriteLoop = window.setInterval(function () {
     controller.renderer.spriteLoop();
   }, 1000/15);
-  window.setInterval(function () {
+  this.gameLoop = window.setInterval(function () {
     controller.renderer.gameLoop();
     controller.calculateScore();
   }, 1000/60);

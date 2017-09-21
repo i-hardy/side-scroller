@@ -178,10 +178,17 @@ Renderer.prototype.updateScreen = function () {
 };
 
 Renderer.prototype.endGameScreen = function () {
+  var renderer = this;
+  var score = this.scoreText();
+  var destruction = this.showDestructionPercentage();
   domInterface.showResetButton();
-  this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
+  this.ctx.clearRect(0, 0, worldOptions.width, worldOptions.height);
+  this.ctx.drawImage(gameImages.wall, 0, 0);
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillRect(75, 50, (worldOptions.viewWidth - 150), (worldOptions.height - 100))
   this.ctx.fillStyle = 'black';
+  this.ctx.textAlign = 'center';
   this.ctx.font = '24px Bangers';
-  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 100);
-  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 150);
+  this.ctx.fillText(score, 512, 100);
+  this.ctx.fillText(destruction, 512, 150);
 };

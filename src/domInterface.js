@@ -94,7 +94,6 @@ var isThemeMuted = false;
 
     resetGame: function () {
       keys = [];
-      gameController.endGame();
       domInterface.gameOpening();
     }
   };
