@@ -2,7 +2,7 @@
 
 function Score() {
   this.points = 0;
-  this.END_BONUS = 100;
+  this.END_BONUS = 50;
 }
 
 Score.prototype.showPoints = function () {
@@ -19,5 +19,5 @@ Score.prototype.endBonus = function (ratio) {
 };
 
 Score.prototype.calculateDestructionPercentage = function () {
-  return this.destructionRatio * 100 + "%";
+  return Math.floor(this.destructionRatio * 100) + "%";
 };
