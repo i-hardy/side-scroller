@@ -49,8 +49,8 @@ describe('OpeningScreen', function () {
       expect(context.fillRect).toHaveBeenCalled();
     });
 
-    it('writes the game name and rules on the canvas', function () {
-      expect(context.fillText.calls.count()).toEqual(timmy.getRules().length + 1);
+    it('writes the game name, mute button and rules on the canvas', function () {
+      expect(context.fillText.calls.count()).toEqual(timmy.getRules().length + 2);
     });
   });
 });
