@@ -15,6 +15,10 @@ PlayerSounds.prototype.loadPlayerSounds = function () {
   this._startTheme();
 };
 
+PlayerSounds.prototype.killPlayerSounds = function () {
+  this.soundBank.killPlayerSounds();
+};
+
 PlayerSounds.prototype._playerRunning = function() {
   this.soundBank.scamper.loop = true;
   if (this.player.isOnFloor && (keys[KEY_D] || keys[KEY_A])) {

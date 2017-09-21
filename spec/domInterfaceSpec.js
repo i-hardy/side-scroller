@@ -34,7 +34,7 @@ describe('DOM interface', function () {
       domInterface.eventListeners();
       document.body.addEventListener.calls.allArgs()[1][1]({keyCode: 77});
       expect(isThemeMuted).toBe(false);
-    };
+    });
 
     it('calls a function to add an event listener to the reset button', function () {
       spyOn(domInterface, 'resetButtonClicked')

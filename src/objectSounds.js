@@ -21,9 +21,9 @@ ObjectSounds.prototype.loadObjectSounds = function () {
 
 ObjectSounds.prototype._playCrash = function () {
   var scoreDifference = this.score.showPoints() - this.scoreTracker
-  if(scoreDifference > 0 && scoreDifference < 6) {
+  if(scoreDifference > 0) {
     this._selectCrash().play();
-  } else if(scoreDifference < 0  && scoreDifference > -6) {
+  } else if(scoreDifference < 0) {
     this._playPing();
   }
   this.scoreTracker = this.score.showPoints();
@@ -35,4 +35,8 @@ ObjectSounds.prototype._selectCrash = function () {
 
 ObjectSounds.prototype._playPing = function () {
   this.ping.play();
+};
+
+ObjectSounds.prototype.killObjectSounds = function () {
+  this.crashes.map(function(x) { x = {} })
 };
