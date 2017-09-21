@@ -2,8 +2,7 @@
 	'use strict';
 
 	function Sprite() {
-		this.image = new Image();
-		this.image.src = "assets/images/cats_sprite1.png";
+		this.image = gameImages.player;
 		this.width = 70;
 		this.height = 70;
 		this.numberOfFrames = 4;
