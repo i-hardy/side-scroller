@@ -1,9 +1,9 @@
 'use strict';
 
 function SoundEngine(player, score) {
-  this.playerSounds = new PlayerSounds(player)
-  this.objectSounds = new ObjectSounds(score)
-};
+  this.playerSounds = new PlayerSounds(player);
+  this.objectSounds = new ObjectSounds(score);
+}
 
 SoundEngine.prototype.runSounds = function() {
   this._setVols();

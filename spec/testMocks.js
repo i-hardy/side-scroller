@@ -39,7 +39,8 @@ var context = {
   lineTo: function () {},
   fillText: function () {},
   setTransform: function () {},
-  drawImage: function() {}
+  drawImage: function() {},
+  rotate: function() {}
 };
 
 var canvas = {
@@ -51,6 +52,10 @@ var canvas = {
 var player_name_form = {
   addEventListener: function () {},
   reset: function () {}
+};
+
+var reset_button = {
+  addEventListener: function () {}
 };
 
 var gameController = {playerLosesLifeOnFloor: function () {},

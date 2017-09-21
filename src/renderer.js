@@ -51,19 +51,35 @@ Renderer.prototype.drawObjects = function () {
       }).length;
 
     this.world.bodies.forEach(function(body, i) {
+      var texture;
+
       if (body.label === "object") {
-          bubble.ctx.drawImage(objects[(i-platformNumber)%objects.length], body.position.x-20, body.bounds.max.y-40);
+          texture = objects[(i-platformNumber)%objects.length];
+      } else if (body.label === "platform" || body.label === "endGamePlatform") {
+          bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
+      } else {
+          texture = gameImages[body.label];
+      }
 
-      } else if (body.label === "platform") {
-        bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
-
-      } else if (body.label === "floor") {
-        bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
-
-      } else if (body.label === "cactus") {
-        bubble.ctx.drawImage(gameImages.cactus, body.position.x-10, body.bounds.max.y-40);
+      if (texture && body.label !== "player") {
+        bubble.drawObjectSprite(body, texture);
       }
     });
+};
+
+Renderer.prototype.drawObjectSprite = function (body, texture) {
+  var sprite = body.render.sprite;
+
+  this.ctx.translate(body.position.x, body.position.y);
+  this.ctx.rotate(body.angle);
+  this.ctx.drawImage(texture,
+                        texture.width * -sprite.xOffset * sprite.xScale,
+                        texture.height * -sprite.yOffset * sprite.yScale,
+                        texture.width * sprite.xScale,
+                        texture.height * sprite.yScale
+                      );
+  this.ctx.rotate(-body.angle);
+  this.ctx.translate(-body.position.x, -body.position.y)
 };
 
 
@@ -113,11 +129,6 @@ Renderer.prototype.showDestructionPercentage = function () {
   return this.destructionPercentage;
 };
 
-Renderer.prototype.drawWall = function () {
-  this.ctx.drawImage(gameImages.wall, 0, 0);
-  this.ctx.globalAlpha = 1;
-};
-
 Renderer.prototype.gameLoop = function () {
   this.playerMovement();
   this.checkBorder();
@@ -135,7 +146,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
-  this.drawWall();
+  this.ctx.drawImage(gameImages.wall, 0, 0);
 
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);

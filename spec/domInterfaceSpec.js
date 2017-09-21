@@ -1,12 +1,9 @@
 'use strict';
 
 describe('DOM interface', function () {
-  beforeEach(function () {
-    spyOn(document, "getElementById").and.returnValue(player_name_form);
-  });
-
   describe('#eventListeners', function () {
     beforeEach(function () {
+      spyOn(document, "getElementById").and.returnValue(player_name_form);
       spyOn(document.body, 'addEventListener');
     });
 
@@ -27,10 +24,62 @@ describe('DOM interface', function () {
       expect(keys[87]).toBe(true);
     });
 
+    it('switches isThemeMuted bool value on keydown', function () {
+      domInterface.eventListeners();
+      document.body.addEventListener.calls.allArgs()[1][1]({keyCode: 77});
+      expect(isThemeMuted).toBe(true);
+    });
+
+    it('switches isThemeMuted bool value on keydown x2', function () {
+      domInterface.eventListeners();
+      document.body.addEventListener.calls.allArgs()[1][1]({keyCode: 77});
+      expect(isThemeMuted).toBe(false);
+
+    it('calls a function to add an event listener to the reset button', function () {
+      spyOn(domInterface, 'resetButtonClicked')
+      domInterface.eventListeners();
+      expect(domInterface.resetButtonClicked).toHaveBeenCalled();
+    });
+
     it('calls a function to add an event listener to the form', function () {
       spyOn(domInterface, 'collectNameAndStart');
       domInterface.eventListeners();
       expect(domInterface.collectNameAndStart).toHaveBeenCalled();
+    });
+  });
+
+  describe('#resetButtonClicked', function () {
+    beforeEach(function () {
+      spyOn(document, "getElementById").and.returnValue(reset_button);
+      spyOn(reset_button, 'addEventListener');
+      spyOn(domInterface, 'hideResetButton');
+      spyOn(domInterface, 'showForm');
+      spyOn(domInterface, 'resetGame');
+      domInterface.resetButtonClicked();
+    });
+
+    it('sets up an event listener on the reset button', function () {
+      expect(reset_button.addEventListener).toHaveBeenCalled();
+    });
+
+    it('gives a callback that hides the reset button', function () {
+      reset_button.addEventListener.calls.allArgs()[0][1]();
+      expect(domInterface.hideResetButton).toHaveBeenCalled();
+    });
+
+    it('gives a callback that shows the player name form', function () {
+      reset_button.addEventListener.calls.allArgs()[0][1]();
+      expect(domInterface.hideResetButton).toHaveBeenCalled();
+    });
+
+    it('gives a callback that hides the reset button', function () {
+      reset_button.addEventListener.calls.allArgs()[0][1]();
+      expect(domInterface.showForm).toHaveBeenCalled();
+    });
+
+    it('gives a callback that resets the game', function () {
+      reset_button.addEventListener.calls.allArgs()[0][1]();
+      expect(domInterface.resetGame).toHaveBeenCalled();
     });
   });
 
@@ -51,6 +100,7 @@ describe('DOM interface', function () {
     var submitEvent = {preventDefault: function () {}}
 
     beforeEach(function () {
+      spyOn(document, "getElementById").and.returnValue(player_name_form);
       spyOn(domInterface, 'getInput');
       spyOn(domInterface, 'resetForm');
       spyOn(domInterface, 'hideForm');
@@ -109,6 +159,7 @@ describe('DOM interface', function () {
 
   describe('#resetForm', function () {
     it('calls reset on the player name form', function () {
+      spyOn(document, "getElementById").and.returnValue(player_name_form);
       spyOn(player_name_form, 'reset');
       domInterface.resetForm();
       expect(player_name_form.reset).toHaveBeenCalled();
@@ -117,8 +168,33 @@ describe('DOM interface', function () {
 
   describe('#hideForm', function () {
     it('sets the player_name_form style to hidden', function () {
+      spyOn(document, "getElementById").and.returnValue(player_name_form);
       domInterface.hideForm();
       expect(player_name_form.style).toEqual("display:none;");
+    });
+  });
+
+  describe('#showForm', function () {
+    it('sets the player_name_form style to initial', function () {
+      spyOn(document, "getElementById").and.returnValue(player_name_form);
+      domInterface.showForm();
+      expect(player_name_form.style).toEqual("display: initial;");
+    });
+  });
+
+  describe('#hideResetButton', function () {
+    it('sets the reset_button style to hidden', function () {
+      spyOn(document, "getElementById").and.returnValue(reset_button);
+      domInterface.hideResetButton();
+      expect(reset_button.style).toEqual("display: none;");
+    });
+  });
+
+  describe('#showResetButton', function () {
+    it('sets the reset_button style to initial', function () {
+      spyOn(document, "getElementById").and.returnValue(reset_button);
+      domInterface.showResetButton();
+      expect(reset_button.style).toEqual("display: initial;");
     });
   });
 
