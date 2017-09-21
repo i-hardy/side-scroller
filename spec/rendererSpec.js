@@ -204,10 +204,9 @@ describe('Renderer', function () {
       expect(moomin.drawPlayer).toHaveBeenCalled();
     });
 
-    it('draws the player name, score and lives', function () {
-      expect(context.fillText.calls.count()).toEqual(3);
+    it('draws the player name and score', function () {
+      expect(context.fillText.calls.count()).toEqual(2);
       expect(moomin.scoreText).toHaveBeenCalled();
-      expect(Player.prototype.livesText).toHaveBeenCalled();
     });
 
     it('transforms the view', function () {

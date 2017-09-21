@@ -7,6 +7,7 @@
     shelf: new Image(),
     floor: new Image(),
     cactus: new Image(),
+    life: new Image(),
     objects: {cupcake: new Image(),
               fishbowl: new Image(),
               macbook: new Image(),
