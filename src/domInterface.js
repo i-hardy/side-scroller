@@ -20,7 +20,7 @@ var isThemeMuted = false;
         keys[e.keyCode] = true;
         if (e.keyCode === 77) {
           isThemeMuted = !isThemeMuted;
-        };
+        }
       });
       var reset = document.getElementById('reset_game');
       reset.addEventListener('click', function(e) {
