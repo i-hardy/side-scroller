@@ -18,6 +18,7 @@ GameController.prototype.isGameOver = function () {
 
 GameController.prototype.endGame = function () {
   this.gameOver = true;
+  this.soundEngine.killSounds();
   this.score.endBonus(this.worldBuilder.fallenPreciousObjectsRatio());
   this.renderer.receiveScore(this.score.showPoints());
   this.renderer.receiveDestructionPercentage(this.score.calculateDestructionPercentage());
