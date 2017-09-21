@@ -114,12 +114,7 @@ Renderer.prototype.showDestructionPercentage = function () {
 };
 
 Renderer.prototype.drawWall = function () {
-<<<<<<< HEAD
-  this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
-=======
-  this.ctx.globalAlpha = 0.8;
   this.ctx.drawImage(gameImages.wall, 0, 0);
->>>>>>> master
   this.ctx.globalAlpha = 1;
 };
 
