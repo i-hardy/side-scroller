@@ -13,6 +13,12 @@ describe('OpeningScreen', function () {
     });
   });
 
+  describe("#getMute", function () {
+    it('returns the theme mute instruction', function () {
+      expect(timmy.getMute()).toEqual("music off/on = m");
+    });
+  });
+
   describe('#getRules', function () {
     it('returns the rules as an array', function () {
       expect(timmy.getRules()).toEqual(jasmine.any(Array));
