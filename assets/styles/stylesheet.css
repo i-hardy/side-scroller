@@ -2,6 +2,8 @@ body {
   font-family: 'Lobster';
 }
 
+/* Game Opening Screen */
+
 #player_name_form {
   font-family: 'Bangers';
   position: absolute;
@@ -31,7 +33,23 @@ body {
   box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 8px 25px 0 rgba(0,0,0,0.19);
 }
 
-#reset_game{
+.reset_game_box {
   position: absolute;
   text-align: center;
+  top: 200px;
+  left: 480px;
+}
+
+#reset_game {
+  font-family: 'Bangers';
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border: none;
+  padding: 0.5em;
+}
+
+#reset_game:hover {
+  box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 8px 25px 0 rgba(0,0,0,0.19);
 }
