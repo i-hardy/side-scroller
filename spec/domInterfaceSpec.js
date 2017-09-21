@@ -210,10 +210,6 @@ describe('DOM interface', function () {
       expect(keys).toEqual([]);
     });
 
-    it('sets the gameController endgame', function () {
-      expect(gameController.endGame).toHaveBeenCalled();
-    });
-
     it('restarts the game', function () {
       expect(domInterface.gameOpening).toHaveBeenCalled();
     });
