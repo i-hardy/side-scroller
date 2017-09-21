@@ -18,13 +18,17 @@ var opening;
       document.body.addEventListener('keydown', function(e) {
         keys[e.keyCode] = true;
       });
-      var reset = document.getElementById('reset_game');
-      reset.addEventListener('click', function(e) {
-        domInterface.hideResetButton();
-        domInterface.showForm();
-        domInterface.resetGame();
-      });
+      domInterface.resetButtonClicked();
       domInterface.collectNameAndStart();
+    },
+
+    resetButtonClicked: function () {
+      document.getElementById('reset_game')
+        .addEventListener('click', function(e) {
+          domInterface.hideResetButton();
+          domInterface.showForm();
+          domInterface.resetGame();
+        });
     },
 
     gameOpening: function() {
