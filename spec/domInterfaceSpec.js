@@ -27,6 +27,18 @@ describe('DOM interface', function () {
       expect(keys[87]).toBe(true);
     });
 
+    it('switches isThemeMuted bool value on keydown', function () {
+      domInterface.eventListeners();
+      document.body.addEventListener.calls.allArgs()[1][1]({keyCode: 77});
+      expect(isThemeMuted).toBe(true);
+    });
+
+    it('switches isThemeMuted bool value on keydown x2', function () {
+      domInterface.eventListeners();
+      document.body.addEventListener.calls.allArgs()[1][1]({keyCode: 77});
+      expect(isThemeMuted).toBe(false);
+    });
+
     it('calls a function to add an event listener to the form', function () {
       spyOn(domInterface, 'collectNameAndStart');
       domInterface.eventListeners();
