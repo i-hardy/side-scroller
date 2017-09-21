@@ -6,7 +6,7 @@
 
 <p align="center">
 <img src="https://i.imgur.com/vdLE8dJ.gif" alt="cat gif">
-<img src="http://g.recordit.co/H4FKngqxaX.gif" alt="sample gameplay">
+<img src="http://g.recordit.co/EjsiyZp8oX.gif" alt="sample gameplay">
 </p>
 
 CATastrophe is a procedurally-generated, side-scrolling platformer in which you play as a cat and liberate the world from its useless possesions. Using a custom-written level design AI, the game distributes platforms and objects at random to create a new player experience every time.
