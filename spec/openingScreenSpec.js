@@ -13,6 +13,12 @@ describe('OpeningScreen', function () {
     });
   });
 
+  describe("#getMute", function () {
+    it('returns the theme mute instruction', function () {
+      expect(timmy.getMute()).toEqual("music off/on = m");
+    });
+  });
+
   describe('#getRules', function () {
     it('returns the rules as an array', function () {
       expect(timmy.getRules()).toEqual(jasmine.any(Array));
@@ -41,8 +47,8 @@ describe('OpeningScreen', function () {
       expect(context.fillRect).toHaveBeenCalled();
     });
 
-    it('writes the game name and rules on the canvas', function () {
-      expect(context.fillText.calls.count()).toEqual(timmy.getRules().length + 1);
+    it('writes the game name, mute button and rules on the canvas', function () {
+      expect(context.fillText.calls.count()).toEqual(timmy.getRules().length + 2);
     });
   });
 });

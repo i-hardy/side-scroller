@@ -7,6 +7,7 @@ function OpeningScreen() {
                 "Touch a cactus and you'll lose points",
                 "Make it to the end and get a bonus based on how much destruction you cause",
                 "Good luck!"];
+  this.mute = "music off/on = m";
   this.canvas = document.getElementById('canvas');
   this.ctx = canvas.getContext('2d');
 }
@@ -19,6 +20,16 @@ OpeningScreen.prototype.getRules = function () {
   return this.rules;
 };
 
+OpeningScreen.prototype.getMute = function () {
+  return this.mute;
+};
+
+OpeningScreen.prototype.drawWall = function () {
+  this.ctx.globalAlpha = 0.8;
+  this.ctx.drawImage(gameImages.wall, 0, 0);
+  this.ctx.globalAlpha = 1;
+};
+
 OpeningScreen.prototype.draw = function () {
   this.ctx.clearRect(0, 0, worldOptions.width, worldOptions.height);
   this.ctx.drawImage(gameImages.wall, 0, 0);
@@ -28,6 +39,8 @@ OpeningScreen.prototype.draw = function () {
   this.ctx.textAlign = 'center';
   this.ctx.font = '64px Lobster';
   this.ctx.fillText(this.getTitle(), 512, 125);
+  this.ctx.font = '20px Bangers';
+  this.ctx.fillText(this.getMute(), 875, 75)
   this.ctx.font = '24px Bangers';
   for (var i = 0; i < this.getRules().length; i++) {
     var yHeight = 325 + (i * 24);
