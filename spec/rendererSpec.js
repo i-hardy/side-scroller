@@ -331,9 +331,9 @@ describe('Renderer', function () {
     });
 
     it('calls drawImage for floor when instructed', function () {
-      world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
+      world.bodies[0] = {label: "floor", position: {x:0, y:0}, angle: 1, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
-      expect(context.drawImage).toHaveBeenCalled();
+      expect(moomin.drawObjectSprite).toHaveBeenCalled();
     });
 
     it('calls drawImage for cactus when instructed', function () {

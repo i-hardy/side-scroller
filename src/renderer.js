@@ -55,15 +55,13 @@ Renderer.prototype.drawObjects = function () {
 
       if (body.label === "object") {
           texture = objects[(i-platformNumber)%objects.length];
-      } else if (body.label === "cactus") {
-          texture = gameImages.cactus;
       } else if (body.label === "platform" || body.label === "endGamePlatform") {
           bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
-      } else if (body.label === "floor") {
-          bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
+      } else {
+          texture = gameImages[body.label];
       }
 
-      if (texture) {
+      if (texture && body.label !== "player") {
         bubble.drawObjectSprite(body, texture);
       }
     });
