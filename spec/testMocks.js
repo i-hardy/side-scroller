@@ -39,7 +39,8 @@ var context = {
   lineTo: function () {},
   fillText: function () {},
   setTransform: function () {},
-  drawImage: function() {}
+  drawImage: function() {},
+  rotate: function() {}
 };
 
 var canvas = {
