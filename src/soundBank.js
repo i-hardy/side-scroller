@@ -17,6 +17,13 @@ SoundBank.prototype.setPlayerVols = function () {
   this._setThemeVol();
 };
 
+SoundBank.prototype.killPlayerSounds = function () {
+  this.meow1 = {};
+  this.scamper = {};
+  this.gameTheme.pause();
+  this.gameTheme = {};
+};
+
 SoundBank.prototype.setObjectVols = function () {
   this._setGlassCrashVol();
   this._setMetalCrashVol();
