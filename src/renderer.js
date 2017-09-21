@@ -140,6 +140,12 @@ Renderer.prototype.spriteLoop = function () {
   this.player.spriteUpdate();
 };
 
+Renderer.prototype.drawLives = function () {
+  for (var i = 0; i < this.player.getLives(); i++) {
+    this.ctx.drawImage(gameImages.life, this.viewport.centreX + (15*i), worldOptions.height - 35, 15, 15);
+  }
+};
+
 Renderer.prototype.updateScreen = function () {
   var bodies = this.world.bodies;
 
@@ -154,7 +160,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.font = '24px Bangers';
   this.ctx.fillText("Go " + playerName + " go!", this.viewport.centreX, worldOptions.height - 50);
   this.ctx.fillText(this.scoreText(), this.viewport.centreX - 50, worldOptions.height - 20);
-  this.ctx.fillText(this.player.livesText(), this.viewport.centreX + 50, worldOptions.height - 20);
+  this.drawLives();
 
 
   this.drawPlayer();
