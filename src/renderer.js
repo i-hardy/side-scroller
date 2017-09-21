@@ -103,7 +103,6 @@ Renderer.prototype.showDestructionPercentage = function () {
 };
 
 Renderer.prototype.drawWall = function () {
-  this.ctx.globalAlpha = 0.8;
   this.ctx.drawImage(document.getElementById('wall_img'), 0, 0);
   this.ctx.globalAlpha = 1;
 };
