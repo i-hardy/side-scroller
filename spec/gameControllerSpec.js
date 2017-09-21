@@ -189,7 +189,20 @@ describe('GameController', function () {
       spyOn(Renderer.prototype, 'returnViewToStart');
       atticus.playerLosesLifeOnFloor();
       expect(Renderer.prototype.returnViewToStart).toHaveBeenCalled();
-    })
+    });
+
+    it('it decreases the players lives', function () {
+      spyOn(Player.prototype, 'decreaseLives');
+      atticus.playerLosesLifeOnFloor();
+      expect(Player.prototype.decreaseLives).toHaveBeenCalled();
+    });
+
+    it('it ends game if kitty is kaput', function () {
+      spyOn(Player.prototype, 'isDead').and.returnValue(true);
+      spyOn(atticus, 'endGame');
+      atticus.playerLosesLifeOnFloor();
+      expect(atticus.endGame).toHaveBeenCalled();
+    });
   });
 
   describe('#addEndBonus', function () {
