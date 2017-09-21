@@ -139,6 +139,7 @@ Renderer.prototype.updateScreen = function () {
 
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
+  this.ctx.fillText(this.player.getLives(), this.viewport.centreX, 80);
 
   this.drawObjects();
 
@@ -157,9 +158,10 @@ Renderer.prototype.updateScreen = function () {
 };
 
 Renderer.prototype.endGameScreen = function () {
+  domInterface.showResetButton();
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.fillStyle = 'black';
   this.ctx.font = '24px Bangers';
-  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
-  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 150);
 };
