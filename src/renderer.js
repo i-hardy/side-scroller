@@ -138,16 +138,6 @@ Renderer.prototype.updateScreen = function () {
 
   this.drawWall();
 
-  this.ctx.beginPath();
-  for (var i = 0; i < bodies.length; i += 1) {
-    var vertices = bodies[i].vertices;
-    this.ctx.moveTo(vertices[0].x, vertices[0].y);
-    for (var j = 1; j < vertices.length; j += 1) {
-        this.ctx.lineTo(vertices[j].x, vertices[j].y);
-    }
-    this.ctx.lineTo(vertices[0].x, vertices[0].y);
-  }
-  this.ctx.lineWidth = 1;
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
 
