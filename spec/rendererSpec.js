@@ -180,6 +180,7 @@ describe('Renderer', function () {
       spyOn(context, 'fillText');
       spyOn(context, 'drawImage');
       spyOn(moomin, 'drawPlayer');
+      spyOn(moomin, 'drawObjects')
       spyOn(moomin, 'scoreText');
       spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
@@ -299,37 +300,61 @@ describe('Renderer', function () {
 
   describe('#drawObjects', function () {
     beforeEach(function() {
+      spyOn(moomin, 'drawObjectSprite');
       spyOn(context, 'drawImage')
     });
 
     it('calls drawImage for object when instructed', function () {
-      world.bodies[0] = {label: "object", position: {x:0}, bounds: {max: {y: 0}}};
+      world.bodies[0] = {label: "object", position: {x:0, y:0}, angle: 1, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
+      moomin.drawObjects();
+      expect(moomin.drawObjectSprite).toHaveBeenCalled();
+    });
+
+    it('calls drawImage for platform when instructed', function () {
+      world.bodies[0] = {label: "platform", position: {x:0, y:0}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
       expect(context.drawImage).toHaveBeenCalled();
     });
 
-    it('calls drawImage for platform when instructed', function () {
-      world.bodies[0] = {label: "platform", position: {x:0, y:0}};
+    it('calls drawImage for end-platform when instructed', function () {
+      world.bodies[0] = {label: "endGamePlatform", position: {x:0, y:0}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
       expect(context.drawImage).toHaveBeenCalled();
     });
 
     it('calls drawImage for floor when instructed', function () {
-      world.bodies[0] = {label: "floor", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      world.bodies[0] = {label: "floor", position: {x:0, y:0}, angle: 1, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
-      expect(context.drawImage).toHaveBeenCalled();
+      expect(moomin.drawObjectSprite).toHaveBeenCalled();
     });
 
     it('calls drawImage for cactus when instructed', function () {
-      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, bounds: {max: {y: 0}}};
+      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, angle: 1, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
-      expect(context.drawImage).toHaveBeenCalled();
+      expect(moomin.drawObjectSprite).toHaveBeenCalled();
     });
 
     it('doesnt call drawImage for other labels', function () {
-      world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}};
+      world.bodies[0] = {label: "whatever_bro", position: {x:0, y:0}, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
       moomin.drawObjects();
       expect(context.drawImage).not.toHaveBeenCalled();
     });
   });
+
+  describe('#drawObjectSprite', function () {
+    beforeEach(function() {
+      spyOn(context, 'drawImage');
+      spyOn(context, 'rotate');
+      spyOn(context, 'translate')
+    });
+
+    it('draws the object sprite when called', function () {
+      world.bodies[0] = {label: "cactus", position: {x:0, y:0}, angle: 1, render: {sprite: {xOffset: 1, yOffset: 1, xScale: 1, yScale: 1}}};
+      var body = world.bodies[0];
+      moomin.drawObjectSprite(body, "texture");
+      expect(context.rotate).toHaveBeenCalled();
+      expect(context.translate).toHaveBeenCalled();
+      expect(context.drawImage).toHaveBeenCalled();
+    });
+  })
 });
