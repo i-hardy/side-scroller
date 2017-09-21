@@ -14,7 +14,7 @@
     platformHeight: pHeight,
     gridRows: Math.floor(height / pHeight) - 2,
     gridColumns: width / pWidth,
-    object: pHeight-10,
+    object: pHeight,
     cactus: pHeight-10,
     scrollIncrement: 3,
     playerFriction: 0.001,
