@@ -56,19 +56,16 @@ Renderer.prototype.drawObjects = function () {
 
       if (body.label === "object") {
           texture = objects[(i-platformNumber)%objects.length];
-          //bubble.ctx.drawImage(objects[(i-platformNumber)%objects.length], body.position.x-20, body.bounds.max.y-40);
 
       } else if (body.label === "cactus") {
-        texture = gameImages.cactus;
-        //bubble.ctx.drawIrmage(gameImages.cactus, body.position.x-10, body.bounds.max.y-40);
+          texture = gameImages.cactus;
 
       } else if (body.label === "platform") {
-                //texture = gameImages.shelf;
-                bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
+          bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
 
 
       } else if (body.label === "floor") {
-        bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
+          bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
       }
 
       if (texture != null) {
