@@ -51,36 +51,37 @@ Renderer.prototype.drawObjects = function () {
       }).length;
 
     this.world.bodies.forEach(function(body, i) {
-      var sprite = body.render.sprite;
       var texture;
 
       if (body.label === "object") {
           texture = objects[(i-platformNumber)%objects.length];
-
       } else if (body.label === "cactus") {
           texture = gameImages.cactus;
-
       } else if (body.label === "platform" || body.label === "endGamePlatform") {
           bubble.ctx.drawImage(gameImages.shelf, body.position.x-64, body.position.y-20);
-
-
       } else if (body.label === "floor") {
           bubble.ctx.drawImage(gameImages.floor, body.position.x-4608, body.bounds.max.y-20);
       }
 
       if (texture) {
-        bubble.ctx.translate(body.position.x, body.position.y);
-        bubble.ctx.rotate(body.angle);
-        bubble.ctx.drawImage(texture,
-                              texture.width * -sprite.xOffset * sprite.xScale,
-                              texture.height * -sprite.yOffset * sprite.yScale,
-                              texture.width * sprite.xScale,
-                              texture.height * sprite.yScale
-                            );
-        bubble.ctx.rotate(-body.angle);
-        bubble.ctx.translate(-body.position.x, -body.position.y)
+        bubble.drawObjectSprite(body, texture);
       }
     });
+};
+
+Renderer.prototype.drawObjectSprite = function (body, texture) {
+  var sprite = body.render.sprite;
+
+  this.ctx.translate(body.position.x, body.position.y);
+  this.ctx.rotate(body.angle);
+  this.ctx.drawImage(texture,
+                        texture.width * -sprite.xOffset * sprite.xScale,
+                        texture.height * -sprite.yOffset * sprite.yScale,
+                        texture.width * sprite.xScale,
+                        texture.height * sprite.yScale
+                      );
+  this.ctx.rotate(-body.angle);
+  this.ctx.translate(-body.position.x, -body.position.y)
 };
 
 
