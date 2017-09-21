@@ -174,7 +174,7 @@ describe('GameController', function () {
   describe('#playerLoseLifeOnFloor', function() {
     beforeEach(function () {
       spyOn(atticus, 'render').and.callFake(function () {
-        this.renderer = new Renderer;
+        this.renderer = new Renderer();
       })
       atticus.render();
     });

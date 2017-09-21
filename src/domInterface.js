@@ -6,6 +6,7 @@ var keys = [];
 var playerName;
 var gameController;
 var opening;
+var isThemeMuted = false;
 
 (function(exports) {
   'use strict';
@@ -17,14 +18,21 @@ var opening;
       });
       document.body.addEventListener('keydown', function(e) {
         keys[e.keyCode] = true;
+        if (e.keyCode === 77) {
+          isThemeMuted = !isThemeMuted;
+        }
       });
-      var reset = document.getElementById('reset_game');
-      reset.addEventListener('click', function(e) {
-        domInterface.hideResetButton();
-        domInterface.showForm();
-        domInterface.resetGame();
-      });
+      domInterface.resetButtonClicked();
       domInterface.collectNameAndStart();
+    },
+
+    resetButtonClicked: function () {
+      document.getElementById('reset_game')
+        .addEventListener('click', function(e) {
+          domInterface.hideResetButton();
+          domInterface.showForm();
+          domInterface.resetGame();
+        });
     },
 
     gameOpening: function() {

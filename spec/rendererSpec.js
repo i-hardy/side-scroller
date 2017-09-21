@@ -135,14 +135,6 @@ describe('Renderer', function () {
     });
   });
 
-  describe('#drawWall', function () {
-    it('draws the background image', function () {
-      spyOn(context, 'drawImage');
-      moomin.drawWall();
-      expect(context.drawImage).toHaveBeenCalled();
-    });
-  });
-
   describe('#gameLoop', function () {
     beforeEach(function () {
       spyOn(moomin, 'playerMovement');
@@ -186,7 +178,7 @@ describe('Renderer', function () {
       spyOn(context, 'translate');
       spyOn(context, 'setTransform');
       spyOn(context, 'fillText');
-      spyOn(moomin, 'drawWall');
+      spyOn(context, 'drawImage');
       spyOn(moomin, 'drawPlayer');
       spyOn(moomin, 'drawObjects')
       spyOn(moomin, 'scoreText');
@@ -205,7 +197,7 @@ describe('Renderer', function () {
     });
 
     it('draws the background', function () {
-      expect(moomin.drawWall).toHaveBeenCalled();
+      expect(context.drawImage).toHaveBeenCalled();
     });
 
     it('draws the player', function () {
