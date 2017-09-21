@@ -19,9 +19,9 @@ SoundBank.prototype.setPlayerVols = function () {
 
 SoundBank.prototype.killPlayerSounds = function () {
   this.meow1 = {};
-  this.scamper = {};
+  this.scamper = {pause: function(){}};
   this.gameTheme.pause();
-  this.gameTheme = {};
+  this.gameTheme = {play: function(){}};
 };
 
 SoundBank.prototype.setObjectVols = function () {

@@ -19,7 +19,7 @@ body {
   font-family: 'Bangers';
   position: relative;
   text-align: center;
-  top: 40%;
+  top: 310;
 }
 
 #player_name_form input {
@@ -44,10 +44,9 @@ body {
 }
 
 .reset_game_box {
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: 200px;
-  left: 480px;
+  top: 310;
 }
 
 #reset_game {
