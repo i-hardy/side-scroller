@@ -25,7 +25,7 @@ PlayerSounds.prototype._playerJumping = function() {
 };
 
 PlayerSounds.prototype._startTheme = function() {
-  if (isThemeMuted === true) { this.soundBank.gameTheme.pause(); return };
+  if (isThemeMuted === true) { this.soundBank.gameTheme.pause(); return }
   this.soundBank.gameTheme.play();
   var buffer = 0.18
   if(this.soundBank.gameTheme.currentTime > this.soundBank.gameTheme.duration - buffer) {
