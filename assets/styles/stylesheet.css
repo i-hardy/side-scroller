@@ -13,6 +13,25 @@ body {
   background-color: black;
 }
 
+.footer {
+  position: absolute;
+  margin-left: 45%;
+  bottom: 0.5em;
+  top: auto;
+  font-family: 'Bangers';
+  font-size: 0.75em;
+  color: #fff;
+}
+
+.footer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer a:hover {
+  color: #E8E8E7;
+}
+
 /* Game Opening Screen */
 
 #player_name_form {

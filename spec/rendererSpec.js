@@ -110,7 +110,7 @@ describe('Renderer', function () {
 
   describe('#scoreText', function () {
     it('returns the current score as a string', function () {
-      expect(moomin.scoreText()).toEqual(playerName + "'s score: 0");
+      expect(moomin.scoreText()).toEqual("Score: 0");
     });
   });
 
@@ -131,7 +131,7 @@ describe('Renderer', function () {
   describe('#receiveScore', function () {
     it('sets the score to be the received number', function () {
       moomin.receiveScore(1);
-      expect(moomin.scoreText()).toEqual(playerName + "'s score: 1");
+      expect(moomin.scoreText()).toEqual("Score: 1");
     });
   });
 
@@ -184,7 +184,7 @@ describe('Renderer', function () {
       spyOn(moomin, 'scoreText');
       spyOn(moomin, 'endGameScreen');
       spyOn(window, 'requestAnimationFrame');
-      spyOn(Player.prototype, 'getLives');
+      spyOn(Player.prototype, 'livesText');
       moomin.updateScreen();
     });
 
@@ -204,8 +204,8 @@ describe('Renderer', function () {
       expect(moomin.drawPlayer).toHaveBeenCalled();
     });
 
-    it('draws the score', function () {
-      expect(context.fillText).toHaveBeenCalled();
+    it('draws the player name and score', function () {
+      expect(context.fillText.calls.count()).toEqual(2);
       expect(moomin.scoreText).toHaveBeenCalled();
     });
 
@@ -224,10 +224,6 @@ describe('Renderer', function () {
       spyOn(gameController, 'isGameOver').and.returnValue(true);
       moomin.updateScreen();
       expect(moomin.endGameScreen).toHaveBeenCalled();
-    });
-
-    it('it shows the player lives', function () {
-      expect(Player.prototype.getLives).toHaveBeenCalled();
     });
   });
 
