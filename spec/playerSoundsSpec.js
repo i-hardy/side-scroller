@@ -108,6 +108,7 @@ describe('PlayerSounds', function() {
   describe('#_startTheme', function () {
     beforeEach(function () {
       spyOn(audioMock, 'play');
+      spyOn(audioMock, 'pause');
       spyOn(SoundBank.prototype, 'resetThemeTime');
     });
 
@@ -115,6 +116,18 @@ describe('PlayerSounds', function() {
       playerSounds._startTheme();
       expect(audioMock.play).toHaveBeenCalled();
     });
+
+    it('pauses the theme if theme is muted', function() {
+      isThemeMuted = true
+      playerSounds._startTheme();
+      expect(audioMock.pause).toHaveBeenCalled();
+    })
+
+    it('does not pause the theme if theme is not muted', function() {
+      isThemeMuted = false
+      playerSounds._startTheme();
+      expect(audioMock.pause).not.toHaveBeenCalled();
+    })
 
     it('loops the theme if it has exceeded its duration', function () {
       playerSounds.soundBank.gameTheme.duration = 1;
