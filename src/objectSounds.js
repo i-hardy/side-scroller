@@ -22,7 +22,7 @@ ObjectSounds.prototype.loadObjectSounds = function () {
 ObjectSounds.prototype._playCrash = function () {
   if(this.score.showPoints() > this.scoreTracker) {
     this._selectCrash().play();
-  } else if(this.score.showPoints() <= this.scoreTracker) {
+  } else if(this.score.showPoints() < this.scoreTracker) {
     this._playPing();
   }
   this.scoreTracker = this.score.showPoints();

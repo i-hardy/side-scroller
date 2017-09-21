@@ -5,10 +5,11 @@ function EventManager(engine) {
 }
 
 EventManager.prototype.playerCollisionEvent = function (event, object, action) {
+  var manager = this;
   event.pairs.forEach(function (pair) {
-    if (pair.bodyA.label === 'playerSensor') {
+    if (manager.isBodyPlayer(pair.bodyA)) {
         object[action]();
-    } else if (pair.bodyB.label === 'playerSensor') {
+    } else if (manager.isBodyPlayer(pair.bodyB)) {
         object[action]();
     }
   });
@@ -29,6 +30,17 @@ EventManager.prototype.validCollisionPairs = function (pair) {
   return this.pairBodyLabels(pair) === 'floor,object' || this.pairBodyLabels(pair) === 'cactus,player';
 };
 
+EventManager.prototype.isBodyPlayer = function (body) {
+  return body.label === 'playerSensor';
+};
+
+EventManager.prototype.collisionStarts = function (object, callback) {
+  var manager = this;
+  Matter.Events.on(this.engine, 'collisionStart', function(event) {
+    manager[callback](event, object);
+  });
+};
+
 EventManager.prototype.objectCollisionEvent = function (event, worldBuilder) {
   var manager = this;
   event.pairs.forEach(function (pair) {
@@ -42,39 +54,14 @@ EventManager.prototype.objectCollisionEvent = function (event, worldBuilder) {
   });
 };
 
-EventManager.prototype.objectCollision = function (worldBuilder) {
+EventManager.prototype.lifeAndDeathCollisionEvent = function (event, controller) {
   var manager = this;
-  Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager.objectCollisionEvent(event, worldBuilder);
-  });
-};
-
-EventManager.prototype.playerFloorCollisionEvent = function (event, player) {
   event.pairs.forEach(function (pair) {
-    if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'floor') {
-      gameController.playerLosesLifeOnFloor();
-    }
-  });
-};
-
-EventManager.prototype.playerFloorCollision = function (player) {
-  var manager = this;
-  Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager.playerFloorCollisionEvent(event, player);
-  });
-};
-
-EventManager.prototype.endGameCollisionEvent = function (event) {
-  event.pairs.forEach(function (pair) {
-    if (pair.bodyA.label === 'playerSensor' && pair.bodyB.label === 'endGamePlatform') {
-      gameController.endGame();
-    }
-  });
-};
-
-EventManager.prototype.endGameCollision = function () {
-  var manager = this;
-  Matter.Events.on(this.engine, 'collisionStart', function(event) {
-    manager.endGameCollisionEvent(event);
+    if(manager.isBodyPlayer(pair.bodyA))
+      if (pair.bodyB.label === 'endGamePlatform') {
+        controller.endGame();
+      } else if (pair.bodyB.label === 'floor') {
+        controller.playerLosesLifeOnFloor();
+      }
   });
 };

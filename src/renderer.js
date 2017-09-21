@@ -113,12 +113,6 @@ Renderer.prototype.showDestructionPercentage = function () {
   return this.destructionPercentage;
 };
 
-Renderer.prototype.drawWall = function () {
-  this.ctx.globalAlpha = 0.8;
-  this.ctx.drawImage(gameImages.wall, 0, 0);
-  this.ctx.globalAlpha = 1;
-};
-
 Renderer.prototype.gameLoop = function () {
   this.playerMovement();
   this.checkBorder();
@@ -136,7 +130,7 @@ Renderer.prototype.updateScreen = function () {
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.translate(-this.viewport.leftEdge, 0);
 
-  this.drawWall();
+  this.ctx.drawImage(gameImages.wall, 0, 0);
 
   this.ctx.font = '24px Bangers';
   this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
@@ -163,6 +157,6 @@ Renderer.prototype.endGameScreen = function () {
   this.ctx.clearRect(0, 0, worldOptions.viewWidth, worldOptions.height);
   this.ctx.fillStyle = 'black';
   this.ctx.font = '24px Bangers';
-  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 50);
-  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.scoreText(), this.viewport.centreX, 100);
+  this.ctx.fillText(this.showDestructionPercentage(), this.viewport.centreX, 150);
 };
