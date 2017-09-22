@@ -176,10 +176,10 @@ describe('DOM interface', function () {
   });
 
   describe('#showForm', function () {
-    it('sets the player_name_form style to initial', function () {
+    it('sets the player_name_form style to block', function () {
       spyOn(document, "getElementById").and.returnValue(player_name_form);
       domInterface.showForm();
-      expect(player_name_form.style).toEqual("display: initial;");
+      expect(player_name_form.style).toEqual("display: block;");
     });
   });
 
