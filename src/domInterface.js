@@ -77,7 +77,7 @@ var isThemeMuted = false;
     showForm: function () {
       document
         .getElementById("player_name_form")
-        .style = "display: initial;";
+        .style = "display: block;";
     },
 
     showResetButton: function () {
